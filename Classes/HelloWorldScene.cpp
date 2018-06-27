@@ -45,23 +45,12 @@ bool HelloWorld::init() {
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-	// Background sprite
-	auto sprite = Sprite::create("HelloWorld.png");
-	if (sprite == nullptr) problemLoading("'HelloWorld.png'");
-	else {
-		// position the sprite on the center of the screen
-		sprite->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
-
-		// add the sprite as a child to this layer
-		this->addChild(sprite, 0);
-	}
-
 	int index = 0;
 
 	// Start Game Item (item 1)
-	auto startGameItem = MenuItemLabel::create(LabelTTF::create("Start Game", "fonts / Marker Felt.ttf", 32));
+	auto startGameItem = MenuItemLabel::create(Label::createWithTTF("Start Game", "fonts/Marker Felt.ttf", 64));
 	if (startGameItem == nullptr) problemLoading("'fonts/Marker Felt.ttf'");
-	startGameItem->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2 - (index++) * 40));
+	startGameItem->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2 - (index++) * 100));
 
 	// Close Item (item 2)
 	auto closeItem = MenuItemImage::create("CloseNormal.png", "CloseSelected.png",
@@ -70,7 +59,8 @@ bool HelloWorld::init() {
 		closeItem->getContentSize().width <= 0 ||
 		closeItem->getContentSize().height <= 0) problemLoading("'CloseNormal.png' and 'CloseSelected.png'");
 	else {
-		closeItem->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2 - (index++) * 40));
+		closeItem->setScale(2.0f);
+		closeItem->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2 - (index++) * 100));
 	}
 
 
@@ -82,7 +72,7 @@ bool HelloWorld::init() {
 	this->addChild(menu, 2);
 
 	// Title
-	auto label = Label::createWithTTF("Sers Masstillery", "fonts/Marker Felt.ttf", 24);
+	auto label = Label::createWithTTF("Sers Masstillery", "fonts/Marker Felt.ttf", 64);
 	if (label == nullptr) problemLoading("'fonts/Marker Felt.ttf'");
 	else {
 		// position the label on the center of the screen
@@ -91,6 +81,17 @@ bool HelloWorld::init() {
 
 		// add the label as a child to this layer
 		this->addChild(label, 1);
+	}
+
+	// Background sprite
+	auto sprite = Sprite::create("HelloWorld.png");
+	if (sprite == nullptr) problemLoading("'HelloWorld.png'");
+	else {
+		// position the sprite on the center of the screen
+		sprite->setPosition(Vec2(visibleSize.width / 2 - sprite->getContentSize().width * 2.0f + origin.x, visibleSize.height / 2 + origin.y));
+		sprite->setScale(2.0f);
+		// add the sprite as a child to this layer
+		this->addChild(sprite, 0);
 	}
 
 	return true;
