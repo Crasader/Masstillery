@@ -22,3 +22,5 @@
 *.tlog
 *.user
 /cocos2d/cocos/platform/android/libcocos2dx/build
+/proj.android/.idea
+/proj.android/proj.android.iml
