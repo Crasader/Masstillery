@@ -21,3 +21,4 @@
 *.suo
 *.tlog
 *.user
+/cocos2d/cocos/platform/android/libcocos2dx/build
