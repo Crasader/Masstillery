@@ -20,6 +20,9 @@ private:
 	void action2();
 	void action3();
 	void action4();
+
+	cocos2d::Label* labelTouchInfo;
+
 };
 
 #endif // __GAME_SCENE_H__

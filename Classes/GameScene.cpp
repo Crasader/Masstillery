@@ -22,6 +22,11 @@ bool GameScene::init()
 	keyListener->onKeyPressed = CC_CALLBACK_2(GameScene::onKeyPressed, this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(keyListener, this);
 
+	labelTouchInfo = Label::createWithTTF("", "fonts/Marker Felt.ttf", 64);
+	labelTouchInfo->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
+
+	this->addChild(labelTouchInfo);
+
 	return true;
 }
 
@@ -48,20 +53,26 @@ void GameScene::onKeyPressed(const EventKeyboard::KeyCode keyCode, Event* event)
 	case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
 	case EventKeyboard::KeyCode::KEY_A:
 		action1();
+		break;
 	case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
 	case EventKeyboard::KeyCode::KEY_D:
 		action2();
+		break;
 	}
 }
 
 void GameScene::action1() {
+	labelTouchInfo->setString("Action 1");
 }
 
 void GameScene::action2() {
+	labelTouchInfo->setString("Action 2");
 }
 
 void GameScene::action3() {
+	labelTouchInfo->setString("Action 3");
 }
 
 void GameScene::action4() {
+	labelTouchInfo->setString("Action 4");
 }
