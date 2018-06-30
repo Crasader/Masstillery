@@ -42,19 +42,26 @@ static void problemLoading(const char* filename) {
 bool StartScene::init() {
 	// super init first
 	if (!Scene::init()) return false;
-	
+
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
 	int index = 0;
 
-	// Start Game Item (item 1)
-	auto startGameItem = MenuItemLabel::create(Label::createWithTTF("Start Game", "fonts/Marker Felt.ttf", 64),
+	// Start Level Items (item 1-3)
+	auto startLevel1Item = MenuItemLabel::create(Label::createWithTTF("Start Level 1", "fonts/Marker Felt.ttf", 64),
 		CC_CALLBACK_1(StartScene::menuStartCallback, this));
-	if (startGameItem == nullptr) problemLoading("'fonts/Marker Felt.ttf'");
-	startGameItem->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2 - (index++) * 100));
+	if (startLevel1Item == nullptr) problemLoading("'fonts/Marker Felt.ttf'");
 
-	// Close Item (item 2)
+	auto startLevel2Item = MenuItemLabel::create(Label::createWithTTF("Start Level 2", "fonts/Marker Felt.ttf", 64),
+		CC_CALLBACK_1(StartScene::menuStartCallback, this));
+	if (startLevel2Item == nullptr) problemLoading("'fonts/Marker Felt.ttf'");
+
+	auto startLevel3Item = MenuItemLabel::create(Label::createWithTTF("Start Level 3", "fonts/Marker Felt.ttf", 64),
+		CC_CALLBACK_1(StartScene::menuStartCallback, this));
+	if (startLevel3Item == nullptr) problemLoading("'fonts/Marker Felt.ttf'");
+
+	// Close Item (item 4)
 	auto closeItem = MenuItemImage::create("CloseNormal.png", "CloseSelected.png",
 		CC_CALLBACK_1(StartScene::menuCloseCallback, this));
 	if (closeItem == nullptr ||
@@ -62,15 +69,13 @@ bool StartScene::init() {
 		closeItem->getContentSize().height <= 0) problemLoading("'CloseNormal.png' and 'CloseSelected.png'");
 	else {
 		closeItem->setScale(2.0f);
-		closeItem->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2 - (index++) * 100));
 	}
 
 
 	// create menu, it's an autorelease object
-	auto menu = Menu::create();
-	menu->setPosition(Vec2::ZERO);
-	menu->addChild(startGameItem, 2);
-	menu->addChild(closeItem, 2);
+	auto menu = Menu::create(startLevel1Item, startLevel2Item, startLevel3Item, closeItem, NULL);
+	menu->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
+	menu->alignItemsVertically();
 	this->addChild(menu, 2);
 
 	// Title
@@ -90,7 +95,8 @@ bool StartScene::init() {
 	if (sprite == nullptr) problemLoading("'HelloWorld.png'");
 	else {
 		// position the sprite on the center of the screen
-		sprite->setPosition(Vec2(visibleSize.width / 2 - sprite->getContentSize().width * 2.0f + origin.x, visibleSize.height / 2 + origin.y));
+		sprite->setPosition(Vec2::ZERO);
+		sprite->setAnchorPoint(Vec2::ZERO);
 		sprite->setScale(2.0f);
 		// add the sprite as a child to this layer
 		this->addChild(sprite, 0);
