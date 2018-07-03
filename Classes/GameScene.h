@@ -2,6 +2,7 @@
 #define __GAME_SCENE_H__
 
 #include "cocos2d.h"
+#include "PlayerEntity.h"
 
 class GameScene : public cocos2d::Scene
 {
@@ -13,16 +14,17 @@ public:
 	CREATE_FUNC(GameScene);
 
 private:
+	void onTouchesBegan(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event* event);
 	void onTouchesEnded(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event* event);
 	void onKeyPressed(const cocos2d::EventKeyboard::KeyCode, cocos2d::Event* event);
+	void onKeyReleased(const cocos2d::EventKeyboard::KeyCode, cocos2d::Event* event);
+	
+	cocos2d::RepeatForever* moveLeft;
+	cocos2d::RepeatForever* moveRight;
 
-	void action1();
-	void action2();
-	void action3();
-	void action4();
+	PlayerEntity player;
 
 	cocos2d::Label* labelTouchInfo;
-
 };
 
 #endif // __GAME_SCENE_H__
