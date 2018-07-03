@@ -4,8 +4,11 @@ USING_NS_CC;
 
 bool PlayerEntity::init() {
 	playerSprite = Sprite::create("entities/Mass.png");
-
-	return playerSprite == nullptr;
+	if (playerSprite == nullptr) return false;
+	auto scale = 150.0 / playerSprite->getContentSize().height;
+	playerSprite->setScale(scale);
+	playerSprite->setAnchorPoint(Vec2(0.5, 0));
+	return true;
 }
 
 cocos2d::Sprite* PlayerEntity::getSprite() {
