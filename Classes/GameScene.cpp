@@ -14,9 +14,9 @@ bool GameScene::init()
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-	auto touchListener = EventListenerTouchAllAtOnce::create();
-	touchListener->onTouchesBegan = CC_CALLBACK_2(GameScene::onTouchesBegan, this);
-	touchListener->onTouchesEnded = CC_CALLBACK_2(GameScene::onTouchesEnded, this);
+	auto touchListener = EventListenerTouchOneByOne::create();
+	touchListener->onTouchBegan = CC_CALLBACK_2(GameScene::onTouchBegan, this);
+	touchListener->onTouchEnded = CC_CALLBACK_2(GameScene::onTouchEnded, this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
 
 	auto keyListener = EventListenerKeyboard::create();
@@ -37,34 +37,34 @@ bool GameScene::init()
 	return true;
 }
 
-void GameScene::onTouchesBegan(const std::vector<Touch*>& touches, Event* event) {
+bool GameScene::onTouchBegan(Touch* touch, Event* event) {
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-	for (const auto touch : touches) {
-		auto loc = touch->getLocation();
-		if (loc.x < (origin.x + visibleSize.width / 2))
-			if (loc.y < (origin.y + visibleSize.height / 2)) player.moveLeft(true);
-			else player.moveLeft(true);
-		else
-			if (loc.y < (origin.y + visibleSize.height / 2)) player.moveRight(true);
-			else player.moveRight(true);
-	}
+	auto loc = touch->getLocation();
+	if (loc.x < (origin.x + visibleSize.width / 2))
+		if (loc.y < (origin.y + visibleSize.height / 2)) player.moveLeft(true);
+		else player.moveLeft(true);
+	else
+		if (loc.y < (origin.y + visibleSize.height / 2)) player.moveRight(true);
+		else player.moveRight(true);
+
+	return true;
 }
 
-void GameScene::onTouchesEnded(const std::vector<Touch*>& touches, Event* event) {
+void GameScene::onTouchEnded(Touch* touch, Event* event) {
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-	for (const auto touch : touches) {
-		auto loc = touch->getLocation();
-		if (loc.x < (origin.x + visibleSize.width / 2))
-			if (loc.y < (origin.y + visibleSize.height / 2)) player.moveLeft(false);
-			else player.moveLeft(false);
-		else
-			if (loc.y < (origin.y + visibleSize.height / 2)) player.moveRight(false);
-			else player.moveRight(false);
-	}
+
+	auto loc = touch->getLocation();
+	if (loc.x < (origin.x + visibleSize.width / 2))
+		if (loc.y < (origin.y + visibleSize.height / 2)) player.moveLeft(false);
+		else player.moveLeft(false);
+	else
+		if (loc.y < (origin.y + visibleSize.height / 2)) player.moveRight(false);
+		else player.moveRight(false);
+
 }
 
 void GameScene::onKeyPressed(const EventKeyboard::KeyCode keyCode, Event* event) {

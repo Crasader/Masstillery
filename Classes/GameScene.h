@@ -14,8 +14,8 @@ public:
 	CREATE_FUNC(GameScene);
 
 private:
-	void onTouchesBegan(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event* event);
-	void onTouchesEnded(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event* event);
+	bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event);
+	void onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event);
 	void onKeyPressed(const cocos2d::EventKeyboard::KeyCode, cocos2d::Event* event);
 	void onKeyReleased(const cocos2d::EventKeyboard::KeyCode, cocos2d::Event* event);
 	
