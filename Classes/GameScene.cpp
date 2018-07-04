@@ -14,6 +14,24 @@ bool GameScene::init()
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
+
+
+	//Texture2D *texture = Director::getInstance()->getTextureCache()->addImage("background/sky.png");
+	//auto textureSprite = Sprite::createWithTexture(texture, cocos2d::Rect(0, 0, visibleSize.width, visibleSize.height), false);
+
+	Sprite *textureSprite = Sprite::create("background/sky.png");
+	Texture2D::TexParams params;
+	params.minFilter = GL_NEAREST;
+	params.magFilter = GL_NEAREST;
+	params.wrapS = GL_REPEAT;
+	params.wrapT = GL_REPEAT;
+	textureSprite->getTexture()->setTexParameters(params);
+	textureSprite->setTextureRect(cocos2d::Rect(0, 0, visibleSize.width, visibleSize.height));
+	
+	textureSprite->setPosition(Vec2::ZERO);
+	textureSprite->setAnchorPoint(Vec2::ZERO);
+	this->addChild(textureSprite);
+
 	auto touchListener = EventListenerTouchOneByOne::create();
 	touchListener->onTouchBegan = CC_CALLBACK_2(GameScene::onTouchBegan, this);
 	touchListener->onTouchEnded = CC_CALLBACK_2(GameScene::onTouchEnded, this);
@@ -26,6 +44,7 @@ bool GameScene::init()
 
 	labelTouchInfo = Label::createWithTTF("", "fonts/Marker Felt.ttf", 64);
 	labelTouchInfo->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
+
 
 	player = PlayerEntity();
 	player.init();
@@ -57,6 +76,9 @@ bool GameScene::init()
 
 	this->addChild(terrain);
 
+
+	this->setColor(cocos2d::Color3B(Color4F::RED));
+	
 	return true;
 }
 
