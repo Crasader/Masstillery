@@ -59,11 +59,11 @@ void PlayerEntity::handleMove()
 
 	playerSprite->getScene()->getPhysicsWorld()->rayCast(func, start, end, nullptr);
 
-	if (point.x < playerSize.width / 2) {
-		point.x = playerSize.width / 2;
+	if (point.x < playerSize.width * 0.33) {
+		point.x = playerSize.width * 0.33;
 	}
-	else if (point.x > visibleSize.width - playerSize.width / 2) {
-		point.x = visibleSize.width - playerSize.width / 2;
+	else if (point.x > visibleSize.width - playerSize.width * 0.66) {
+		point.x = visibleSize.width - playerSize.width * 0.66;
 	}
 
 	playerSprite->setPosition(point);

@@ -53,8 +53,7 @@ bool GameScene::init()
 	auto terrain = DrawNode::create();
 	terrain->drawSolidPoly(vectors, 13, Color4F::GREEN);
 
-
-	auto terrainPb = PhysicsBody::createEdgePolygon(vectors, 13);
+	auto terrainPb = PhysicsBody::createEdgeChain(vectors, 13);
 	terrainPb->setDynamic(false);
 	terrainPb->setContactTestBitmask(0xFFFFFFFF);
 	terrain->setPhysicsBody(terrainPb);
