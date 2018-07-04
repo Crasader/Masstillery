@@ -44,8 +44,8 @@ void PlayerEntity::handleMove()
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	auto playerSize = playerSprite->getContentSize() * playerSprite->getScale();
 	auto playerX = playerSprite->getPosition().x;
-	Vec2 start(playerX, visibleSize.height);
-	Vec2 end(playerX, 0);
+	Vec2 end(playerX, visibleSize.height);
+	Vec2 start(playerX, 0);
 
 	Vec2 point;
 	auto func = [&point](PhysicsWorld& world,

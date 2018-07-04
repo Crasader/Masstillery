@@ -54,14 +54,14 @@ bool GameScene::init()
 	terrain->drawSolidPoly(vectors, 13, Color4F::GREEN);
 
 
-	auto terrainPb = PhysicsBody::createPolygon(vectors, 13);
+	auto terrainPb = PhysicsBody::createEdgePolygon(vectors, 13);
 	terrainPb->setDynamic(false);
 	terrainPb->setContactTestBitmask(0xFFFFFFFF);
 	terrain->setPhysicsBody(terrainPb);
 
-	this->addChild(player.getSprite());
 	this->addChild(labelTouchInfo);
 	this->addChild(terrain);
+	this->addChild(player.getSprite());
 
 	// For debugging
 	this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
