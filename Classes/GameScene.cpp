@@ -34,6 +34,29 @@ bool GameScene::init()
 	this->addChild(player.getSprite());
 	this->addChild(labelTouchInfo);
 
+	Vec2 vector[] = {
+		{ 0,0 },
+		{ 0 , visibleSize.height / 5 },
+		{ (visibleSize.width / 100) * 12, visibleSize.height / 3 },
+		{ (visibleSize.width / 100) * 16, visibleSize.height / 4 },
+		{ (visibleSize.width / 100) * 23, visibleSize.height / 9 },
+		{ (visibleSize.width / 100) * 43, visibleSize.height / 3 },
+		{ (visibleSize.width / 100) * 52, visibleSize.height / 4 },
+		{ (visibleSize.width / 100) * 65, visibleSize.height / 6 },
+		{ (visibleSize.width / 100) * 72, visibleSize.height / 8 },
+		{ (visibleSize.width / 100) * 85, visibleSize.height / 12 },
+		{ (visibleSize.width / 100) * 91, visibleSize.height / 7 },
+		{ visibleSize.width ,visibleSize.height },
+		{ visibleSize.width,0 },
+		{ 0,0 }
+	};
+
+	auto terrain = DrawNode::create();
+
+	terrain->drawSolidPoly(vector, 13, Color4F::GREEN);
+
+	this->addChild(terrain);
+
 	return true;
 }
 
@@ -49,7 +72,7 @@ bool GameScene::onTouchBegan(Touch* touch, Event* event) {
 		if (loc.y < (origin.y + visibleSize.height / 2)) player.moveRight(true);
 		else player.moveRight(true);
 
-	return true;
+		return true;
 }
 
 void GameScene::onTouchEnded(Touch* touch, Event* event) {
