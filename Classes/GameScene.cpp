@@ -4,12 +4,14 @@
 USING_NS_CC;
 
 Scene* GameScene::createScene() {
-	return GameScene::create();
+	auto scene = GameScene::create();
+
+	return scene;
 }
 
 bool GameScene::init()
 {
-	if (!Scene::init()) return false;
+	if (!Scene::initWithPhysics()) return false;
 
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
@@ -49,9 +51,6 @@ bool GameScene::init()
 	player = PlayerEntity();
 	player.init();
 	player.getSprite()->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
-
-	this->addChild(player.getSprite());
-	this->addChild(labelTouchInfo);
 
 	Vec2 vector[] = {
 		//{ 0,0 },
@@ -103,7 +102,12 @@ bool GameScene::init()
 
 	//terrain->drawSolidPoly(&v[0], v.size(), Color4F::GREEN);
 
+	this->addChild(labelTouchInfo);
 	this->addChild(terrain);
+	this->addChild(player.getSprite());
+
+	// For debugging
+	this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 
 
 	this->setColor(cocos2d::Color3B(Color4F::RED));

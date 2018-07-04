@@ -14,7 +14,10 @@ public:
 	cocos2d::Sprite* getSprite();
 
 private:
+	void handleMove();
+
 	cocos2d::Sprite* playerSprite;
+	cocos2d::Action* handleMoveAction;
 	cocos2d::Action* moveLeftAction;
 	cocos2d::Action* moveRightAction;
 };
