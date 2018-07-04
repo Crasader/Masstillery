@@ -102,12 +102,17 @@ bool GameScene::init()
 
 	//terrain->drawSolidPoly(&v[0], v.size(), Color4F::GREEN);
 
+	auto terrainPb = PhysicsBody::createEdgeChain(&v[0], v.size());
+	terrainPb->setDynamic(false);
+	terrainPb->setContactTestBitmask(0xFFFFFFFF);
+	terrain->setPhysicsBody(terrainPb);
+
 	this->addChild(labelTouchInfo);
 	this->addChild(terrain);
 	this->addChild(player.getSprite());
 
 	// For debugging
-	this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+	//this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 
 
 	this->setColor(cocos2d::Color3B(Color4F::RED));
