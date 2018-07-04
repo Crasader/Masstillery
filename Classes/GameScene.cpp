@@ -52,16 +52,17 @@ bool GameScene::init()
 
 	auto terrain = DrawNode::create();
 	terrain->drawSolidPoly(vectors, 13, Color4F::GREEN);
-	
+
 
 	auto terrainPb = PhysicsBody::createPolygon(vectors, 13);
 	terrainPb->setDynamic(false);
+	terrainPb->setContactTestBitmask(0xFFFFFFFF);
 	terrain->setPhysicsBody(terrainPb);
 
 	this->addChild(player.getSprite());
 	this->addChild(labelTouchInfo);
 	this->addChild(terrain);
-	
+
 	// For debugging
 	this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 
@@ -102,9 +103,6 @@ void GameScene::onKeyPressed(const EventKeyboard::KeyCode keyCode, Event* event)
 	switch (keyCode) {
 	case EventKeyboard::KeyCode::KEY_ESCAPE:
 		Director::getInstance()->replaceScene(StartScene::createScene());
-		break;
-	case EventKeyboard::KeyCode::KEY_UP_ARROW:
-		player.jump();
 		break;
 	case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
 	case EventKeyboard::KeyCode::KEY_A:

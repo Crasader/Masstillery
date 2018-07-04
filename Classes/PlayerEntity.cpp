@@ -9,11 +9,6 @@ bool PlayerEntity::init() {
 	playerSprite->setScale(scale);
 	playerSprite->setAnchorPoint(Vec2(0.5, 0));
 
-	auto pb = PhysicsBody::createBox(playerSprite->getContentSize());
-	pb->setContactTestBitmask(-1);
-	pb->setDynamic(true);
-
-	playerSprite->setPhysicsBody(pb);
 
 	return true;
 }
@@ -26,8 +21,10 @@ void PlayerEntity::moveLeft(bool state) {
 	playerSprite->stopAllActions();
 
 	if (state) {
+		handleMoveAction = RepeatForever::create(Spawn::create(CallFunc::create(CC_CALLBACK_0(PlayerEntity::handleMove, this)), nullptr));
 		moveLeftAction = RepeatForever::create(MoveBy::create(1, Vec2(-200, 0)));
 		playerSprite->runAction(moveLeftAction);
+		playerSprite->runAction(handleMoveAction);
 	}
 }
 
@@ -35,11 +32,36 @@ void PlayerEntity::moveRight(bool state) {
 	playerSprite->stopAllActions();
 
 	if (state) {
+		handleMoveAction = RepeatForever::create(Spawn::create(CallFunc::create(CC_CALLBACK_0(PlayerEntity::handleMove, this)), nullptr));
 		moveRightAction = RepeatForever::create(MoveBy::create(1, Vec2(200, 0)));
 		playerSprite->runAction(moveRightAction);
+		playerSprite->runAction(handleMoveAction);
 	}
 }
 
-void PlayerEntity::jump() {
-	playerSprite->getPhysicsBody()->setVelocity(Vec2(0, 100));
+void PlayerEntity::handleMove()
+{
+	auto visibleSize = Director::getInstance()->getVisibleSize();
+	auto playerSize = playerSprite->getContentSize() * playerSprite->getScale();
+	auto playerX = playerSprite->getPosition().x;
+	Vec2 start(playerX, visibleSize.height);
+	Vec2 end(playerX, 0);
+
+	Vec2 point;
+	auto func = [&point](PhysicsWorld& world,
+		const PhysicsRayCastInfo& info, void* data)->bool {
+		point = info.contact;
+		return true;
+	};
+
+	playerSprite->getScene()->getPhysicsWorld()->rayCast(func, start, end, nullptr);
+
+	if (point.x < playerSize.width / 2) {
+		point.x = playerSize.width / 2;
+	}
+	else if (point.x > visibleSize.width - playerSize.width / 2) {
+		point.x = visibleSize.width - playerSize.width / 2;
+	}
+
+	playerSprite->setPosition(point);
 }
