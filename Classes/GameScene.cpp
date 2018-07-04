@@ -54,7 +54,7 @@ bool GameScene::init()
 	this->addChild(labelTouchInfo);
 
 	Vec2 vector[] = {
-		{ 0,0 },
+		//{ 0,0 },
 		{ 0 , visibleSize.height / 5 },
 		{ (visibleSize.width / 100) * 12, visibleSize.height / 3 },
 		{ (visibleSize.width / 100) * 16, visibleSize.height / 4 },
@@ -65,14 +65,43 @@ bool GameScene::init()
 		{ (visibleSize.width / 100) * 72, visibleSize.height / 8 },
 		{ (visibleSize.width / 100) * 85, visibleSize.height / 12 },
 		{ (visibleSize.width / 100) * 91, visibleSize.height / 7 },
-		{ visibleSize.width ,visibleSize.height },
-		{ visibleSize.width,0 },
-		{ 0,0 }
+		{ visibleSize.width ,visibleSize.height / 13 },
+		//{ visibleSize.width,0 },
+		//{ 0,0 }
 	};
 
 	auto terrain = DrawNode::create();
 
-	terrain->drawSolidPoly(vector, 13, Color4F::GREEN);
+	std::vector<Vec2> v{};
+
+#define SEGMENTS 10
+
+	for (int i = 0; i < 11 - 1; i++) {
+		auto p0 = vector[i];
+		auto p1 = vector[i + 1];
+
+		int hSegments = floorf((p1.x - p0.x) / SEGMENTS);
+		float dx = (p1.x - p0.x) / hSegments;
+		float da = M_PI / hSegments;
+		float ymid = (p0.y + p1.y) / 2;
+		float ampl = (p0.y - p1.y) / 2;
+
+		Vec2 pt0, pt1;
+		pt0 = p0;
+		for (int j = 0; j < hSegments + 1; ++j) {
+
+			pt1.x = p0.x + j * dx;
+			pt1.y = ymid + ampl * cosf(da*j);
+
+			v.push_back(pt0);
+
+			terrain->drawLine(pt0, pt1, Color4F::GREEN);
+
+			pt0 = pt1;
+		}
+	}
+
+	//terrain->drawSolidPoly(&v[0], v.size(), Color4F::GREEN);
 
 	this->addChild(terrain);
 
