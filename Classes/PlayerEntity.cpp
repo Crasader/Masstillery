@@ -7,8 +7,11 @@ bool PlayerEntity::init() {
 	if (playerSprite == nullptr) return false;
 	auto scale = 150.0 / playerSprite->getContentSize().height;
 	playerSprite->setScale(scale);
-	playerSprite->setAnchorPoint(Vec2(0.5, 0));
+	playerSprite->setAnchorPoint(Vec2(0.33, 0));
 
+	//auto pb = PhysicsBody::createBox(playerSprite->getContentSize());
+	//pb->setDynamic(false);
+	//playerSprite->setPhysicsBody(pb);
 
 	return true;
 }
