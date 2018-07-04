@@ -33,29 +33,7 @@ bool GameScene::init()
 	player.init();
 	player.getSprite()->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
 
-	Vec2 vertices[] = {
-		{0,0},
-		{0,200},
-		{ visibleSize.width, 200 },
-		{ visibleSize.width, 0 },
-	};
-
-	auto floor = DrawNode::create(5);
-	floor->drawLine(Vec2(0, 200), Vec2(visibleSize.width, 200), Color4F::WHITE);
-	auto floorPb = PhysicsBody::createPolygon(vertices, 4);
-	floorPb->setDynamic(false);
-	floor->setPhysicsBody(floorPb);
-
-	this->addChild(floor);
-
-	this->addChild(player.getSprite());
-	this->addChild(labelTouchInfo);
-
-<<<<<<< HEAD
-	// For debugging
-	this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
-=======
-	Vec2 vector[] = {
+	Vec2 vectors[] = {
 		{ 0,0 },
 		{ 0 , visibleSize.height / 5 },
 		{ (visibleSize.width / 100) * 12, visibleSize.height / 3 },
@@ -67,17 +45,25 @@ bool GameScene::init()
 		{ (visibleSize.width / 100) * 72, visibleSize.height / 8 },
 		{ (visibleSize.width / 100) * 85, visibleSize.height / 12 },
 		{ (visibleSize.width / 100) * 91, visibleSize.height / 7 },
-		{ visibleSize.width ,visibleSize.height },
+		{ visibleSize.width ,visibleSize.height / 13 },
 		{ visibleSize.width,0 },
 		{ 0,0 }
 	};
 
 	auto terrain = DrawNode::create();
+	terrain->drawSolidPoly(vectors, 13, Color4F::GREEN);
+	
 
-	terrain->drawSolidPoly(vector, 13, Color4F::GREEN);
+	auto terrainPb = PhysicsBody::createPolygon(vectors, 13);
+	terrainPb->setDynamic(false);
+	terrain->setPhysicsBody(terrainPb);
 
+	this->addChild(player.getSprite());
+	this->addChild(labelTouchInfo);
 	this->addChild(terrain);
->>>>>>> terrain
+	
+	// For debugging
+	this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 
 	return true;
 }
