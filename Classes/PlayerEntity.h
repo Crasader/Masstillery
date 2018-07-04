@@ -10,6 +10,7 @@ public:
 
 	void moveLeft(bool state);
 	void moveRight(bool state);
+	void jump();
 
 	cocos2d::Sprite* getSprite();
 

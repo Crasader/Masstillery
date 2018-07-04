@@ -4,12 +4,14 @@
 USING_NS_CC;
 
 Scene* GameScene::createScene() {
-	return GameScene::create();
+	auto scene = GameScene::create();
+
+	return scene;
 }
 
 bool GameScene::init()
 {
-	if (!Scene::init()) return false;
+	if (!Scene::initWithPhysics()) return false;
 
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
@@ -31,8 +33,26 @@ bool GameScene::init()
 	player.init();
 	player.getSprite()->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
 
+	Vec2 vertices[] = {
+		{0,0},
+		{0,200},
+		{ visibleSize.width, 200 },
+		{ visibleSize.width, 0 },
+	};
+
+	auto floor = DrawNode::create(5);
+	floor->drawLine(Vec2(0, 200), Vec2(visibleSize.width, 200), Color4F::WHITE);
+	auto floorPb = PhysicsBody::createPolygon(vertices, 4);
+	floorPb->setDynamic(false);
+	floor->setPhysicsBody(floorPb);
+
+	this->addChild(floor);
+
 	this->addChild(player.getSprite());
 	this->addChild(labelTouchInfo);
+
+	// For debugging
+	this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 
 	return true;
 }
@@ -49,7 +69,7 @@ bool GameScene::onTouchBegan(Touch* touch, Event* event) {
 		if (loc.y < (origin.y + visibleSize.height / 2)) player.moveRight(true);
 		else player.moveRight(true);
 
-	return true;
+		return true;
 }
 
 void GameScene::onTouchEnded(Touch* touch, Event* event) {
@@ -71,6 +91,9 @@ void GameScene::onKeyPressed(const EventKeyboard::KeyCode keyCode, Event* event)
 	switch (keyCode) {
 	case EventKeyboard::KeyCode::KEY_ESCAPE:
 		Director::getInstance()->replaceScene(StartScene::createScene());
+		break;
+	case EventKeyboard::KeyCode::KEY_UP_ARROW:
+		player.jump();
 		break;
 	case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
 	case EventKeyboard::KeyCode::KEY_A:

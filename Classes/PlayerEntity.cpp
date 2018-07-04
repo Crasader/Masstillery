@@ -8,6 +8,13 @@ bool PlayerEntity::init() {
 	auto scale = 150.0 / playerSprite->getContentSize().height;
 	playerSprite->setScale(scale);
 	playerSprite->setAnchorPoint(Vec2(0.5, 0));
+
+	auto pb = PhysicsBody::createBox(playerSprite->getContentSize());
+	pb->setContactTestBitmask(-1);
+	pb->setDynamic(true);
+
+	playerSprite->setPhysicsBody(pb);
+
 	return true;
 }
 
@@ -31,4 +38,8 @@ void PlayerEntity::moveRight(bool state) {
 		moveRightAction = RepeatForever::create(MoveBy::create(1, Vec2(200, 0)));
 		playerSprite->runAction(moveRightAction);
 	}
+}
+
+void PlayerEntity::jump() {
+	playerSprite->getPhysicsBody()->setVelocity(Vec2(0, 100));
 }
