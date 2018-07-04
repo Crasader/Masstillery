@@ -27,14 +27,25 @@ bool GameScene::init()
 	labelTouchInfo = Label::createWithTTF("", "fonts/Marker Felt.ttf", 64);
 	labelTouchInfo->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
 
+	labelTimeInfo = Label::createWithTTF(std::string("Time: ") + std::string(std::to_string(timer)), "fonts/Marker Felt.ttf", 48);
+	labelTimeInfo->setPosition(Vec2(70, visibleSize.height - 32));
+
+	this->schedule(schedule_selector(GameScene::count), 1.0);
+
 	player = PlayerEntity();
 	player.init();
 	player.getSprite()->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
 
 	this->addChild(player.getSprite());
 	this->addChild(labelTouchInfo);
+	this->addChild(labelTimeInfo);
 
 	return true;
+}
+
+void GameScene::count(float dt) {
+	timer++;
+	labelTimeInfo->setString(std::string("Time: ") + std::string(std::to_string(timer)));
 }
 
 bool GameScene::onTouchBegan(Touch* touch, Event* event) {
@@ -49,7 +60,7 @@ bool GameScene::onTouchBegan(Touch* touch, Event* event) {
 		if (loc.y < (origin.y + visibleSize.height / 2)) player.moveRight(true);
 		else player.moveRight(true);
 
-	return true;
+		return true;
 }
 
 void GameScene::onTouchEnded(Touch* touch, Event* event) {

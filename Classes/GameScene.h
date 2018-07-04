@@ -14,6 +14,8 @@ public:
 	CREATE_FUNC(GameScene);
 
 private:
+	void count(float);
+
 	bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event);
 	void onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event);
 	void onKeyPressed(const cocos2d::EventKeyboard::KeyCode, cocos2d::Event* event);
@@ -22,9 +24,12 @@ private:
 	cocos2d::RepeatForever* moveLeft;
 	cocos2d::RepeatForever* moveRight;
 
+	int timer = 0;
+
 	PlayerEntity player;
 
 	cocos2d::Label* labelTouchInfo;
+	cocos2d::Label* labelTimeInfo;
 };
 
 #endif // __GAME_SCENE_H__
