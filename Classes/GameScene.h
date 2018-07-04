@@ -23,6 +23,8 @@ private:
 	cocos2d::RepeatForever* moveRight;
 
 	PlayerEntity player;
+	
+	cocos2d::Sprite* background;
 
 	cocos2d::Label* labelTouchInfo;
 };
