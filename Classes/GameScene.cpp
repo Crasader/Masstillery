@@ -29,7 +29,7 @@ bool GameScene::init()
 	params.wrapT = GL_REPEAT;
 	textureSprite->getTexture()->setTexParameters(params);
 	textureSprite->setTextureRect(cocos2d::Rect(0, 0, visibleSize.width, visibleSize.height));
-	
+
 	textureSprite->setPosition(Vec2::ZERO);
 	textureSprite->setAnchorPoint(Vec2::ZERO);
 	this->addChild(textureSprite);
@@ -47,14 +47,13 @@ bool GameScene::init()
 	labelTouchInfo = Label::createWithTTF("", "fonts/Marker Felt.ttf", 64);
 	labelTouchInfo->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
 
-
 	player = PlayerEntity();
 	player.init();
 	player.getSprite()->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
 
+	// set terrain surface key-points
 	Vec2 vector[] = {
-		//{ 0,0 },
-		{ 0 , visibleSize.height / 5 },
+		{ (visibleSize.width / 100) * 0 , visibleSize.height / 5 },
 		{ (visibleSize.width / 100) * 12, visibleSize.height / 3 },
 		{ (visibleSize.width / 100) * 16, visibleSize.height / 4 },
 		{ (visibleSize.width / 100) * 23, visibleSize.height / 9 },
@@ -64,18 +63,15 @@ bool GameScene::init()
 		{ (visibleSize.width / 100) * 72, visibleSize.height / 8 },
 		{ (visibleSize.width / 100) * 85, visibleSize.height / 12 },
 		{ (visibleSize.width / 100) * 91, visibleSize.height / 7 },
-		{ visibleSize.width ,visibleSize.height / 13 },
-		//{ visibleSize.width,0 },
-		//{ 0,0 }
+		{ (visibleSize.width / 100) * 100,visibleSize.height / 13 },
 	};
 
-	auto terrain = DrawNode::create();
-
+#define KEY_POINTS 11
+#define SEGMENTS 10
 	std::vector<Vec2> v{};
 
-#define SEGMENTS 10
-
-	for (int i = 0; i < 11 - 1; i++) {
+	// calculate surface points
+	for (int i = 0; i < KEY_POINTS - 1; i++) {
 		auto p0 = vector[i];
 		auto p1 = vector[i + 1];
 
@@ -94,19 +90,32 @@ bool GameScene::init()
 
 			v.push_back(pt0);
 
-			terrain->drawLine(pt0, pt1, Color4F::GREEN);
-
 			pt0 = pt1;
 		}
 	}
 
-	//terrain->drawSolidPoly(&v[0], v.size(), Color4F::GREEN);
+	// node to draw onto
+	auto terrain = DrawNode::create();
 
+	for (int i = 0; i < v.size() - 1; i++) {
+		auto p0 = v[i];
+		auto p1 = v[i + 1];
+		auto y0 = Vec2(p0);
+		y0.y = 0;
+		auto y1 = Vec2(p1);
+		y1.y = 0;
+
+		terrain->drawTriangle(p0, y1, y0, Color4F::GREEN);
+		terrain->drawTriangle(p0, p1, y1, Color4F::GREEN);
+	}
+
+	// physics body for collision
 	auto terrainPb = PhysicsBody::createEdgeChain(&v[0], v.size());
 	terrainPb->setDynamic(false);
 	terrainPb->setContactTestBitmask(0xFFFFFFFF);
 	terrain->setPhysicsBody(terrainPb);
 
+	// add all nodes
 	this->addChild(labelTouchInfo);
 	this->addChild(terrain);
 	this->addChild(player.getSprite());
@@ -114,9 +123,6 @@ bool GameScene::init()
 	// For debugging
 	//this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 
-
-	this->setColor(cocos2d::Color3B(Color4F::RED));
-	
 	return true;
 }
 
