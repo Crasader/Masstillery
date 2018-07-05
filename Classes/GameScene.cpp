@@ -32,7 +32,6 @@ bool GameScene::init()
 
 	textureSprite->setPosition(Vec2::ZERO);
 	textureSprite->setAnchorPoint(Vec2::ZERO);
-	this->addChild(textureSprite);
 
 	auto touchListener = EventListenerTouchOneByOne::create();
 	touchListener->onTouchBegan = CC_CALLBACK_2(GameScene::onTouchBegan, this);
@@ -53,7 +52,7 @@ bool GameScene::init()
 
 	// set terrain surface key-points
 	Vec2 vector[] = {
-		{ (visibleSize.width / 100) * 0 , visibleSize.height / 5 },
+		{ 0 , visibleSize.height / 5 },
 		{ (visibleSize.width / 100) * 12, visibleSize.height / 3 },
 		{ (visibleSize.width / 100) * 16, visibleSize.height / 4 },
 		{ (visibleSize.width / 100) * 23, visibleSize.height / 9 },
@@ -63,7 +62,7 @@ bool GameScene::init()
 		{ (visibleSize.width / 100) * 72, visibleSize.height / 8 },
 		{ (visibleSize.width / 100) * 85, visibleSize.height / 12 },
 		{ (visibleSize.width / 100) * 91, visibleSize.height / 7 },
-		{ (visibleSize.width / 100) * 100,visibleSize.height / 13 },
+		{ visibleSize.width, visibleSize.height / 13 },
 	};
 
 #define KEY_POINTS 11
@@ -115,9 +114,23 @@ bool GameScene::init()
 	terrainPb->setContactTestBitmask(0xFFFFFFFF);
 	terrain->setPhysicsBody(terrainPb);
 
+	auto sprite = Sprite::create("background/background1.png");
+	sprite->getTexture()->setTexParameters(params);
+	sprite->setTextureRect(cocos2d::Rect(0, 0, visibleSize.width, visibleSize.height));
+	sprite->setPosition(Vec2::ZERO);
+	sprite->setAnchorPoint(Vec2::ZERO);
+
+	ClippingNode * clipper = ClippingNode::create();
+	clipper->setPosition(Vec2::ZERO);
+	clipper->setStencil(terrain);
+	clipper->setInverted(false);
+	clipper->addChild(sprite);
+
 	// add all nodes
-	this->addChild(labelTouchInfo);
+	this->addChild(textureSprite);
 	this->addChild(terrain);
+	this->addChild(clipper);
+	this->addChild(labelTouchInfo);
 	this->addChild(player.getSprite());
 
 	// For debugging
