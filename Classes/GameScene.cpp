@@ -82,7 +82,7 @@ bool GameScene::init()
 
 		Vec2 pt0, pt1;
 		pt0 = p0;
-		for (int j = 0; j < hSegments + 1; ++j) {
+		for (int j = 0; j < hSegments + 2; ++j) {
 
 			pt1.x = p0.x + j * dx;
 			pt1.y = ymid + ampl * cosf(da*j);
