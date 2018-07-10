@@ -185,10 +185,10 @@ void GameScene::onKeyPressed(const EventKeyboard::KeyCode keyCode, Event* event)
 	case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
 	case EventKeyboard::KeyCode::KEY_D:
 		player.moveRight(true); break;
-	case EventKeyboard::KeyCode::KEY_PLUS:
+	case EventKeyboard::KeyCode(121): // Ger KB: plus
 	case EventKeyboard::KeyCode::KEY_KP_PLUS:
 		player.increaseAccel(true); break;
-	case EventKeyboard::KeyCode::KEY_MINUS:
+	case EventKeyboard::KeyCode(75): // Ger KB: minus
 	case EventKeyboard::KeyCode::KEY_KP_MINUS:
 		player.decreaseAccel(true); break;
 	}
@@ -208,10 +208,10 @@ void GameScene::onKeyReleased(const EventKeyboard::KeyCode keyCode, Event* event
 	case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
 	case EventKeyboard::KeyCode::KEY_D:
 		player.moveRight(false); break;
-	case EventKeyboard::KeyCode::KEY_PLUS:
+	case EventKeyboard::KeyCode(121): // Ger KB: plus
 	case EventKeyboard::KeyCode::KEY_KP_PLUS:
 		player.increaseAccel(false); break;
-	case EventKeyboard::KeyCode::KEY_MINUS:
+	case EventKeyboard::KeyCode(75): // Ger KB: minus
 	case EventKeyboard::KeyCode::KEY_KP_MINUS:
 		player.decreaseAccel(false); break;
 	}
