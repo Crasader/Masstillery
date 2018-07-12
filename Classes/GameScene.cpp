@@ -5,7 +5,7 @@ USING_NS_CC;
 
 Scene* GameScene::createScene() {
 	auto scene = GameScene::create();
-
+	scene->getPhysicsWorld()->setGravity(Vec2(0, -500));
 	return scene;
 }
 
@@ -172,31 +172,47 @@ void GameScene::onTouchEnded(Touch* touch, Event* event) {
 void GameScene::onKeyPressed(const EventKeyboard::KeyCode keyCode, Event* event) {
 	switch (keyCode) {
 	case EventKeyboard::KeyCode::KEY_ESCAPE:
-		Director::getInstance()->replaceScene(StartScene::createScene());
-		break;
+		Director::getInstance()->replaceScene(StartScene::createScene()); break;
+	case EventKeyboard::KeyCode::KEY_ENTER:
+		player.shoot();	break;
+	case EventKeyboard::KeyCode::KEY_UP_ARROW:
+		player.moveShootLeft(true); break;
+	case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
+		player.moveShootRight(true); break;
 	case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
 	case EventKeyboard::KeyCode::KEY_A:
-		player.moveLeft(true);
-		break;
+		player.moveLeft(true); break;
 	case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
 	case EventKeyboard::KeyCode::KEY_D:
-		player.moveRight(true);
-		break;
+		player.moveRight(true); break;
+	case EventKeyboard::KeyCode(121): // Ger KB: plus
+	case EventKeyboard::KeyCode::KEY_KP_PLUS:
+		player.increaseAccel(true); break;
+	case EventKeyboard::KeyCode(75): // Ger KB: minus
+	case EventKeyboard::KeyCode::KEY_KP_MINUS:
+		player.decreaseAccel(true); break;
 	}
 }
 
 void GameScene::onKeyReleased(const EventKeyboard::KeyCode keyCode, Event* event) {
 	switch (keyCode) {
 	case EventKeyboard::KeyCode::KEY_ESCAPE:
-		Director::getInstance()->replaceScene(StartScene::createScene());
-		break;
+		Director::getInstance()->replaceScene(StartScene::createScene()); break;
+	case EventKeyboard::KeyCode::KEY_UP_ARROW:
+		player.moveShootLeft(false); break;
+	case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
+		player.moveShootRight(false); break;
 	case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
 	case EventKeyboard::KeyCode::KEY_A:
-		player.moveLeft(false);
-		break;
+		player.moveLeft(false);	break;
 	case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
 	case EventKeyboard::KeyCode::KEY_D:
-		player.moveRight(false);
-		break;
+		player.moveRight(false); break;
+	case EventKeyboard::KeyCode(121): // Ger KB: plus
+	case EventKeyboard::KeyCode::KEY_KP_PLUS:
+		player.increaseAccel(false); break;
+	case EventKeyboard::KeyCode(75): // Ger KB: minus
+	case EventKeyboard::KeyCode::KEY_KP_MINUS:
+		player.decreaseAccel(false); break;
 	}
 }
