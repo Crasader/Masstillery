@@ -23,6 +23,9 @@ private:
 	cocos2d::RepeatForever* moveRight;
 
 	PlayerEntity player;
+	Entity festzelt;
+	Entity polizist;
+	Entity moench;
 	
 	cocos2d::Sprite* background;
 

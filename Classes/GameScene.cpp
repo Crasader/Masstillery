@@ -49,6 +49,15 @@ bool GameScene::init()
 	player = PlayerEntity();
 	player.init("entities/Mass.png");
 
+	festzelt = Entity();
+	festzelt.init("entities/Festzelt.png");
+
+	polizist = Entity();
+	polizist.init("entities/Polizist.png");
+
+	moench = Entity();
+	moench.init("entities/Moench.png");
+
 	// set terrain surface key-points
 	Vec2 vector[] = {
 		{ 0 , visibleSize.height / 5 },
@@ -130,11 +139,17 @@ bool GameScene::init()
 	this->addChild(terrain);
 	this->addChild(clipper);
 	this->addChild(labelTouchInfo);
+	this->addChild(festzelt.sprite);
+	this->addChild(polizist.sprite);
+	this->addChild(moench.sprite);
 	this->addChild(player.sprite);
 
 	// For debugging
 	//this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 	player.moveToX(300);
+	festzelt.moveToX(1300);
+	polizist.moveToX(500);
+	moench.moveToX(800);
 
 	return true;
 }
