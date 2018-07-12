@@ -48,7 +48,6 @@ bool GameScene::init()
 
 	player = PlayerEntity();
 	player.init("entities/Mass.png");
-	player.sprite->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
 
 	// set terrain surface key-points
 	Vec2 vector[] = {
@@ -135,6 +134,7 @@ bool GameScene::init()
 
 	// For debugging
 	//this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+	player.moveToX(300);
 
 	return true;
 }

@@ -39,6 +39,11 @@ void Entity::moveRight(bool state) {
 	}
 }
 
+void Entity::moveToX(int x) {
+	sprite->setPositionX(x);
+	sprite->runAction(CallFunc::create(CC_CALLBACK_0(Entity::handleMove, this)));
+}
+
 void Entity::handleMove() {
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	auto playerSize = sprite->getContentSize() * sprite->getScale();

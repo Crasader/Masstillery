@@ -11,6 +11,8 @@ public:
 	void moveLeft(bool state);
 	void moveRight(bool state);
 
+	void moveToX(int x);
+
 	cocos2d::Sprite* sprite;
 
 protected:
