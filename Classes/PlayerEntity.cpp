@@ -2,17 +2,11 @@
 
 USING_NS_CC;
 
-bool PlayerEntity::init() {
-	playerSprite = Sprite::create("entities/Mass.png");
-	if (playerSprite == nullptr) return false;
-	auto playerSpriteSize = playerSprite->getContentSize();
-	auto scale = 150.0 / playerSpriteSize.height;
-	playerSprite->setScale(scale);
-	playerSprite->setAnchorPoint(Vec2(0.5, 0));
+bool PlayerEntity::init(const std::string& filename) {
 
-	//auto pb = PhysicsBody::createBox(playerSprite->getContentSize());
-	//pb->setDynamic(false);
-	//playerSprite->setPhysicsBody(pb);
+	if (!Entity::init(filename)) return false;
+
+	auto playerSpriteSize = sprite->getContentSize();
 
 	arrowNode = DrawNode::create();
 	arrowNode->setContentSize(playerSpriteSize);
@@ -32,32 +26,10 @@ bool PlayerEntity::init() {
 	accelLabel->setAnchorPoint(Vec2(0.5, 0.5));
 	accelLabel->setPosition(Vec2(playerSpriteSize.width * 0.5, playerSpriteSize.height * 0.1));
 
-	playerSprite->addChild(arrowNode, 2);
-	playerSprite->addChild(accelLabel);
+	sprite->addChild(arrowNode, 2);
+	sprite->addChild(accelLabel);
 
 	return true;
-}
-
-void PlayerEntity::moveLeft(bool state) {
-	playerSprite->stopAllActions();
-
-	if (state) {
-		auto handleMoveAction = RepeatForever::create(Spawn::create(CallFunc::create(CC_CALLBACK_0(PlayerEntity::handleMove, this)), nullptr));
-		auto moveLeftAction = RepeatForever::create(MoveBy::create(1, Vec2(-200, 0)));
-		playerSprite->runAction(moveLeftAction);
-		playerSprite->runAction(handleMoveAction);
-	}
-}
-
-void PlayerEntity::moveRight(bool state) {
-	playerSprite->stopAllActions();
-
-	if (state) {
-		auto handleMoveAction = RepeatForever::create(Spawn::create(CallFunc::create(CC_CALLBACK_0(PlayerEntity::handleMove, this)), nullptr));
-		auto moveRightAction = RepeatForever::create(MoveBy::create(1, Vec2(200, 0)));
-		playerSprite->runAction(moveRightAction);
-		playerSprite->runAction(handleMoveAction);
-	}
 }
 
 void PlayerEntity::moveShootLeft(bool state) {
@@ -120,34 +92,8 @@ void PlayerEntity::shoot() {
 	shot->drawSolidCircle(Vec2::ZERO, 10, 0, 20, Color4F::YELLOW);
 	shot->setPhysicsBody(shotPb);
 	//shot->setAnchorPoint(Vec2(0.5, 0.5));
-	shot->setPosition(playerSprite->getPosition() + Vec2(0, 100));
+	shot->setPosition(sprite->getPosition() + Vec2(0, 100));
 
 
-	playerSprite->getScene()->addChild(shot);
-}
-
-void PlayerEntity::handleMove() {
-	auto visibleSize = Director::getInstance()->getVisibleSize();
-	auto playerSize = playerSprite->getContentSize() * playerSprite->getScale();
-	auto playerX = playerSprite->getPosition().x;
-	Vec2 end(playerX, visibleSize.height);
-	Vec2 start(playerX, 0);
-
-	Vec2 point;
-	auto func = [&point](PhysicsWorld& world,
-		const PhysicsRayCastInfo& info, void* data)->bool {
-		point = info.contact;
-		return true;
-	};
-
-	playerSprite->getScene()->getPhysicsWorld()->rayCast(func, start, end, nullptr);
-
-	if (point.x < playerSize.width * 0.33) {
-		point.x = playerSize.width * 0.33;
-	}
-	else if (point.x > visibleSize.width - playerSize.width * 0.66) {
-		point.x = visibleSize.width - playerSize.width * 0.66;
-	}
-
-	playerSprite->setPosition(point);
+	sprite->getScene()->addChild(shot);
 }

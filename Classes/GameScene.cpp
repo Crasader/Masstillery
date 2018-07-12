@@ -47,8 +47,8 @@ bool GameScene::init()
 	labelTouchInfo->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
 
 	player = PlayerEntity();
-	player.init();
-	player.getSprite()->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
+	player.init("entities/Mass.png");
+	player.sprite->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
 
 	// set terrain surface key-points
 	Vec2 vector[] = {
@@ -131,7 +131,7 @@ bool GameScene::init()
 	this->addChild(terrain);
 	this->addChild(clipper);
 	this->addChild(labelTouchInfo);
-	this->addChild(player.getSprite());
+	this->addChild(player.sprite);
 
 	// For debugging
 	//this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
