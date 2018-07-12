@@ -155,33 +155,42 @@ bool GameScene::init()
 }
 
 bool GameScene::onTouchBegan(Touch* touch, Event* event) {
-	auto visibleSize = Director::getInstance()->getVisibleSize();
-	Vec2 origin = Director::getInstance()->getVisibleOrigin();
-
-	auto loc = touch->getLocation();
-	if (loc.x < (origin.x + visibleSize.width / 2))
-		if (loc.y < (origin.y + visibleSize.height / 2)) player.moveLeft(true);
-		else player.moveLeft(true);
-	else
-		if (loc.y < (origin.y + visibleSize.height / 2)) player.moveRight(true);
-		else player.moveRight(true);
-
-		return true;
+	onTouchHandle(touch, true);
+	return true;
 }
 
 void GameScene::onTouchEnded(Touch* touch, Event* event) {
+	onTouchHandle(touch, false);
+}
+
+void GameScene::onTouchHandle(Touch* touch, bool started) {
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-
 	auto loc = touch->getLocation();
-	if (loc.x < (origin.x + visibleSize.width / 2))
-		if (loc.y < (origin.y + visibleSize.height / 2)) player.moveLeft(false);
-		else player.moveLeft(false);
-	else
-		if (loc.y < (origin.y + visibleSize.height / 2)) player.moveRight(false);
-		else player.moveRight(false);
+	int x = 0;
+	int y = 0;
 
+	if (loc.x < (origin.x + visibleSize.width * 0.33))		x = 1;
+	else if (loc.x < (origin.x + visibleSize.width * 0.66)) x = 2;
+	if (loc.y < (origin.y + visibleSize.height * 0.33))		 y = 1;
+	else if (loc.y < (origin.y + visibleSize.height * 0.66)) y = 2;
+
+	if (x == 1) {
+		if (y == 1)			player.moveLeft(started);
+		else if (y == 2)	player.decreaseAccel(started);
+		else				player.moveShootLeft(started);
+	}
+	else if (x == 2) {
+		if (y == 1) {}
+		else if (y == 2)	if (started) player.shoot();
+		else {}
+	}
+	else {
+		if (y == 1) 		player.moveRight(started);
+		else if (y == 2) 	player.increaseAccel(started);
+		else 				player.moveShootRight(started);
+	}
 }
 
 void GameScene::onKeyPressed(const EventKeyboard::KeyCode keyCode, Event* event) {

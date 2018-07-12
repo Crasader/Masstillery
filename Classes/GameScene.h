@@ -19,6 +19,8 @@ private:
 	void onKeyPressed(const cocos2d::EventKeyboard::KeyCode, cocos2d::Event* event);
 	void onKeyReleased(const cocos2d::EventKeyboard::KeyCode, cocos2d::Event* event);
 	
+	void onTouchHandle(cocos2d::Touch* touch, bool started);
+
 	cocos2d::RepeatForever* moveLeft;
 	cocos2d::RepeatForever* moveRight;
 
