@@ -89,7 +89,7 @@ void PlayerEntity::shoot() {
 	shotPb->setVelocity(angle*shootAcceleration);
 	shotPb->setDynamic(true);
 	shotPb->setCategoryBitmask(SHOT_TAG);
-	shotPb->setContactTestBitmask(TERRAIN_TAG & );
+	shotPb->setContactTestBitmask(TERRAIN_TAG & BARRIER_TAG);
 
 	auto shot = DrawNode::create();
 	shot->drawSolidCircle(Vec2::ZERO, 10, 0, 20, Color4F::YELLOW);
