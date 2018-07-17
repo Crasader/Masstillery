@@ -3,7 +3,6 @@
 
 #include "cocos2d.h"
 #include "PlayerEntity.h"
-#include "BarrierEntity.h"
 
 class GameScene : public cocos2d::Scene
 {
@@ -20,6 +19,7 @@ private:
 	void onKeyPressed(const cocos2d::EventKeyboard::KeyCode, cocos2d::Event* event);
 	void onKeyReleased(const cocos2d::EventKeyboard::KeyCode, cocos2d::Event* event);
 	bool onContactBegin(cocos2d::PhysicsContact& contact);
+	void onTouchHandle(cocos2d::Touch* touch, bool started);
 
 	cocos2d::RepeatForever* moveLeft;
 	cocos2d::RepeatForever* moveRight;
