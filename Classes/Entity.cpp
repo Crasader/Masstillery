@@ -1,4 +1,5 @@
 #include "Entity.h"
+#include "PhysicsCategories.h"
 
 USING_NS_CC;
 
@@ -10,9 +11,9 @@ bool Entity::init(const std::string& filename) {
 	sprite->setScale(scale);
 	sprite->setAnchorPoint(Vec2(0.5, 0));
 
-	//auto pb = PhysicsBody::createBox(sprite->getContentSize());
-	//pb->setDynamic(false);
-	//sprite->setPhysicsBody(pb);
+	auto pb = PhysicsBody::createBox(sprite->getContentSize());
+	pb->setDynamic(false);
+	sprite->setPhysicsBody(pb);
 
 	return true;
 }
@@ -52,10 +53,11 @@ void Entity::handleMove() {
 	Vec2 start(playerX, 0);
 
 	Vec2 point;
-	auto func = [&point](PhysicsWorld& world,
-		const PhysicsRayCastInfo& info, void* data)->bool {
+	auto func = [&point](PhysicsWorld& world, const PhysicsRayCastInfo& info, void* data)->bool {
+		if (info.shape->getBody()->getNode()->getTag() != TERRAIN_TAG) return true;
+			
 		point = info.contact;
-		return true;
+		return false;
 	};
 
 	sprite->getScene()->getPhysicsWorld()->rayCast(func, start, end, nullptr);

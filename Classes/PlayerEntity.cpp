@@ -1,10 +1,13 @@
 #include "PlayerEntity.h"
+#include "PhysicsCategories.h"
 
 USING_NS_CC;
 
 bool PlayerEntity::init(const std::string& filename) {
 
 	if (!Entity::init(filename)) return false;
+
+	sprite->getPhysicsBody()->setTag(PLAYER_TAG);
 
 	auto playerSpriteSize = sprite->getContentSize();
 
@@ -87,13 +90,15 @@ void PlayerEntity::shoot() {
 	angle.normalize();
 	shotPb->setVelocity(angle*shootAcceleration);
 	shotPb->setDynamic(true);
+	shotPb->setCategoryBitmask(SHOT_TAG);
+	shotPb->setContactTestBitmask(TERRAIN_TAG | BARRIER_TAG);
 
-	auto  shot = DrawNode::create();
+	auto shot = DrawNode::create();
 	shot->drawSolidCircle(Vec2::ZERO, 10, 0, 20, Color4F::YELLOW);
 	shot->setPhysicsBody(shotPb);
 	//shot->setAnchorPoint(Vec2(0.5, 0.5));
 	shot->setPosition(sprite->getPosition() + Vec2(0, 100));
-
+	shot->setTag(SHOT_TAG);
 
 	sprite->getScene()->addChild(shot);
 }

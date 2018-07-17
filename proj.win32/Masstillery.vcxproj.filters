@@ -50,6 +50,12 @@
     <ClInclude Include="..\Classes\Entity.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\PhysicsCategories.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\BarrierEntity.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc">
