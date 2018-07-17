@@ -7,6 +7,8 @@ bool PlayerEntity::init(const std::string& filename) {
 
 	if (!Entity::init(filename)) return false;
 
+	sprite->getPhysicsBody()->setTag(PLAYER_TAG);
+
 	auto playerSpriteSize = sprite->getContentSize();
 
 	arrowNode = DrawNode::create();
@@ -89,7 +91,7 @@ void PlayerEntity::shoot() {
 	shotPb->setVelocity(angle*shootAcceleration);
 	shotPb->setDynamic(true);
 	shotPb->setCategoryBitmask(SHOT_TAG);
-	shotPb->setContactTestBitmask(TERRAIN_TAG & BARRIER_TAG);
+	shotPb->setContactTestBitmask(TERRAIN_TAG | BARRIER_TAG);
 
 	auto shot = DrawNode::create();
 	shot->drawSolidCircle(Vec2::ZERO, 10, 0, 20, Color4F::YELLOW);

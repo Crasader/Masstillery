@@ -2,6 +2,7 @@
 #include "StartScene.h"
 #include "PhysicsCategories.h"
 
+
 USING_NS_CC;
 
 Scene* GameScene::createScene() {
@@ -54,13 +55,13 @@ bool GameScene::init()
 	player = PlayerEntity();
 	player.init("entities/Mass.png");
 
-	festzelt = Entity();
+	festzelt = BarrierEntity();
 	festzelt.init("entities/Festzelt.png");
 
-	polizist = Entity();
+	polizist = BarrierEntity();
 	polizist.init("entities/Polizist.png");
 
-	moench = Entity();
+	moench = BarrierEntity();
 	moench.init("entities/Moench.png");
 
 	// set terrain surface key-points
@@ -125,7 +126,7 @@ bool GameScene::init()
 	auto terrainPb = PhysicsBody::createEdgeChain(&v[0], v.size());
 	terrainPb->setDynamic(false);
 	terrainPb->setCategoryBitmask(TERRAIN_TAG);
-	//terrainPb->setContactTestBitmask(SHOT_TAG);
+	terrainPb->setContactTestBitmask(SHOT_TAG | BARRIER_TAG);
 	terrain->setPhysicsBody(terrainPb);
 	terrain->setTag(TERRAIN_TAG);
 

@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include "PlayerEntity.h"
+#include "BarrierEntity.h"
 
 class GameScene : public cocos2d::Scene
 {
@@ -24,9 +25,9 @@ private:
 	cocos2d::RepeatForever* moveRight;
 
 	PlayerEntity player;
-	Entity festzelt;
-	Entity polizist;
-	Entity moench;
+	BarrierEntity festzelt;
+	BarrierEntity polizist;
+	BarrierEntity moench;
 	
 	cocos2d::Sprite* background;
 
