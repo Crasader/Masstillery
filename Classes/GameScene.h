@@ -18,7 +18,8 @@ private:
 	void onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event);
 	void onKeyPressed(const cocos2d::EventKeyboard::KeyCode, cocos2d::Event* event);
 	void onKeyReleased(const cocos2d::EventKeyboard::KeyCode, cocos2d::Event* event);
-	
+	bool onContactBegin(cocos2d::PhysicsContact& contact);
+
 	cocos2d::RepeatForever* moveLeft;
 	cocos2d::RepeatForever* moveRight;
 

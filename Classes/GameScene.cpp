@@ -1,5 +1,6 @@
 #include "GameScene.h"
 #include "StartScene.h"
+#include "PhysicsCategories.h"
 
 USING_NS_CC;
 
@@ -42,6 +43,10 @@ bool GameScene::init()
 	keyListener->onKeyPressed = CC_CALLBACK_2(GameScene::onKeyPressed, this);
 	keyListener->onKeyReleased = CC_CALLBACK_2(GameScene::onKeyReleased, this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(keyListener, this);
+
+	auto contactListener = EventListenerPhysicsContact::create();
+	contactListener->onContactBegin = CC_CALLBACK_1(GameScene::onContactBegin, this);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener, this);
 
 	labelTouchInfo = Label::createWithTTF("", "fonts/Marker Felt.ttf", 64);
 	labelTouchInfo->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
@@ -119,8 +124,10 @@ bool GameScene::init()
 	// physics body for collision
 	auto terrainPb = PhysicsBody::createEdgeChain(&v[0], v.size());
 	terrainPb->setDynamic(false);
-	terrainPb->setContactTestBitmask(0xFFFFFFFF);
+	terrainPb->setCategoryBitmask(TERRAIN_TAG);
+	//terrainPb->setContactTestBitmask(SHOT_TAG);
 	terrain->setPhysicsBody(terrainPb);
+	terrain->setTag(TERRAIN_TAG);
 
 	auto sprite = Sprite::create("background/background1.png");
 	sprite->getTexture()->setTexParameters(params);
@@ -145,7 +152,7 @@ bool GameScene::init()
 	this->addChild(player.sprite);
 
 	// For debugging
-	//this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+	this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 	player.moveToX(300);
 	festzelt.moveToX(1300);
 	polizist.moveToX(500);
@@ -230,4 +237,15 @@ void GameScene::onKeyReleased(const EventKeyboard::KeyCode keyCode, Event* event
 	case EventKeyboard::KeyCode::KEY_KP_MINUS:
 		player.decreaseAccel(false); break;
 	}
+}
+
+bool GameScene::onContactBegin(cocos2d::PhysicsContact& contact) {
+	auto nodeA = contact.getShapeA()->getBody()->getNode();
+	auto nodeB = contact.getShapeB()->getBody()->getNode();
+
+	if (nodeA && nodeB) {
+		if (nodeA->getTag() == SHOT_TAG) nodeA->removeFromParentAndCleanup(true);
+		if (nodeB->getTag() == SHOT_TAG) nodeB->removeFromParentAndCleanup(true);
+	}
+	return true;
 }
