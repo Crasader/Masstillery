@@ -22,6 +22,9 @@ private:
 	bool onContactBegin(cocos2d::PhysicsContact& contact);
 	void onTouchHandle(cocos2d::Touch* touch, bool started);
 
+	void checkFinish();
+	void endGame(bool victory);
+
 	cocos2d::RepeatForever* moveLeft;
 	cocos2d::RepeatForever* moveRight;
 
@@ -31,8 +34,6 @@ private:
 	BarrierEntity moench;
 	
 	cocos2d::Sprite* background;
-
-	cocos2d::Label* labelTouchInfo;
 };
 
 #endif // __GAME_SCENE_H__

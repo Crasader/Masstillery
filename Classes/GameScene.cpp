@@ -261,5 +261,34 @@ bool GameScene::onContactBegin(cocos2d::PhysicsContact& contact) {
 	polizist.handleContact(contact);
 	moench.handleContact(contact);
 
+	checkFinish();
+
 	return true;
+}
+
+void GameScene::checkFinish() {
+	// if (timer < 0) endGame(false);
+
+	bool allDestroyed = true;
+
+	allDestroyed &= festzelt.isDestroyed();
+	allDestroyed &= polizist.isDestroyed();
+	allDestroyed &= moench.isDestroyed();
+
+	if (allDestroyed) endGame(true);
+}
+
+void GameScene::endGame(bool victory) {
+	auto visibleSize = Director::getInstance()->getVisibleSize();
+
+	std::string strVictory{};
+
+	if (victory) strVictory = "Victory!";
+	else strVictory = "Defeated!";
+
+	auto labelVictory = Label::createWithTTF(strVictory, "fonts/Marker Felt.ttf", 128);
+	labelVictory->setPosition(visibleSize / 2);
+
+	this->addChild(labelVictory);
+
 }

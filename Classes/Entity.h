@@ -20,6 +20,8 @@ public:
 
 	void handleContact(cocos2d::PhysicsContact& contact);
 
+	inline bool isDestroyed() { return hitpoints <= 0; }
+
 private:
 	void handleMove();
 
