@@ -95,6 +95,7 @@ bool GameScene::init()
 
 	// node to draw onto
 	auto terrain = DrawNode::create();
+	auto surface = DrawNode::create();
 
 	for (int i = 0; i < v.size() - 1; i++) {
 		auto p0 = v[i];
@@ -106,6 +107,7 @@ bool GameScene::init()
 
 		terrain->drawTriangle(p0, y1, y0, Color4F::GREEN);
 		terrain->drawTriangle(p0, p1, y1, Color4F::GREEN);
+		surface->drawSegment(p0, p1, 5, Color4F::BLACK);
 	}
 
 	// physics body for collision
@@ -130,6 +132,7 @@ bool GameScene::init()
 	this->addChild(textureSprite);
 	this->addChild(terrain);
 	this->addChild(clipper);
+	this->addChild(surface);
 	this->addChild(labelTouchInfo);
 	this->addChild(player.getSprite());
 
