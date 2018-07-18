@@ -21,13 +21,13 @@ bool GameScene::init()
 	//Texture2D *texture = Director::getInstance()->getTextureCache()->addImage("background/sky.png");
 	//auto textureSprite = Sprite::createWithTexture(texture, cocos2d::Rect(0, 0, visibleSize.width, visibleSize.height), false);
 
-	Sprite *textureSprite = Sprite::create("background/sky.png");
+	Sprite *textureSprite = Sprite::create("background/sky4.png");
 	Texture2D::TexParams params;
 	params.minFilter = GL_NEAREST;
 	params.magFilter = GL_NEAREST;
 	params.wrapS = GL_REPEAT;
 	params.wrapT = GL_REPEAT;
-	textureSprite->getTexture()->setTexParameters(params);
+	//textureSprite->getTexture()->setTexParameters(params);
 	textureSprite->setTextureRect(cocos2d::Rect(0, 0, visibleSize.width, visibleSize.height));
 
 	textureSprite->setPosition(Vec2::ZERO);
@@ -114,7 +114,7 @@ bool GameScene::init()
 	terrainPb->setContactTestBitmask(0xFFFFFFFF);
 	terrain->setPhysicsBody(terrainPb);
 
-	auto sprite = Sprite::create("background/background1.png");
+	auto sprite = Sprite::create("background/background3.png");
 	sprite->getTexture()->setTexParameters(params);
 	sprite->setTextureRect(cocos2d::Rect(0, 0, visibleSize.width, visibleSize.height));
 	sprite->setPosition(Vec2::ZERO);
