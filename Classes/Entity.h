@@ -3,6 +3,8 @@
 
 #include "cocos2d.h"
 
+#define MAX_HITPOINTS 1000
+
 class Entity
 {
 public:
@@ -15,9 +17,14 @@ public:
 
 	cocos2d::Sprite* sprite;
 
-protected:
+	void handleContact(cocos2d::PhysicsContact& contact);
+
+private:
 	void handleMove();
 
+	cocos2d::Label* hitpointLabel;
+
+	int hitpoints = MAX_HITPOINTS;
 };
 
 #endif // __ENTITY_H__
