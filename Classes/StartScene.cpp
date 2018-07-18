@@ -110,15 +110,15 @@ void StartScene::menuStartCallback(cocos2d::Ref * pSender, int level) {
 	switch (level) {
 	case 1:
 		Director::getInstance()->replaceScene(
-			GameScene::createScene(10, "background/sky.png", "background/background1.png"));
+			GameScene::createScene(10, "background/sky.png", "background/background1.png", true));
 		break;
 	case 2:
 		Director::getInstance()->replaceScene(
-			GameScene::createScene(100, "background/sky.png", "background/background2.png"));
+			GameScene::createScene(100, "background/sky2.png", "background/background3.png", true));
 		break;
 	case 3:
 		Director::getInstance()->replaceScene(
-			GameScene::createScene(100, "background/sky.png", "background/background3.png"));
+			GameScene::createScene(100, "background/sky4.png", "background/background6.png", false));
 		break;
 	}
 	
