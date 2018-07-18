@@ -23,8 +23,9 @@ public:
 	inline cocos2d::DrawNode* getShootArrow() { return arrowNode; }
 
 private:
+	void updateArrow();
+
 	cocos2d::DrawNode* arrowNode;
-	cocos2d::Label* accelLabel;
 
 	cocos2d::Vec2 shootDirection{ 0,-1 };
 	int shootAcceleration = SHOOT_MIN_ACCEL;

@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 
+#define ENTITY_HEIGHT 150
 #define MAX_HITPOINTS 1000
 
 class Entity
@@ -21,6 +22,8 @@ public:
 
 private:
 	void handleMove();
+
+	void explode();
 
 	cocos2d::Label* hitpointLabel;
 

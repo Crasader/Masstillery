@@ -8,29 +8,17 @@ bool PlayerEntity::init(const std::string& filename) {
 	if (!Entity::init(filename)) return false;
 
 	sprite->getPhysicsBody()->setTag(PLAYER_TAG);
+	sprite->setAnchorPoint(Vec2(0.5, 0));
 
 	auto playerSpriteSize = sprite->getContentSize();
 
 	arrowNode = DrawNode::create();
 	arrowNode->setContentSize(playerSpriteSize);
 	arrowNode->setAnchorPoint(Vec2(0.5, 0.5));
-	arrowNode->drawLine(
-		Vec2(playerSpriteSize.width * 0.5, playerSpriteSize.height * 0.5),
-		Vec2(playerSpriteSize.width * 0.5, playerSpriteSize.height), Color4F::RED);
-	arrowNode->drawLine(
-		Vec2(playerSpriteSize.width * 0.25, playerSpriteSize.height * 0.75),
-		Vec2(playerSpriteSize.width * 0.5, playerSpriteSize.height), Color4F::RED);
-	arrowNode->drawLine(
-		Vec2(playerSpriteSize.width * 0.75, playerSpriteSize.height * 0.75),
-		Vec2(playerSpriteSize.width * 0.5, playerSpriteSize.height), Color4F::RED);
-	arrowNode->setPosition(playerSpriteSize * 0.5);
-
-	accelLabel = Label::createWithTTF(std::to_string(shootAcceleration), "fonts/Marker Felt.ttf", 80);
-	accelLabel->setAnchorPoint(Vec2(0.5, 0.5));
-	accelLabel->setPosition(Vec2(playerSpriteSize.width * 0.5, playerSpriteSize.height * 0.1));
 
 	sprite->addChild(arrowNode, 2);
-	sprite->addChild(accelLabel);
+
+	updateArrow();
 
 	return true;
 }
@@ -61,7 +49,7 @@ void PlayerEntity::increaseAccel(bool state) {
 			shootAcceleration += 10;
 			if (shootAcceleration > SHOOT_MAX_ACCEL)
 				shootAcceleration = SHOOT_MAX_ACCEL;
-			accelLabel->setString(std::to_string(shootAcceleration));
+			updateArrow();
 		});
 		auto increaseSequence = Sequence::create(DelayTime::create(0.01), increaseAction, nullptr);
 		arrowNode->runAction(RepeatForever::create(increaseSequence));
@@ -76,11 +64,32 @@ void PlayerEntity::decreaseAccel(bool state) {
 			shootAcceleration -= 10;
 			if (shootAcceleration < SHOOT_MIN_ACCEL)
 				shootAcceleration = SHOOT_MIN_ACCEL;
-			accelLabel->setString(std::to_string(shootAcceleration));
+			updateArrow();
 		});
 		auto decreaseSequence = Sequence::create(DelayTime::create(0.01), decreaseAction, nullptr);
 		arrowNode->runAction(RepeatForever::create(decreaseSequence));
 	}
+}
+
+void PlayerEntity::updateArrow() {
+	auto playerSpriteSize = sprite->getContentSize();
+
+	auto accelFactor = 1 + ((float)shootAcceleration - SHOOT_MIN_ACCEL) / (SHOOT_MAX_ACCEL - SHOOT_MIN_ACCEL);
+
+	auto spriteMidX = playerSpriteSize.width * sprite->getAnchorPoint().x;
+	auto spriteMidY = playerSpriteSize.height * 0.5;
+
+	arrowNode->clear();
+	arrowNode->drawSegment(
+		Vec2(spriteMidX, spriteMidY),
+		Vec2(spriteMidX, playerSpriteSize.height * accelFactor), 8, Color4F::RED);
+	arrowNode->drawSegment(
+		Vec2(spriteMidX - 50, spriteMidY  * accelFactor + 50),
+		Vec2(spriteMidX, playerSpriteSize.height * accelFactor), 8, Color4F::RED);
+	arrowNode->drawSegment(
+		Vec2(spriteMidX + 50, spriteMidY * accelFactor + 50),
+		Vec2(spriteMidX, playerSpriteSize.height * accelFactor), 8, Color4F::RED);
+	arrowNode->setPosition(playerSpriteSize * 0.5);
 }
 
 void PlayerEntity::shoot() {
@@ -97,7 +106,7 @@ void PlayerEntity::shoot() {
 	shot->drawSolidCircle(Vec2::ZERO, 10, 0, 20, Color4F::YELLOW);
 	shot->setPhysicsBody(shotPb);
 	//shot->setAnchorPoint(Vec2(0.5, 0.5));
-	shot->setPosition(sprite->getPosition() + Vec2(0, 100));
+	shot->setPosition(sprite->getPosition() + Vec2(0, ENTITY_HEIGHT / 2));
 	shot->setTag(SHOT_TAG);
 
 	sprite->getScene()->addChild(shot);
