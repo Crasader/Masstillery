@@ -8,13 +8,17 @@
 class GameScene : public cocos2d::Scene
 {
 public:
-	static cocos2d::Scene* createScene();
+	static cocos2d::Scene* createScene(int time, std::string skyTex, std::string terrainTex);
+
+	virtual void setup(int time, std::string skyTex, std::string terrainTex);
 
 	virtual bool init();
 
 	CREATE_FUNC(GameScene);
 
 private:
+	void count(float);
+
 	bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event);
 	void onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event);
 	void onKeyPressed(const cocos2d::EventKeyboard::KeyCode, cocos2d::Event* event);
@@ -28,11 +32,15 @@ private:
 	cocos2d::RepeatForever* moveLeft;
 	cocos2d::RepeatForever* moveRight;
 
+	int timer = 0;
+
 	PlayerEntity player;
 	BarrierEntity festzelt;
 	BarrierEntity polizist;
 	BarrierEntity moench;
 	
+	cocos2d::Label* labelTimeInfo;
+
 	cocos2d::Sprite* background;
 };
 

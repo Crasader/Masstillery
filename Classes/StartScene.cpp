@@ -50,15 +50,15 @@ bool StartScene::init() {
 
 	// Start Level Items (item 1-3)
 	auto startLevel1Item = MenuItemLabel::create(Label::createWithTTF("Start Level 1", "fonts/Marker Felt.ttf", 64),
-		CC_CALLBACK_1(StartScene::menuStartCallback, this));
+		CC_CALLBACK_1(StartScene::menuStartCallback, this, 1));
 	if (startLevel1Item == nullptr) problemLoading("'fonts/Marker Felt.ttf'");
 
 	auto startLevel2Item = MenuItemLabel::create(Label::createWithTTF("Start Level 2", "fonts/Marker Felt.ttf", 64),
-		CC_CALLBACK_1(StartScene::menuStartCallback, this));
+		CC_CALLBACK_1(StartScene::menuStartCallback, this, 2));
 	if (startLevel2Item == nullptr) problemLoading("'fonts/Marker Felt.ttf'");
 
 	auto startLevel3Item = MenuItemLabel::create(Label::createWithTTF("Start Level 3", "fonts/Marker Felt.ttf", 64),
-		CC_CALLBACK_1(StartScene::menuStartCallback, this));
+		CC_CALLBACK_1(StartScene::menuStartCallback, this, 3));
 	if (startLevel3Item == nullptr) problemLoading("'fonts/Marker Felt.ttf'");
 
 	// Close Item (item 4)
@@ -106,8 +106,22 @@ bool StartScene::init() {
 }
 
 
-void StartScene::menuStartCallback(cocos2d::Ref * pSender) {
-	Director::getInstance()->replaceScene(GameScene::createScene());
+void StartScene::menuStartCallback(cocos2d::Ref * pSender, int level) {
+	switch (level) {
+	case 1:
+		Director::getInstance()->replaceScene(
+			GameScene::createScene(10, "background/sky.png", "background/background1.png"));
+		break;
+	case 2:
+		Director::getInstance()->replaceScene(
+			GameScene::createScene(100, "background/sky.png", "background/background2.png"));
+		break;
+	case 3:
+		Director::getInstance()->replaceScene(
+			GameScene::createScene(100, "background/sky.png", "background/background3.png"));
+		break;
+	}
+	
 }
 
 void StartScene::menuCloseCallback(Ref* pSender) {

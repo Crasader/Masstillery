@@ -5,49 +5,34 @@
 
 USING_NS_CC;
 
-Scene* GameScene::createScene() {
+Scene* GameScene::createScene(int time, std::string skyTex, std::string terrainTex) {
 	auto scene = GameScene::create();
 	scene->getPhysicsWorld()->setGravity(Vec2(0, -500));
+	scene->setup(time, skyTex, terrainTex);
 	return scene;
 }
 
-bool GameScene::init()
-{
-	if (!Scene::initWithPhysics()) return false;
-
+void GameScene::setup(int time, std::string skyTex, std::string terrainTex) {
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-
-
-	//Texture2D *texture = Director::getInstance()->getTextureCache()->addImage("background/sky.png");
-	//auto textureSprite = Sprite::createWithTexture(texture, cocos2d::Rect(0, 0, visibleSize.width, visibleSize.height), false);
-
-	Sprite *textureSprite = Sprite::create("background/sky.png");
 	Texture2D::TexParams params;
 	params.minFilter = GL_NEAREST;
 	params.magFilter = GL_NEAREST;
 	params.wrapS = GL_REPEAT;
 	params.wrapT = GL_REPEAT;
-	textureSprite->getTexture()->setTexParameters(params);
-	textureSprite->setTextureRect(cocos2d::Rect(0, 0, visibleSize.width, visibleSize.height));
 
-	textureSprite->setPosition(Vec2::ZERO);
-	textureSprite->setAnchorPoint(Vec2::ZERO);
+	Sprite *background = Sprite::create(skyTex);
+	background->getTexture()->setTexParameters(params);
+	background->setTextureRect(cocos2d::Rect(0, 0, visibleSize.width, visibleSize.height));
 
-	auto touchListener = EventListenerTouchOneByOne::create();
-	touchListener->onTouchBegan = CC_CALLBACK_2(GameScene::onTouchBegan, this);
-	touchListener->onTouchEnded = CC_CALLBACK_2(GameScene::onTouchEnded, this);
-	_eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
+	background->setPosition(Vec2::ZERO);
+	background->setAnchorPoint(Vec2::ZERO);
 
-	auto keyListener = EventListenerKeyboard::create();
-	keyListener->onKeyPressed = CC_CALLBACK_2(GameScene::onKeyPressed, this);
-	keyListener->onKeyReleased = CC_CALLBACK_2(GameScene::onKeyReleased, this);
-	_eventDispatcher->addEventListenerWithSceneGraphPriority(keyListener, this);
-
-	auto contactListener = EventListenerPhysicsContact::create();
-	contactListener->onContactBegin = CC_CALLBACK_1(GameScene::onContactBegin, this);
-	_eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener, this);
+	this->timer = time;
+	labelTimeInfo = Label::createWithTTF(std::string("Time: ") + std::string(std::to_string(timer)), "fonts/Marker Felt.ttf", 48);
+	labelTimeInfo->setPosition(Vec2(labelTimeInfo->getContentSize().width, visibleSize.height - 32));
+	this->schedule(schedule_selector(GameScene::count), 1.0);
 
 	player = PlayerEntity();
 	player.init("entities/Mass.png");
@@ -64,16 +49,16 @@ bool GameScene::init()
 	// set terrain surface key-points
 	Vec2 vector[] = {
 		{ 0 , visibleSize.height / 5 },
-		{ (visibleSize.width / 100) * 12, visibleSize.height / 3 },
-		{ (visibleSize.width / 100) * 16, visibleSize.height / 4 },
-		{ (visibleSize.width / 100) * 23, visibleSize.height / 9 },
-		{ (visibleSize.width / 100) * 43, visibleSize.height / 3 },
-		{ (visibleSize.width / 100) * 52, visibleSize.height / 4 },
-		{ (visibleSize.width / 100) * 65, visibleSize.height / 6 },
-		{ (visibleSize.width / 100) * 72, visibleSize.height / 8 },
-		{ (visibleSize.width / 100) * 85, visibleSize.height / 12 },
-		{ (visibleSize.width / 100) * 91, visibleSize.height / 7 },
-		{ visibleSize.width, visibleSize.height / 13 },
+	{ (visibleSize.width / 100) * 12, visibleSize.height / 3 },
+	{ (visibleSize.width / 100) * 16, visibleSize.height / 4 },
+	{ (visibleSize.width / 100) * 23, visibleSize.height / 9 },
+	{ (visibleSize.width / 100) * 43, visibleSize.height / 3 },
+	{ (visibleSize.width / 100) * 52, visibleSize.height / 4 },
+	{ (visibleSize.width / 100) * 65, visibleSize.height / 6 },
+	{ (visibleSize.width / 100) * 72, visibleSize.height / 8 },
+	{ (visibleSize.width / 100) * 85, visibleSize.height / 12 },
+	{ (visibleSize.width / 100) * 91, visibleSize.height / 7 },
+	{ visibleSize.width, visibleSize.height / 13 },
 	};
 
 #define KEY_POINTS 11
@@ -129,7 +114,7 @@ bool GameScene::init()
 	terrain->setPhysicsBody(terrainPb);
 	terrain->setTag(TERRAIN_TAG);
 
-	auto sprite = Sprite::create("background/background1.png");
+	auto sprite = Sprite::create(terrainTex);
 	sprite->getTexture()->setTexParameters(params);
 	sprite->setTextureRect(cocos2d::Rect(0, 0, visibleSize.width, visibleSize.height));
 	sprite->setPosition(Vec2::ZERO);
@@ -142,10 +127,11 @@ bool GameScene::init()
 	clipper->addChild(sprite);
 
 	// add all nodes
-	this->addChild(textureSprite);
+	this->addChild(background);
 	this->addChild(terrain);
 	this->addChild(clipper);
 	this->addChild(surface);
+	this->addChild(labelTimeInfo);
 	this->addChild(festzelt.sprite);
 	this->addChild(polizist.sprite);
 	this->addChild(moench.sprite);
@@ -157,8 +143,33 @@ bool GameScene::init()
 	festzelt.moveToX(1300);
 	polizist.moveToX(500);
 	moench.moveToX(800);
+}
+
+bool GameScene::init()
+{
+	if (!Scene::initWithPhysics()) return false;
+
+	auto touchListener = EventListenerTouchOneByOne::create();
+	touchListener->onTouchBegan = CC_CALLBACK_2(GameScene::onTouchBegan, this);
+	touchListener->onTouchEnded = CC_CALLBACK_2(GameScene::onTouchEnded, this);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
+
+	auto keyListener = EventListenerKeyboard::create();
+	keyListener->onKeyPressed = CC_CALLBACK_2(GameScene::onKeyPressed, this);
+	keyListener->onKeyReleased = CC_CALLBACK_2(GameScene::onKeyReleased, this);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(keyListener, this);
+
+	auto contactListener = EventListenerPhysicsContact::create();
+	contactListener->onContactBegin = CC_CALLBACK_1(GameScene::onContactBegin, this);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener, this);
 
 	return true;
+}
+
+void GameScene::count(float dt) {
+	timer--;
+	labelTimeInfo->setString(std::string("Time: ") + std::string(std::to_string(timer)));
+	checkFinish();
 }
 
 bool GameScene::onTouchBegan(Touch* touch, Event* event) {
@@ -267,7 +278,7 @@ bool GameScene::onContactBegin(cocos2d::PhysicsContact& contact) {
 }
 
 void GameScene::checkFinish() {
-	// if (timer < 0) endGame(false);
+	if (timer <= 0) endGame(false);
 
 	bool allDestroyed = true;
 
@@ -279,6 +290,7 @@ void GameScene::checkFinish() {
 }
 
 void GameScene::endGame(bool victory) {
+	this->cleanup();
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 
 	std::string strVictory{};
