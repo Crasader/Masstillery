@@ -15,6 +15,14 @@ bool Entity::init(const std::string& filename) {
 	pb->setDynamic(false);
 	sprite->setPhysicsBody(pb);
 
+	auto playerSpriteSize = sprite->getContentSize();
+
+	hitpointLabel = Label::createWithTTF(std::to_string(hitpoints), "fonts/Marker Felt.ttf", 80);
+	hitpointLabel->setAnchorPoint(Vec2(0.5, 0.5));
+	hitpointLabel->setPosition(Vec2(playerSpriteSize.width * 0.5, -(playerSpriteSize.height * 0.2)));
+
+	sprite->addChild(hitpointLabel);
+
 	return true;
 }
 
@@ -45,6 +53,20 @@ void Entity::moveToX(int x) {
 	sprite->runAction(CallFunc::create(CC_CALLBACK_0(Entity::handleMove, this)));
 }
 
+void Entity::handleContact(cocos2d::PhysicsContact & contact) {
+	auto nodeA = contact.getShapeA()->getBody()->getNode();
+	auto nodeB = contact.getShapeB()->getBody()->getNode();
+
+	auto vel = 0;
+
+	if (nodeA == sprite) 		vel = contact.getShapeB()->getBody()->getVelocity().length();
+	else if (nodeB == sprite)	vel = contact.getShapeA()->getBody()->getVelocity().length();
+
+	hitpoints -= vel * 0.1;
+
+	hitpointLabel->setString(std::to_string(hitpoints));
+}
+
 void Entity::handleMove() {
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	auto playerSize = sprite->getContentSize() * sprite->getScale();
@@ -55,7 +77,7 @@ void Entity::handleMove() {
 	Vec2 point;
 	auto func = [&point](PhysicsWorld& world, const PhysicsRayCastInfo& info, void* data)->bool {
 		if (info.shape->getBody()->getNode()->getTag() != TERRAIN_TAG) return true;
-			
+
 		point = info.contact;
 		return false;
 	};

@@ -253,9 +253,14 @@ bool GameScene::onContactBegin(cocos2d::PhysicsContact& contact) {
 	auto nodeA = contact.getShapeA()->getBody()->getNode();
 	auto nodeB = contact.getShapeB()->getBody()->getNode();
 
-	if (nodeA && nodeB) {
-		if (nodeA->getTag() == SHOT_TAG) nodeA->removeFromParentAndCleanup(true);
-		if (nodeB->getTag() == SHOT_TAG) nodeB->removeFromParentAndCleanup(true);
-	}
+	if (!nodeA || !nodeB) return false;
+
+	if (nodeA->getTag() == SHOT_TAG) nodeA->removeFromParentAndCleanup(true);
+	if (nodeB->getTag() == SHOT_TAG) nodeB->removeFromParentAndCleanup(true);
+
+	festzelt.handleContact(contact);
+	polizist.handleContact(contact);
+	moench.handleContact(contact);
+
 	return true;
 }
