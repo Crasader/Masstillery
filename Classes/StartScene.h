@@ -34,7 +34,7 @@ public:
 
     virtual bool init();
     
-	void menuStartCallback(cocos2d::Ref* pSender);
+	void menuStartCallback(cocos2d::Ref* pSender, int i);
     void menuCloseCallback(cocos2d::Ref* pSender);
     
     // implement the "static create()" method manually
