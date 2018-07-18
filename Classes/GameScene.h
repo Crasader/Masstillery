@@ -8,9 +8,9 @@
 class GameScene : public cocos2d::Scene
 {
 public:
-	static cocos2d::Scene* createScene(int time, std::string skyTex, std::string terrainTex);
+	static cocos2d::Scene* createScene(int time, std::string skyTex, std::string terrainTex, bool tiled);
 
-	virtual void setup(int time, std::string skyTex, std::string terrainTex);
+	virtual void setup(int time, std::string skyTex, std::string terrainTex, bool tiled);
 
 	virtual bool init();
 

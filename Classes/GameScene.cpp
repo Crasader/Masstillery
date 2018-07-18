@@ -5,14 +5,14 @@
 
 USING_NS_CC;
 
-Scene* GameScene::createScene(int time, std::string skyTex, std::string terrainTex) {
+Scene* GameScene::createScene(int time, std::string skyTex, std::string terrainTex, bool tiled) {
 	auto scene = GameScene::create();
 	scene->getPhysicsWorld()->setGravity(Vec2(0, -500));
-	scene->setup(time, skyTex, terrainTex);
+	scene->setup(time, skyTex, terrainTex, tiled);
 	return scene;
 }
 
-void GameScene::setup(int time, std::string skyTex, std::string terrainTex) {
+void GameScene::setup(int time, std::string skyTex, std::string terrainTex, bool tiled) {
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
@@ -23,7 +23,8 @@ void GameScene::setup(int time, std::string skyTex, std::string terrainTex) {
 	params.wrapT = GL_REPEAT;
 
 	Sprite *background = Sprite::create(skyTex);
-	background->getTexture()->setTexParameters(params);
+	if (tiled)
+		background->getTexture()->setTexParameters(params);
 	background->setTextureRect(cocos2d::Rect(0, 0, visibleSize.width, visibleSize.height));
 
 	background->setPosition(Vec2::ZERO);
