@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include "PlayerEntity.h"
+#include "BarrierEntity.h"
 
 class GameScene : public cocos2d::Scene
 {
