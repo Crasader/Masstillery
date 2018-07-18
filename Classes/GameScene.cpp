@@ -49,9 +49,6 @@ bool GameScene::init()
 	contactListener->onContactBegin = CC_CALLBACK_1(GameScene::onContactBegin, this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener, this);
 
-	labelTouchInfo = Label::createWithTTF("", "fonts/Marker Felt.ttf", 64);
-	labelTouchInfo->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
-
 	player = PlayerEntity();
 	player.init("entities/Mass.png");
 
@@ -149,14 +146,13 @@ bool GameScene::init()
 	this->addChild(terrain);
 	this->addChild(clipper);
 	this->addChild(surface);
-	this->addChild(labelTouchInfo);
 	this->addChild(festzelt.sprite);
 	this->addChild(polizist.sprite);
 	this->addChild(moench.sprite);
 	this->addChild(player.sprite);
 
 	// For debugging
-	this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+	//this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 	player.moveToX(300);
 	festzelt.moveToX(1300);
 	polizist.moveToX(500);

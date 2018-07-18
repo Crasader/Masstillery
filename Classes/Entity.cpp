@@ -7,12 +7,13 @@ bool Entity::init(const std::string& filename) {
 	sprite = Sprite::create(filename);
 	if (sprite == nullptr) return false;
 	auto spriteSize = sprite->getContentSize();
-	auto scale = 150.0 / spriteSize.height;
+	auto scale = ENTITY_HEIGHT / spriteSize.height;
 	sprite->setScale(scale);
 	sprite->setAnchorPoint(Vec2(0.5, 0));
 
 	auto pb = PhysicsBody::createBox(sprite->getContentSize());
 	pb->setDynamic(false);
+	pb->setCollisionBitmask(0x0);
 	sprite->setPhysicsBody(pb);
 
 	auto playerSpriteSize = sprite->getContentSize();
@@ -54,6 +55,8 @@ void Entity::moveToX(int x) {
 }
 
 void Entity::handleContact(cocos2d::PhysicsContact & contact) {
+	if (hitpoints <= 0) return;
+
 	auto nodeA = contact.getShapeA()->getBody()->getNode();
 	auto nodeB = contact.getShapeB()->getBody()->getNode();
 
@@ -65,6 +68,8 @@ void Entity::handleContact(cocos2d::PhysicsContact & contact) {
 	hitpoints -= vel * 0.1;
 
 	hitpointLabel->setString(std::to_string(hitpoints));
+
+	if (hitpoints <= 0) explode();
 }
 
 void Entity::handleMove() {
@@ -84,12 +89,26 @@ void Entity::handleMove() {
 
 	sprite->getScene()->getPhysicsWorld()->rayCast(func, start, end, nullptr);
 
-	if (point.x < playerSize.width * 0.33) {
-		point.x = playerSize.width * 0.33;
+	auto offsetLeft = playerSize.width * sprite->getAnchorPoint().x;
+	auto offsetRight = playerSize.width * (1 - sprite->getAnchorPoint().x);
+
+	if (point.x < offsetLeft) {
+		point.x = offsetLeft;
 	}
-	else if (point.x > visibleSize.width - playerSize.width * 0.66) {
-		point.x = visibleSize.width - playerSize.width * 0.66;
+	else if (point.x > visibleSize.width - offsetRight) {
+		point.x = visibleSize.width - offsetRight;
 	}
 
 	sprite->setPosition(point);
+}
+
+void Entity::explode() {
+	hitpointLabel->removeFromParentAndCleanup(true);
+
+	auto emitter = ParticleExplosion::create();
+	emitter->setPosition(sprite->getPosition() + Vec2(0, ENTITY_HEIGHT / 2));
+
+	sprite->getScene()->addChild(emitter, 0);
+
+	sprite->removeFromParentAndCleanup(true);
 }
