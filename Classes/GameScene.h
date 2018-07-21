@@ -33,12 +33,13 @@ private:
 	cocos2d::RepeatForever* moveRight;
 
 	int timer = 0;
+	bool isGameRunning = false;
 
 	PlayerEntity player;
 	BarrierEntity festzelt;
 	BarrierEntity polizist;
 	BarrierEntity moench;
-	
+
 	cocos2d::Label* labelTimeInfo;
 
 	cocos2d::Sprite* background;

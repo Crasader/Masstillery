@@ -144,6 +144,8 @@ void GameScene::setup(int time, std::string skyTex, std::string terrainTex, bool
 	festzelt.moveToX(1300);
 	polizist.moveToX(500);
 	moench.moveToX(800);
+
+	isGameRunning = true;
 }
 
 bool GameScene::init()
@@ -183,6 +185,8 @@ void GameScene::onTouchEnded(Touch* touch, Event* event) {
 }
 
 void GameScene::onTouchHandle(Touch* touch, bool started) {
+	if (!isGameRunning) return;
+
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
@@ -213,9 +217,9 @@ void GameScene::onTouchHandle(Touch* touch, bool started) {
 }
 
 void GameScene::onKeyPressed(const EventKeyboard::KeyCode keyCode, Event* event) {
+	if (!isGameRunning) return;
+
 	switch (keyCode) {
-	case EventKeyboard::KeyCode::KEY_ESCAPE:
-		Director::getInstance()->replaceScene(StartScene::createScene()); break;
 	case EventKeyboard::KeyCode::KEY_ENTER:
 		player.shoot();	break;
 	case EventKeyboard::KeyCode::KEY_UP_ARROW:
@@ -292,6 +296,7 @@ void GameScene::checkFinish() {
 
 void GameScene::endGame(bool victory) {
 	this->cleanup();
+	isGameRunning = false;
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 
 	std::string strVictory{};
