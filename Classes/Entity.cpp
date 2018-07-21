@@ -1,26 +1,22 @@
 #include "Entity.h"
 #include "PhysicsCategories.h"
+#include "PhysicsShapeCache.h"
 
 USING_NS_CC;
 
-bool Entity::init(const std::string& filename) {
-	sprite = Sprite::create(filename);
+bool Entity::init(const std::string& name) {
+	sprite = Sprite::create(std::string{ "entities/" }.append(name).append(".png"));
 	if (sprite == nullptr) return false;
 	auto spriteSize = sprite->getContentSize();
 	auto scale = ENTITY_HEIGHT / spriteSize.height;
 	sprite->setScale(scale);
 	sprite->setAnchorPoint(Vec2(0.5, 0));
 
-	auto pb = PhysicsBody::createBox(sprite->getContentSize());
-	pb->setDynamic(false);
-	pb->setCollisionBitmask(0x0);
-	sprite->setPhysicsBody(pb);
-
-	auto playerSpriteSize = sprite->getContentSize();
+	PhysicsShapeCache::getInstance()->setBodyOnSprite(name, sprite);
 
 	hitpointLabel = Label::createWithTTF(std::to_string(hitpoints), "fonts/Marker Felt.ttf", 80);
 	hitpointLabel->setAnchorPoint(Vec2(0.5, 0.5));
-	hitpointLabel->setPosition(Vec2(playerSpriteSize.width * 0.5, -(playerSpriteSize.height * 0.2)));
+	hitpointLabel->setPosition(Vec2(spriteSize.width * 0.5, -(spriteSize.height * 0.2)));
 
 	sprite->addChild(hitpointLabel);
 

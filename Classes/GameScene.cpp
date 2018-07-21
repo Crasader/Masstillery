@@ -36,16 +36,16 @@ void GameScene::setup(int time, std::string skyTex, std::string terrainTex, bool
 	this->schedule(schedule_selector(GameScene::count), 1.0);
 
 	player = PlayerEntity();
-	player.init("entities/Mass.png");
+	player.init("Mass");
 
 	festzelt = BarrierEntity();
-	festzelt.init("entities/Festzelt.png");
+	festzelt.init("Festzelt");
 
 	polizist = BarrierEntity();
-	polizist.init("entities/Polizist.png");
+	polizist.init("Polizist");
 
 	moench = BarrierEntity();
-	moench.init("entities/Moench.png");
+	moench.init("Moench");
 
 	// set terrain surface key-points
 	Vec2 vector[] = {

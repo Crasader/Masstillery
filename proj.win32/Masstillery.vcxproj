@@ -151,6 +151,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
     <ClCompile Include="..\Classes\Entity.cpp" />
+    <ClCompile Include="..\Classes\PhysicsShapeCache.cpp" />
     <ClCompile Include="..\Classes\PlayerEntity.cpp" />
     <ClCompile Include="..\Classes\StartScene.cpp" />
     <ClCompile Include="..\Classes\GameScene.cpp" />
@@ -161,6 +162,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\BarrierEntity.h" />
     <ClInclude Include="..\Classes\Entity.h" />
     <ClInclude Include="..\Classes\PhysicsCategories.h" />
+    <ClInclude Include="..\Classes\PhysicsShapeCache.h" />
     <ClInclude Include="..\Classes\PlayerEntity.h" />
     <ClInclude Include="..\Classes\StartScene.h" />
     <ClInclude Include="..\Classes\GameScene.h" />

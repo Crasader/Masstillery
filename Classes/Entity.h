@@ -9,7 +9,7 @@
 class Entity
 {
 public:
-	bool init(const std::string& filename);
+	bool init(const std::string& name);
 
 	void moveLeft(bool state);
 	void moveRight(bool state);
