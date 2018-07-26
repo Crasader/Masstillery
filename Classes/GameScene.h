@@ -40,6 +40,7 @@ private:
 	cocos2d::RepeatForever* moveLeft;
 	cocos2d::RepeatForever* moveRight;
 
+	bool isGameRunning = false;
 	cocos2d::Label* labelTimeInfo;
 };
 
