@@ -24,6 +24,7 @@
 
 #include "AppDelegate.h"
 #include "StartScene.h"
+#include "PhysicsShapeCache.h"
 
 // #define USE_AUDIO_ENGINE 1
 // #define USE_SIMPLE_AUDIO_ENGINE 1
@@ -116,6 +117,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
     }
 
     register_all_packages();
+
+	PhysicsShapeCache::getInstance()->addShapesWithFile("entities/physics_bodies.plist");
 
     // create a scene. it's an autorelease object
     auto scene = StartScene::createScene();

@@ -7,6 +7,7 @@ USING_NS_CC;
 
 cocos2d::Scene * Level2::createScene() {
 	auto scene = Level2::create();
+	scene->getPhysicsWorld()->setGravity(Vec2(0, -500));
 	scene->setup();
 	return scene;
 }
@@ -36,13 +37,13 @@ void Level2::setup() {
 	this->timer = LEVEL2_TIME;
 
 	festzelt = BarrierEntity();
-	festzelt.init("entities/Festzelt.png");
+	festzelt.init("Festzelt");
 
 	polizist = BarrierEntity();
-	polizist.init("entities/Polizist.png");
+	polizist.init("Polizist");
 
 	moench = BarrierEntity();
-	moench.init("entities/Moench.png");
+	moench.init("Moench");
 
 	// set terrain surface key-points
 	Vec2 vector[] = {

@@ -3,11 +3,10 @@
 
 USING_NS_CC;
 
-bool PlayerEntity::init(const std::string& filename) {
+bool PlayerEntity::init(const std::string& name) {
 
-	if (!Entity::init(filename)) return false;
+	if (!Entity::init(name)) return false;
 
-	sprite->getPhysicsBody()->setTag(PLAYER_TAG);
 	sprite->setAnchorPoint(Vec2(0.5, 0));
 
 	auto playerSpriteSize = sprite->getContentSize();
@@ -15,7 +14,7 @@ bool PlayerEntity::init(const std::string& filename) {
 	arrowNode = DrawNode::create();
 	arrowNode->setContentSize(playerSpriteSize);
 	arrowNode->setAnchorPoint(Vec2(0.5, 0.5));
-
+	
 	sprite->addChild(arrowNode, 2);
 
 	updateArrow();

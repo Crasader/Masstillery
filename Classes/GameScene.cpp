@@ -5,12 +5,6 @@
 
 USING_NS_CC;
 
-Scene* GameScene::createScene() {
-	auto scene = GameScene::create();
-	scene->getPhysicsWorld()->setGravity(Vec2(0, -500));
-	return scene;
-}
-
 void GameScene::setup() {
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
@@ -20,7 +14,7 @@ void GameScene::setup() {
 	this->schedule(schedule_selector(GameScene::count), 1.0);
 
 	player = PlayerEntity();
-	player.init("entities/Mass.png");
+	player.init("Mass");
 
 	this->addChild(labelTimeInfo);
 	this->addChild(player.sprite);
@@ -159,6 +153,8 @@ bool GameScene::onContactBegin(cocos2d::PhysicsContact& contact) {
 }
 
 void GameScene::checkFinish() {
+	if (!isGameRunning) return;
+
 	if (timer <= 0) endGame(false);
 
 	if (allDestroyed()) endGame(true);

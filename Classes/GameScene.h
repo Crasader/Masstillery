@@ -8,8 +8,6 @@
 class GameScene : public cocos2d::Scene
 {
 public:
-	static cocos2d::Scene* createScene();
-
 	virtual void setup();
 
 	virtual bool init();
