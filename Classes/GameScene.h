@@ -8,13 +8,18 @@
 class GameScene : public cocos2d::Scene
 {
 public:
-	static cocos2d::Scene* createScene(int time, std::string skyTex, std::string terrainTex, bool tiled);
+	static cocos2d::Scene* createScene();
 
-	virtual void setup(int time, std::string skyTex, std::string terrainTex, bool tiled);
+	virtual void setup();
 
 	virtual bool init();
 
-	CREATE_FUNC(GameScene);
+protected:
+	int timer = 0;
+
+	PlayerEntity player;
+
+	cocos2d::Sprite* background;
 
 private:
 	void count(float);
@@ -26,22 +31,16 @@ private:
 	bool onContactBegin(cocos2d::PhysicsContact& contact);
 	void onTouchHandle(cocos2d::Touch* touch, bool started);
 
+	virtual void handleContact(cocos2d::PhysicsContact& contact) {};
+	virtual bool allDestroyed() { return false; };
+
 	void checkFinish();
 	void endGame(bool victory);
 
 	cocos2d::RepeatForever* moveLeft;
 	cocos2d::RepeatForever* moveRight;
 
-	int timer = 0;
-
-	PlayerEntity player;
-	BarrierEntity festzelt;
-	BarrierEntity polizist;
-	BarrierEntity moench;
-	
 	cocos2d::Label* labelTimeInfo;
-
-	cocos2d::Sprite* background;
 };
 
 #endif // __GAME_SCENE_H__
