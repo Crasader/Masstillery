@@ -24,6 +24,9 @@
 
 #include "StartScene.h"
 #include "GameScene.h"
+#include "Level1.h"
+#include "Level2.h"
+#include "Level3.h"
 #include "SimpleAudioEngine.h"
 
 USING_NS_CC;
@@ -109,16 +112,13 @@ bool StartScene::init() {
 void StartScene::menuStartCallback(cocos2d::Ref * pSender, int level) {
 	switch (level) {
 	case 1:
-		Director::getInstance()->replaceScene(
-			GameScene::createScene(10, "background/sky.png", "background/background1.png", true));
+		Director::getInstance()->replaceScene(Level1::createScene());
 		break;
 	case 2:
-		Director::getInstance()->replaceScene(
-			GameScene::createScene(100, "background/sky2.png", "background/background3.png", true));
+		Director::getInstance()->replaceScene(Level2::createScene());
 		break;
 	case 3:
-		Director::getInstance()->replaceScene(
-			GameScene::createScene(100, "background/sky4.png", "background/background6.png", false));
+		Director::getInstance()->replaceScene(Level3::createScene());
 		break;
 	}
 	
