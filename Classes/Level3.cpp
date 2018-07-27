@@ -1,4 +1,4 @@
-#include "Level3.h"
+#include "Levels.h"
 #include "StartScene.h"
 #include "PhysicsCategories.h"
 
@@ -27,8 +27,6 @@ void Level3::setup() {
 	params.wrapT = GL_REPEAT;
 
 	Sprite *background = Sprite::create(LEVEL3_SKY_TEX);
-	if (LEVEL3_TILED)
-		background->getTexture()->setTexParameters(params);
 	background->setTextureRect(cocos2d::Rect(0, 0, visibleSize.width, visibleSize.height));
 
 	background->setPosition(Vec2::ZERO);
@@ -36,19 +34,14 @@ void Level3::setup() {
 
 	this->timer = LEVEL3_TIME;
 
-	festzelt = BarrierEntity();
-	festzelt.init("Festzelt");
-
-	polizist = BarrierEntity();
-	polizist.init("Polizist");
-
-	moench = BarrierEntity();
-	moench.init("Moench");
+	enemies.push_back(BarrierEntity("Festzelt"));
+	enemies.push_back(BarrierEntity("Polizist"));
+	enemies.push_back(BarrierEntity("Moench"));
 
 	// set terrain surface key-points
-	Vec2 vector[] = {
-	{ 0 , visibleSize.height / 5 },
-	{ (visibleSize.width / 100) * 12, visibleSize.height / 3 },
+	std::vector<Vec2> keypoints{
+	{ visibleSize.width / 100 * 0 , visibleSize.height / 10 },
+	{ visibleSize.width / 100 * 10 , visibleSize.height / 10 },
 	{ (visibleSize.width / 100) * 16, visibleSize.height / 4 },
 	{ (visibleSize.width / 100) * 23, visibleSize.height / 9 },
 	{ (visibleSize.width / 100) * 43, visibleSize.height / 3 },
@@ -60,14 +53,13 @@ void Level3::setup() {
 	{ visibleSize.width, visibleSize.height / 13 },
 	};
 
-#define KEY_POINTS 11
 #define SEGMENTS 10
 	std::vector<Vec2> v{};
 
 	// calculate surface points
-	for (int i = 0; i < KEY_POINTS - 1; i++) {
-		auto p0 = vector[i];
-		auto p1 = vector[i + 1];
+	for (int i = 0; i < keypoints.size() - 1; i++) {
+		auto p0 = keypoints[i];
+		auto p1 = keypoints[i + 1];
 
 		int hSegments = floorf((p1.x - p0.x) / SEGMENTS);
 		float dx = (p1.x - p0.x) / hSegments;
@@ -133,30 +125,14 @@ void Level3::setup() {
 	
 	GameScene::setup();
 
-	this->addChild(festzelt.sprite);
-	this->addChild(polizist.sprite);
-	this->addChild(moench.sprite);
+	for (const auto& e : enemies) {
+		this->addChild(e.sprite);
+	}
 
 	// For debugging
 	//this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
-	player.moveToX(300);
-	festzelt.moveToX(1300);
-	polizist.moveToX(500);
-	moench.moveToX(800);
-}
-
-void Level3::handleContact(cocos2d::PhysicsContact& contact) {
-	festzelt.handleContact(contact);
-	polizist.handleContact(contact);
-	moench.handleContact(contact);
-}
-
-bool Level3::allDestroyed() {
-	bool allDestroyed = true;
-
-	allDestroyed &= festzelt.isDestroyed();
-	allDestroyed &= polizist.isDestroyed();
-	allDestroyed &= moench.isDestroyed();
-
-	return allDestroyed;
+	player.moveToX(visibleSize.width / 30);
+	enemies[0].moveToX(1300);
+	enemies[1].moveToX(500);
+	enemies[2].moveToX(800);
 }

@@ -24,9 +24,7 @@
 
 #include "StartScene.h"
 #include "GameScene.h"
-#include "Level1.h"
-#include "Level2.h"
-#include "Level3.h"
+#include "Levels.h"
 #include "SimpleAudioEngine.h"
 
 USING_NS_CC;
@@ -64,6 +62,10 @@ bool StartScene::init() {
 		CC_CALLBACK_1(StartScene::menuStartCallback, this, 3));
 	if (startLevel3Item == nullptr) problemLoading("'fonts/Marker Felt.ttf'");
 
+	auto startRandomLevelItem = MenuItemLabel::create(Label::createWithTTF("Start Random Level", "fonts/Marker Felt.ttf", 64),
+		CC_CALLBACK_1(StartScene::menuStartCallback, this, 4));
+	if (startRandomLevelItem == nullptr) problemLoading("'fonts/Marker Felt.ttf'");
+
 	// Close Item (item 4)
 	auto closeItem = MenuItemImage::create("CloseNormal.png", "CloseSelected.png",
 		CC_CALLBACK_1(StartScene::menuCloseCallback, this));
@@ -76,7 +78,7 @@ bool StartScene::init() {
 
 
 	// create menu, it's an autorelease object
-	auto menu = Menu::create(startLevel1Item, startLevel2Item, startLevel3Item, closeItem, NULL);
+	auto menu = Menu::create(startLevel1Item, startLevel2Item, startLevel3Item, startRandomLevelItem, closeItem, NULL);
 	menu->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
 	menu->alignItemsVertically();
 	this->addChild(menu, 2);
@@ -119,6 +121,9 @@ void StartScene::menuStartCallback(cocos2d::Ref * pSender, int level) {
 		break;
 	case 3:
 		Director::getInstance()->replaceScene(Level3::createScene());
+		break;
+	case 4:
+		Director::getInstance()->replaceScene(LevelRandom::createScene());
 		break;
 	}
 	

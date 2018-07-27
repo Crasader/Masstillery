@@ -151,11 +151,23 @@ bool GameScene::onContactBegin(cocos2d::PhysicsContact& contact) {
 	if (nodeA->getTag() == SHOT_TAG) nodeA->removeFromParentAndCleanup(true);
 	if (nodeB->getTag() == SHOT_TAG) nodeB->removeFromParentAndCleanup(true);
 
-	handleContact(contact);
+	for (auto& e : enemies) {
+		e.handleContact(contact);
+	}
 
 	checkFinish();
 
 	return true;
+}
+
+bool GameScene::allDestroyed() {
+	bool allDestroyed = true;
+
+	for (const auto& e : enemies) {
+		allDestroyed &= e.isDestroyed();
+	}
+
+	return allDestroyed;
 }
 
 void GameScene::checkFinish() {

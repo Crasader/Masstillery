@@ -11,13 +11,11 @@
 class BarrierEntity : public Entity
 {
 public:
-	bool init(const std::string& filename) {
-		if (!Entity::init(filename)) return false;
+	BarrierEntity(const std::string& filename) {
+		if (!Entity::init(filename)) return;
 
 		sprite->getPhysicsBody()->setContactTestBitmask(SHOT_TAG);
 		sprite->getPhysicsBody()->setTag(BARRIER_TAG);
-
-		return true;
 	}
 };
 
