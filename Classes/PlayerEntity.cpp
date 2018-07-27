@@ -104,7 +104,7 @@ void PlayerEntity::shoot() {
 	auto shot = DrawNode::create();
 	shot->drawSolidCircle(Vec2::ZERO, 10, 0, 20, Color4F::YELLOW);
 	shot->setPhysicsBody(shotPb);
-	//shot->setAnchorPoint(Vec2(0.5, 0.5));
+
 	shot->setPosition(sprite->getPosition() + Vec2(0, ENTITY_HEIGHT / 2));
 	shot->setTag(SHOT_TAG);
 

@@ -17,6 +17,8 @@ protected:
 
 	PlayerEntity player;
 
+	std::vector<BarrierEntity> enemies;
+
 	cocos2d::Sprite* background;
 
 private:
@@ -29,8 +31,7 @@ private:
 	bool onContactBegin(cocos2d::PhysicsContact& contact);
 	void onTouchHandle(cocos2d::Touch* touch, bool started);
 
-	virtual void handleContact(cocos2d::PhysicsContact& contact) {};
-	virtual bool allDestroyed() { return false; };
+	bool allDestroyed();
 
 	void checkFinish();
 	void endGame(bool victory);
