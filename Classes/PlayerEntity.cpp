@@ -7,7 +7,8 @@ bool PlayerEntity::init(const std::string& name) {
 
 	if (!Entity::init(name)) return false;
 
-	sprite->setAnchorPoint(Vec2(0.5, 0));
+	sprite->getPhysicsBody()->setDynamic(true);
+	sprite->getPhysicsBody()->setRotationEnable(false);
 
 	auto playerSpriteSize = sprite->getContentSize();
 
@@ -99,6 +100,7 @@ void PlayerEntity::shoot() {
 	shotPb->setVelocity(angle*shootAcceleration);
 	shotPb->setDynamic(true);
 	shotPb->setCategoryBitmask(SHOT_TAG);
+	shotPb->setCollisionBitmask(0x0);
 	shotPb->setContactTestBitmask(TERRAIN_TAG | BARRIER_TAG);
 
 	auto shot = DrawNode::create();

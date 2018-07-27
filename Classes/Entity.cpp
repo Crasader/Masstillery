@@ -85,16 +85,6 @@ void Entity::handleMove() {
 
 	sprite->getScene()->getPhysicsWorld()->rayCast(func, start, end, nullptr);
 
-	auto offsetLeft = playerSize.width * sprite->getAnchorPoint().x;
-	auto offsetRight = playerSize.width * (1 - sprite->getAnchorPoint().x);
-
-	if (point.x < offsetLeft) {
-		point.x = offsetLeft;
-	}
-	else if (point.x > visibleSize.width - offsetRight) {
-		point.x = visibleSize.width - offsetRight;
-	}
-
 	sprite->setPosition(point);
 }
 

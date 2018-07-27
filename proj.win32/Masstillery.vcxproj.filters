@@ -80,6 +80,9 @@
     <ClInclude Include="..\Classes\Levels.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\PhysicsShapeCache.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc">
