@@ -1,24 +1,29 @@
 #include "Levels.h"
 #include "StartScene.h"
 #include "PhysicsCategories.h"
+#include <iostream>
 
 
 USING_NS_CC;
 
-cocos2d::Scene * Level2::createScene() {
-	auto scene = Level2::create();
+cocos2d::Scene * LevelRandom::createScene() {
+	auto scene = LevelRandom::create();
 	scene->getPhysicsWorld()->setGravity(Vec2(0, -500));
 	scene->setup();
 	return scene;
 }
 
-bool Level2::init() {
+bool LevelRandom::init() {
 	return GameScene::init();
 }
 
-void Level2::setup() {
+void LevelRandom::setup() {
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
+
+	std::string entities[4] = { "Festzelt","Polizist","Moench", "Breze" };
+	std::string skies[3] = { LEVEL1_SKY_TEX, LEVEL2_SKY_TEX, LEVEL3_SKY_TEX };
+	std::string terrains[3] = { LEVEL1_TERRAIN_TEX, LEVEL2_TERRAIN_TEX, LEVEL3_TERRAIN_TEX };
 
 	Texture2D::TexParams params;
 	params.minFilter = GL_NEAREST;
@@ -26,33 +31,33 @@ void Level2::setup() {
 	params.wrapS = GL_REPEAT;
 	params.wrapT = GL_REPEAT;
 
-	Sprite *background = Sprite::create(LEVEL2_SKY_TEX);
-	background->getTexture()->setTexParameters(params);
+	int random = CCRANDOM_0_1() * 3;
+
+	std::string sky = skies[random];
+	Sprite *background = Sprite::create(sky);
+	if (sky != LEVEL3_SKY_TEX)
+		background->getTexture()->setTexParameters(params);
 	background->setTextureRect(cocos2d::Rect(0, 0, visibleSize.width, visibleSize.height));
 
 	background->setPosition(Vec2::ZERO);
 	background->setAnchorPoint(Vec2::ZERO);
 
-	this->timer = LEVEL2_TIME;
+	this->timer = CCRANDOM_0_1() * 20 + 40;
 
-	enemies.push_back(BarrierEntity("Festzelt"));
-	enemies.push_back(BarrierEntity("Polizist"));
-	enemies.push_back(BarrierEntity("Moench"));
+	for (int i = 0; i < 5; i++) {
+		random = CCRANDOM_0_1() * 4;
+		enemies.push_back(BarrierEntity(entities[random]));
+	}
 
 	// set terrain surface key-points
-	std::vector<Vec2> keypoints{
-	{ visibleSize.width / 100 * 0 , visibleSize.height / 10 },
-	{ visibleSize.width / 100 * 10 , visibleSize.height / 10 },
-	{ (visibleSize.width / 100) * 16, visibleSize.height / 4 },
-	{ (visibleSize.width / 100) * 23, visibleSize.height / 9 },
-	{ (visibleSize.width / 100) * 43, visibleSize.height / 3 },
-	{ (visibleSize.width / 100) * 52, visibleSize.height / 4 },
-	{ (visibleSize.width / 100) * 65, visibleSize.height / 6 },
-	{ (visibleSize.width / 100) * 72, visibleSize.height / 8 },
-	{ (visibleSize.width / 100) * 85, visibleSize.height / 12 },
-	{ (visibleSize.width / 100) * 91, visibleSize.height / 7 },
-	{ visibleSize.width, visibleSize.height / 13 },
+	std::vector<Vec2> keypoints {
+		{visibleSize.width / 100 * 0 , visibleSize.height / 10},
+		{visibleSize.width / 100 * 10 , visibleSize.height / 10}
 	};
+
+	for (int i = 20; i <= 100; i += 5) {
+		keypoints.push_back(Vec2(visibleSize.width / 100 * i, visibleSize.height / (CCRANDOM_0_1() * 10 + 2)));
+	}
 
 #define SEGMENTS 10
 	std::vector<Vec2> v{};
@@ -106,7 +111,7 @@ void Level2::setup() {
 	terrain->setPhysicsBody(terrainPb);
 	terrain->setTag(TERRAIN_TAG);
 
-	auto sprite = Sprite::create(LEVEL2_TERRAIN_TEX);
+	auto sprite = Sprite::create(LEVEL3_TERRAIN_TEX);
 	sprite->getTexture()->setTexParameters(params);
 	sprite->setTextureRect(cocos2d::Rect(0, 0, visibleSize.width, visibleSize.height));
 	sprite->setPosition(Vec2::ZERO);
@@ -123,7 +128,7 @@ void Level2::setup() {
 	this->addChild(terrain);
 	this->addChild(clipper);
 	this->addChild(surface);
-	
+
 	GameScene::setup();
 
 	for (const auto& e : enemies) {
@@ -133,7 +138,9 @@ void Level2::setup() {
 	// For debugging
 	//this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 	player.moveToX(visibleSize.width / 30);
-	enemies[0].moveToX(1300);
-	enemies[1].moveToX(500);
-	enemies[2].moveToX(800);
+	for (int i = 0; i < enemies.size(); i++) {
+		int area = (visibleSize.width - 300) / enemies.size() - 20;
+		int posX = CCRANDOM_0_1() * area + area * (i + 1);
+		enemies[i].moveToX(posX);
+	}
 }
