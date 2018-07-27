@@ -16,6 +16,12 @@ void GameScene::setup() {
 	player = PlayerEntity();
 	player.init("Mass");
 
+	auto body = PhysicsBody::createEdgeBox(visibleSize, PHYSICSBODY_MATERIAL_DEFAULT, 3);
+	auto edgeNode = Node::create();
+	edgeNode->setPosition(Point(visibleSize.width / 2, visibleSize.height / 2));
+	edgeNode->setPhysicsBody(body);
+
+	this->addChild(edgeNode);
 	this->addChild(labelTimeInfo);
 	this->addChild(player.sprite);
 	isGameRunning = true;

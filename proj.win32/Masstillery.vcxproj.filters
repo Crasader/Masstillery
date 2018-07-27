@@ -81,7 +81,7 @@
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\PhysicsShapeCache.h">
-      <Filter>src</Filter>
+      <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
