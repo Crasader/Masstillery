@@ -17,9 +17,6 @@ bool Level1::init() {
 }
 
 void Level1::setup() {
-	auto visibleSize = Director::getInstance()->getVisibleSize();
-	Vec2 origin = Director::getInstance()->getVisibleOrigin();
-
 	Texture2D::TexParams params;
 	params.minFilter = GL_NEAREST;
 	params.magFilter = GL_NEAREST;
@@ -28,7 +25,7 @@ void Level1::setup() {
 
 	Sprite *background = Sprite::create(LEVEL1_SKY_TEX);
 	background->getTexture()->setTexParameters(params);
-	background->setTextureRect(cocos2d::Rect(0, 0, visibleSize.width, visibleSize.height));
+	background->setTextureRect(cocos2d::Rect(0, 0, totalSize.width, totalSize.height));
 
 	background->setPosition(Vec2::ZERO);
 	background->setAnchorPoint(Vec2::ZERO);
@@ -41,17 +38,17 @@ void Level1::setup() {
 
 	// set terrain surface key-points
 	std::vector<Vec2> keypoints{
-	{ visibleSize.width / 100 * 0 , visibleSize.height / 10 },
-	{ visibleSize.width / 100 * 10 , visibleSize.height / 10 },
-	{ (visibleSize.width / 100) * 16, visibleSize.height / 4 },
-	{ (visibleSize.width / 100) * 23, visibleSize.height / 9 },
-	{ (visibleSize.width / 100) * 43, visibleSize.height / 3 },
-	{ (visibleSize.width / 100) * 52, visibleSize.height / 4 },
-	{ (visibleSize.width / 100) * 65, visibleSize.height / 6 },
-	{ (visibleSize.width / 100) * 72, visibleSize.height / 8 },
-	{ (visibleSize.width / 100) * 85, visibleSize.height / 12 },
-	{ (visibleSize.width / 100) * 91, visibleSize.height / 7 },
-	{ visibleSize.width, visibleSize.height / 13 },
+	{ totalSize.width / 100 * 0 , totalSize.height / 10 },
+	{ totalSize.width / 100 * 10 , totalSize.height / 10 },
+	{ (totalSize.width / 100) * 16, totalSize.height / 4 },
+	{ (totalSize.width / 100) * 23, totalSize.height / 9 },
+	{ (totalSize.width / 100) * 43, totalSize.height / 3 },
+	{ (totalSize.width / 100) * 52, totalSize.height / 4 },
+	{ (totalSize.width / 100) * 65, totalSize.height / 6 },
+	{ (totalSize.width / 100) * 72, totalSize.height / 8 },
+	{ (totalSize.width / 100) * 85, totalSize.height / 12 },
+	{ (totalSize.width / 100) * 91, totalSize.height / 7 },
+	{ totalSize.width, totalSize.height / 13 },
 	};
 
 #define SEGMENTS 10
@@ -108,7 +105,7 @@ void Level1::setup() {
 
 	auto sprite = Sprite::create(LEVEL1_TERRAIN_TEX);
 	sprite->getTexture()->setTexParameters(params);
-	sprite->setTextureRect(cocos2d::Rect(0, 0, visibleSize.width, visibleSize.height));
+	sprite->setTextureRect(cocos2d::Rect(0, 0, totalSize.width, totalSize.height));
 	sprite->setPosition(Vec2::ZERO);
 	sprite->setAnchorPoint(Vec2::ZERO);
 
@@ -118,22 +115,27 @@ void Level1::setup() {
 	clipper->setInverted(false);
 	clipper->addChild(sprite);
 
-	// add nodes
-	this->addChild(background);
-	this->addChild(terrain);
-	this->addChild(clipper);
-	this->addChild(surface);
+	foreground = Node::create();
+	foreground->addChild(terrain);
+	foreground->addChild(clipper);
+	foreground->addChild(surface);
+
+	paraNode = ParallaxNode::create();
+	paraNode->addChild(background, 1, Vec2(0.5f, 0.5f), Vec2::ZERO);
+	paraNode->addChild(foreground, 2, Vec2(1.0f, 1.0f), Vec2::ZERO);
+
+	this->addChild(paraNode);
 
 	GameScene::setup();
 
 	for (const auto& e : enemies) {
-		this->addChild(e.sprite);
+		foreground->addChild(e.sprite);
 	}
 
-	// For debugging
-	//this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
-	player.moveToX(visibleSize.width / 30);
+	player.moveToX(200);
 	enemies[0].moveToX(1300);
 	enemies[1].moveToX(500);
 	enemies[2].moveToX(800);
+
+	startGame();
 }

@@ -18,9 +18,6 @@ bool LevelRandom::init() {
 }
 
 void LevelRandom::setup() {
-	auto visibleSize = Director::getInstance()->getVisibleSize();
-	Vec2 origin = Director::getInstance()->getVisibleOrigin();
-
 	std::string entities[4] = { "Festzelt","Polizist","Moench", "Breze" };
 	std::string skies[3] = { LEVEL1_SKY_TEX, LEVEL2_SKY_TEX, LEVEL3_SKY_TEX };
 	std::string terrains[3] = { LEVEL1_TERRAIN_TEX, LEVEL2_TERRAIN_TEX, LEVEL3_TERRAIN_TEX };
@@ -37,7 +34,7 @@ void LevelRandom::setup() {
 	Sprite *background = Sprite::create(sky);
 	if (sky != LEVEL3_SKY_TEX)
 		background->getTexture()->setTexParameters(params);
-	background->setTextureRect(cocos2d::Rect(0, 0, visibleSize.width, visibleSize.height));
+	background->setTextureRect(cocos2d::Rect(0, 0, totalSize.width, totalSize.height));
 
 	background->setPosition(Vec2::ZERO);
 	background->setAnchorPoint(Vec2::ZERO);
@@ -51,12 +48,12 @@ void LevelRandom::setup() {
 
 	// set terrain surface key-points
 	std::vector<Vec2> keypoints {
-		{visibleSize.width / 100 * 0 , visibleSize.height / 10},
-		{visibleSize.width / 100 * 10 , visibleSize.height / 10}
+		{ totalSize.width / 100 * 0 , totalSize.height / 10},
+		{ totalSize.width / 100 * 10 , totalSize.height / 10}
 	};
 
 	for (int i = 20; i <= 100; i += 5) {
-		keypoints.push_back(Vec2(visibleSize.width / 100 * i, visibleSize.height / (CCRANDOM_0_1() * 10 + 2)));
+		keypoints.push_back(Vec2(totalSize.width / 100 * i, totalSize.height / (CCRANDOM_0_1() * 10 + 2)));
 	}
 
 #define SEGMENTS 10
@@ -111,9 +108,10 @@ void LevelRandom::setup() {
 	terrain->setPhysicsBody(terrainPb);
 	terrain->setTag(TERRAIN_TAG);
 
-	auto sprite = Sprite::create(LEVEL3_TERRAIN_TEX);
+	random = CCRANDOM_0_1() * 3;
+	auto sprite = Sprite::create(terrains[random]);
 	sprite->getTexture()->setTexParameters(params);
-	sprite->setTextureRect(cocos2d::Rect(0, 0, visibleSize.width, visibleSize.height));
+	sprite->setTextureRect(cocos2d::Rect(0, 0, totalSize.width, totalSize.height));
 	sprite->setPosition(Vec2::ZERO);
 	sprite->setAnchorPoint(Vec2::ZERO);
 
@@ -123,24 +121,29 @@ void LevelRandom::setup() {
 	clipper->setInverted(false);
 	clipper->addChild(sprite);
 
-	// add nodes
-	this->addChild(background);
-	this->addChild(terrain);
-	this->addChild(clipper);
-	this->addChild(surface);
+	foreground = Node::create();
+	foreground->addChild(terrain);
+	foreground->addChild(clipper);
+	foreground->addChild(surface);
+
+	paraNode = ParallaxNode::create();
+	paraNode->addChild(background, 1, Vec2(0.5f, 0.5f), Vec2::ZERO);
+	paraNode->addChild(foreground, 2, Vec2(1.0f, 1.0f), Vec2::ZERO);
+
+	this->addChild(paraNode);
 
 	GameScene::setup();
 
 	for (const auto& e : enemies) {
-		this->addChild(e.sprite);
+		foreground->addChild(e.sprite);
 	}
 
-	// For debugging
-	//this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
-	player.moveToX(visibleSize.width / 30);
+	player.moveToX(200);
 	for (int i = 0; i < enemies.size(); i++) {
-		int area = (visibleSize.width - 300) / enemies.size() - 20;
+		int area = (totalSize.width - 300) / enemies.size() - 20;
 		int posX = CCRANDOM_0_1() * area + area * (i + 1);
 		enemies[i].moveToX(posX);
 	}
+
+	startGame();
 }

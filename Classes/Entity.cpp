@@ -68,10 +68,15 @@ void Entity::handleContact(cocos2d::PhysicsContact & contact) {
 	if (hitpoints <= 0) explode();
 }
 
+Vec2 Entity::getRealPosition() {
+	auto posSprite = sprite->getPosition();
+	return sprite->getParent()->getParent()->convertToWorldSpace(posSprite);
+}
+
 void Entity::handleMove() {
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	auto playerSize = sprite->getContentSize() * sprite->getScale();
-	auto playerX = sprite->getPosition().x;
+	auto playerX = getRealPosition().x;
 	Vec2 end(playerX, visibleSize.height);
 	Vec2 start(playerX, 0);
 
@@ -85,14 +90,14 @@ void Entity::handleMove() {
 
 	sprite->getScene()->getPhysicsWorld()->rayCast(func, start, end, nullptr);
 
-	sprite->setPosition(point);
+	sprite->setPositionY(point.y);
 }
 
 void Entity::explode() {
 	hitpointLabel->removeFromParentAndCleanup(true);
 
 	auto emitter = ParticleExplosion::create();
-	emitter->setPosition(sprite->getPosition() + Vec2(0, ENTITY_HEIGHT / 2));
+	emitter->setPosition(getRealPosition() + Vec2(0, ENTITY_HEIGHT / 2));
 
 	sprite->getScene()->addChild(emitter, 0);
 
