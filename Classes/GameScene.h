@@ -15,11 +15,17 @@ public:
 protected:
 	int timer = 0;
 
+	void startGame();
+
+	cocos2d::Size totalSize;
+
 	PlayerEntity player;
 
 	std::vector<BarrierEntity> enemies;
 
+	cocos2d::Node* foreground;
 	cocos2d::Sprite* background;
+	cocos2d::ParallaxNode* paraNode;
 
 private:
 	void count(float);
@@ -31,6 +37,8 @@ private:
 	bool onContactBegin(cocos2d::PhysicsContact& contact);
 	void onTouchHandle(cocos2d::Touch* touch, bool started);
 
+	void handleMove();
+
 	bool allDestroyed();
 
 	void checkFinish();
@@ -41,6 +49,7 @@ private:
 
 	bool isGameRunning = false;
 	cocos2d::Label* labelTimeInfo;
+	cocos2d::Label* labelGo;
 };
 
 #endif // __GAME_SCENE_H__

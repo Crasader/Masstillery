@@ -27,7 +27,7 @@ void PlayerEntity::moveShootLeft(bool state) {
 	arrowNode->stopAllActions();
 
 	if (state) {
-		auto moveShootRightAction = RepeatForever::create(RotateBy::create(1, -20.0f));
+		auto moveShootRightAction = RepeatForever::create(RotateBy::create(1, -30.0f));
 		arrowNode->runAction(moveShootRightAction);
 	}
 }
@@ -36,7 +36,7 @@ void PlayerEntity::moveShootRight(bool state) {
 	arrowNode->stopAllActions();
 
 	if (state) {
-		auto moveShootRightAction = RepeatForever::create(RotateBy::create(1, 20.0f));
+		auto moveShootRightAction = RepeatForever::create(RotateBy::create(1, 30.0f));
 		arrowNode->runAction(moveShootRightAction);
 	}
 }
@@ -107,7 +107,7 @@ void PlayerEntity::shoot() {
 	shot->drawSolidCircle(Vec2::ZERO, 10, 0, 20, Color4F::YELLOW);
 	shot->setPhysicsBody(shotPb);
 
-	shot->setPosition(sprite->getPosition() + Vec2(0, ENTITY_HEIGHT / 2));
+	shot->setPosition(getRealPosition() + Vec2(0, ENTITY_HEIGHT / 2));
 	shot->setTag(SHOT_TAG);
 
 	sprite->getScene()->addChild(shot);
