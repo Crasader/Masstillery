@@ -73,7 +73,9 @@ void Entity::handleContact(cocos2d::PhysicsContact & contact) {
 
 Vec2 Entity::getRealPosition() {
 	auto posSprite = sprite->getPosition();
-	return sprite->getParent()->getParent()->convertToWorldSpace(posSprite);
+	if (sprite->getParent()->getParent() != nullptr)
+		return sprite->getParent()->getParent()->convertToWorldSpace(posSprite);
+	else return posSprite;
 }
 
 void Entity::handleMove() {

@@ -12,6 +12,8 @@ public:
 
 	virtual bool init();
 
+	static std::vector<cocos2d::Vec2> calculateSurface(std::vector<cocos2d::Vec2>& keypoints);
+
 protected:
 	int timer = 0;
 
@@ -49,7 +51,6 @@ private:
 
 	bool isGameRunning = false;
 	cocos2d::Label* labelTimeInfo;
-	cocos2d::Label* labelGo;
 };
 
 #endif // __GAME_SCENE_H__

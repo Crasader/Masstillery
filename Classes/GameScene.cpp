@@ -61,6 +61,36 @@ bool GameScene::init() {
 	return true;
 }
 
+std::vector<Vec2> GameScene::calculateSurface(std::vector<Vec2>& keypoints) {
+#define SEGMENTS 10
+	std::vector<Vec2> v{};
+
+	// calculate surface points
+	for (int i = 0; i < keypoints.size() - 1; i++) {
+		auto p0 = keypoints[i];
+		auto p1 = keypoints[i + 1];
+
+		int hSegments = floorf((p1.x - p0.x) / SEGMENTS);
+		float dx = (p1.x - p0.x) / hSegments;
+		float da = M_PI / hSegments;
+		float ymid = (p0.y + p1.y) / 2;
+		float ampl = (p0.y - p1.y) / 2;
+
+		Vec2 pt0, pt1;
+		pt0 = p0;
+		for (int j = 0; j < hSegments + 2; ++j) {
+
+			pt1.x = p0.x + j * dx;
+			pt1.y = ymid + ampl * cosf(da*j);
+
+			v.push_back(pt0);
+
+			pt0 = pt1;
+		}
+	}
+	return v;
+}
+
 void GameScene::startGame() {
 	auto moveBy = totalSize.width - Director::getInstance()->getVisibleSize().width;
 	
@@ -145,25 +175,35 @@ void GameScene::onKeyPressed(const EventKeyboard::KeyCode keyCode, Event* event)
 
 	switch (keyCode) {
 	case EventKeyboard::KeyCode::KEY_ENTER:
-		player.shoot();	break;
+		player.shoot(); break;
+	case EventKeyboard::KeyCode::KEY_SPACE:
+		player.shoot(); break;
+
 	case EventKeyboard::KeyCode::KEY_UP_ARROW:
-		player.moveShootLeft(true); break;
-	case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
-		player.moveShootRight(true); break;
-	case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
-	case EventKeyboard::KeyCode::KEY_A:
-		player.moveLeft(true);
-		paraNode->runAction(RepeatForever::create(Spawn::create(CallFunc::create(CC_CALLBACK_0(GameScene::handleMove, this)), nullptr))); break;
-	case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
-	case EventKeyboard::KeyCode::KEY_D:
-		player.moveRight(true);
-		paraNode->runAction(RepeatForever::create(Spawn::create(CallFunc::create(CC_CALLBACK_0(GameScene::handleMove, this)), nullptr))); break;
-	case EventKeyboard::KeyCode(121): // Ger KB: plus
-	case EventKeyboard::KeyCode::KEY_KP_PLUS:
 		player.increaseAccel(true); break;
-	case EventKeyboard::KeyCode(75): // Ger KB: minus
-	case EventKeyboard::KeyCode::KEY_KP_MINUS:
+	case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
 		player.decreaseAccel(true); break;
+	case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
+		player.moveLeft(true); break;
+	case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
+		player.moveRight(true); break;
+	case EventKeyboard::KeyCode::KEY_DELETE:
+		player.moveShootLeft(true); break;
+	case EventKeyboard::KeyCode::KEY_PG_DOWN:
+		player.moveShootRight(true); break;
+
+	case EventKeyboard::KeyCode::KEY_W:
+		player.increaseAccel(true); break;
+	case EventKeyboard::KeyCode::KEY_S:
+		player.decreaseAccel(true); break;
+	case EventKeyboard::KeyCode::KEY_A:
+		player.moveLeft(true); break;
+	case EventKeyboard::KeyCode::KEY_D:
+		player.moveRight(true); break;
+	case EventKeyboard::KeyCode::KEY_Q:
+		player.moveShootLeft(true); break;
+	case EventKeyboard::KeyCode::KEY_E:
+		player.moveShootRight(true); break;
 	}
 }
 
@@ -173,23 +213,30 @@ void GameScene::onKeyReleased(const EventKeyboard::KeyCode keyCode, Event* event
 
 	switch (keyCode) {
 	case EventKeyboard::KeyCode::KEY_UP_ARROW:
-		player.moveShootLeft(false); break;
-	case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
-		player.moveShootRight(false); break;
-	case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
-	case EventKeyboard::KeyCode::KEY_A:
-		player.moveLeft(false);
-		paraNode->stopAllActions(); break;
-	case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
-	case EventKeyboard::KeyCode::KEY_D:
-		player.moveRight(false);
-		paraNode->stopAllActions(); break;
-	case EventKeyboard::KeyCode(121): // Ger KB: plus
-	case EventKeyboard::KeyCode::KEY_KP_PLUS:
 		player.increaseAccel(false); break;
-	case EventKeyboard::KeyCode(75): // Ger KB: minus
-	case EventKeyboard::KeyCode::KEY_KP_MINUS:
+	case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
 		player.decreaseAccel(false); break;
+	case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
+		player.moveLeft(false); break;
+	case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
+		player.moveRight(false); break;
+	case EventKeyboard::KeyCode::KEY_DELETE:
+		player.increaseAccel(false); break;
+	case EventKeyboard::KeyCode::KEY_PG_DOWN:
+		player.decreaseAccel(false); break;
+
+	case EventKeyboard::KeyCode::KEY_W:
+		player.increaseAccel(false); break;
+	case EventKeyboard::KeyCode::KEY_S:
+		player.decreaseAccel(false); break;
+	case EventKeyboard::KeyCode::KEY_A:
+		player.moveLeft(false); break;
+	case EventKeyboard::KeyCode::KEY_D:
+		player.moveRight(false); break;
+	case EventKeyboard::KeyCode::KEY_Q:
+		player.moveShootLeft(false); break;
+	case EventKeyboard::KeyCode::KEY_E:
+		player.moveShootRight(false); break;
 	}
 }
 

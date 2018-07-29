@@ -23,7 +23,7 @@ public:
 	inline bool isDestroyed() const { return hitpoints <= 0; }
 
 protected:
-	cocos2d::Vec2 Entity::getRealPosition();
+	cocos2d::Vec2 getRealPosition();
 
 private:
 	void handleMove();

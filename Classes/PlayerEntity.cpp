@@ -93,23 +93,23 @@ void PlayerEntity::updateArrow() {
 	arrowNode->setPosition(playerSpriteSize * 0.5);
 }
 
-void PlayerEntity::shoot() {
+void PlayerEntity::shoot(Color3B color, int shotTag, int playerTag) {
 	auto shotPb = PhysicsBody::createCircle(10);
 	auto rot = MATH_DEG_TO_RAD(arrowNode->getRotation() + CCRANDOM_MINUS1_1());
 	auto angle = Vec2(sin(rot), cos(rot));
 	angle.normalize();
 	shotPb->setVelocity(angle*shootAcceleration);
 	shotPb->setDynamic(true);
-	shotPb->setCategoryBitmask(SHOT_TAG);
+	shotPb->setCategoryBitmask(shotTag);
 	shotPb->setCollisionBitmask(0x0);
-	shotPb->setContactTestBitmask(TERRAIN_TAG | BARRIER_TAG);
+	shotPb->setContactTestBitmask(TERRAIN_TAG | BARRIER_TAG | playerTag);
 
 	auto shot = DrawNode::create();
-	shot->drawSolidCircle(Vec2::ZERO, 10, 0, 20, Color4F::YELLOW);
+	shot->drawSolidCircle(Vec2::ZERO, 10, 0, 20, Color4F(color));
 	shot->setPhysicsBody(shotPb);
 
 	shot->setPosition(getRealPosition() + Vec2(0, ENTITY_HEIGHT / 2));
-	shot->setTag(SHOT_TAG);
+	shot->setTag(shotTag);
 
 	CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("audio/pew.mp3");
 

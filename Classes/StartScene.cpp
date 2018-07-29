@@ -66,6 +66,12 @@ bool StartScene::init() {
 		CC_CALLBACK_1(StartScene::menuStartCallback, this, 4));
 	if (startRandomLevelItem == nullptr) problemLoading("'fonts/Marker Felt.ttf'");
 
+#ifndef ANDROID
+	auto startMPLevelItem = MenuItemLabel::create(Label::createWithTTF("Start Multiplayer Level", "fonts/Marker Felt.ttf", 64),
+		CC_CALLBACK_1(StartScene::menuStartCallback, this, 5));
+	if (startMPLevelItem == nullptr) problemLoading("'fonts/Marker Felt.ttf'");
+#endif
+
 	// Close Item (item 4)
 	auto closeItem = MenuItemImage::create("CloseNormal.png", "CloseSelected.png",
 		CC_CALLBACK_1(StartScene::menuCloseCallback, this));
@@ -78,7 +84,11 @@ bool StartScene::init() {
 
 
 	// create menu, it's an autorelease object
+#ifdef ANDROID
 	auto menu = Menu::create(startLevel1Item, startLevel2Item, startLevel3Item, startRandomLevelItem, closeItem, NULL);
+#else
+	auto menu = Menu::create(startLevel1Item, startLevel2Item, startLevel3Item, startRandomLevelItem, startMPLevelItem, closeItem, NULL);
+#endif
 	menu->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
 	menu->alignItemsVertically();
 	this->addChild(menu, 2);
@@ -113,20 +123,13 @@ bool StartScene::init() {
 
 void StartScene::menuStartCallback(cocos2d::Ref * pSender, int level) {
 	switch (level) {
-	case 1:
-		Director::getInstance()->replaceScene(Level1::createScene());
-		break;
-	case 2:
-		Director::getInstance()->replaceScene(Level2::createScene());
-		break;
-	case 3:
-		Director::getInstance()->replaceScene(Level3::createScene());
-		break;
-	case 4:
-		Director::getInstance()->replaceScene(LevelRandom::createScene());
-		break;
+	case 1:	Director::getInstance()->replaceScene(Level1::createScene()); break;
+	case 2:	Director::getInstance()->replaceScene(Level2::createScene()); break;
+	case 3:	Director::getInstance()->replaceScene(Level3::createScene()); break;
+	case 4:	Director::getInstance()->replaceScene(LevelRandom::createScene()); break;
+	case 5:	Director::getInstance()->replaceScene(LevelMP::createScene()); break;
 	}
-	
+
 }
 
 void StartScene::menuCloseCallback(Ref* pSender) {
