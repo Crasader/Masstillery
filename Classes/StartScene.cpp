@@ -30,7 +30,8 @@
 
 
 USING_NS_CC;
-#define labelColor Color3B::RED
+
+#define COLOR_LABEL Color3B(255, 214, 49)
 
 Scene* StartScene::createScene(bool musicOn) {
 	auto scene = StartScene::create();
@@ -62,41 +63,65 @@ bool StartScene::init() {
 
 	this->addChild(background);
 
+	// Title
+	auto label = Label::createWithTTF("Sers Masstillery", "fonts/Marker Felt.ttf", 64);
+	label->setColor(COLOR_LABEL);
+	label->enableShadow(Color4B::BLACK, Size(2, -2), 1);
+	label->enableOutline(Color4B::WHITE, 2);
+	label->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height - label->getContentSize().height));
+	if (label == nullptr) problemLoading("'fonts/Marker Felt.ttf'");
+
 	// Start Level Items (item 1-3)
-	auto startLevel1Item = MenuItemLabel::create(Label::createWithTTF("Start Level 1", "fonts/Marker Felt.ttf", 64),
-		CC_CALLBACK_1(StartScene::menuStartCallback, this, index++));
-		startLevel1Item->setColor(labelColor);
+	auto startLevel1Label = Label::createWithTTF("Start Level 1", "fonts/Marker Felt.ttf", 64);
+	startLevel1Label->setColor(COLOR_LABEL);
+	startLevel1Label->enableShadow(Color4B::BLACK, Size(2, -2), 1);
+	startLevel1Label->enableOutline(Color4B::WHITE, 2);
+	auto startLevel1Item = MenuItemLabel::create(startLevel1Label, CC_CALLBACK_1(StartScene::menuStartCallback, this, index++));
 	if (startLevel1Item == nullptr) problemLoading("'fonts/Marker Felt.ttf'");
 
-	auto startLevel2Item = MenuItemLabel::create(Label::createWithTTF("Start Level 2", "fonts/Marker Felt.ttf", 64),
-		CC_CALLBACK_1(StartScene::menuStartCallback, this, index++));
-		startLevel2Item->setColor(labelColor);
+	auto startLevel2Label = Label::createWithTTF("Start Level 2", "fonts/Marker Felt.ttf", 64);
+	startLevel2Label->setColor(COLOR_LABEL);
+	startLevel2Label->enableShadow(Color4B::BLACK, Size(2, -2), 1);
+	startLevel2Label->enableOutline(Color4B::WHITE, 2);
+	auto startLevel2Item = MenuItemLabel::create(startLevel2Label, CC_CALLBACK_1(StartScene::menuStartCallback, this, index++));
 	if (startLevel2Item == nullptr) problemLoading("'fonts/Marker Felt.ttf'");
 
-	auto startLevel3Item = MenuItemLabel::create(Label::createWithTTF("Start Level 3", "fonts/Marker Felt.ttf", 64),
-		CC_CALLBACK_1(StartScene::menuStartCallback, this, index++));
-		startLevel3Item->setColor(labelColor);
+	auto startLevel3Label = Label::createWithTTF("Start Level 3", "fonts/Marker Felt.ttf", 64);
+	startLevel3Label->setColor(COLOR_LABEL);
+	startLevel3Label->enableShadow(Color4B::BLACK, Size(2, -2), 1);
+	startLevel3Label->enableOutline(Color4B::WHITE, 2);
+	auto startLevel3Item = MenuItemLabel::create(startLevel3Label, CC_CALLBACK_1(StartScene::menuStartCallback, this, index++));
 	if (startLevel3Item == nullptr) problemLoading("'fonts/Marker Felt.ttf'");
 
-	auto startRandomLevelItem = MenuItemLabel::create(Label::createWithTTF("Start Random Level", "fonts/Marker Felt.ttf", 64),
-		CC_CALLBACK_1(StartScene::menuStartCallback, this, index++));
-		startRandomLevelItem->setColor(labelColor);
+	auto startRandomLevelLabel = Label::createWithTTF("Start Random Level", "fonts/Marker Felt.ttf", 64);
+	startRandomLevelLabel->setColor(COLOR_LABEL);
+	startRandomLevelLabel->enableShadow(Color4B::BLACK, Size(2, -2), 1);
+	startRandomLevelLabel->enableOutline(Color4B::WHITE, 2);
+	auto startRandomLevelItem = MenuItemLabel::create(startRandomLevelLabel, CC_CALLBACK_1(StartScene::menuStartCallback, this, index++));
 	if (startRandomLevelItem == nullptr) problemLoading("'fonts/Marker Felt.ttf'");
 
 #ifndef ANDROID
-	auto startMPLevelItem = MenuItemLabel::create(Label::createWithTTF("Start Multiplayer Level", "fonts/Marker Felt.ttf", 64),
-		CC_CALLBACK_1(StartScene::menuStartCallback, this, index++));
-		startMPLevelItem->setColor(labelColor);
+	auto startMPLevelLabel = Label::createWithTTF("Start Multiplayer Level", "fonts/Marker Felt.ttf", 64);
+	startMPLevelLabel->setColor(COLOR_LABEL);
+	startMPLevelLabel->enableShadow(Color4B::BLACK, Size(2, -2), 1);
+	startMPLevelLabel->enableOutline(Color4B::WHITE, 2);
+	auto startMPLevelItem = MenuItemLabel::create(startMPLevelLabel, CC_CALLBACK_1(StartScene::menuStartCallback, this, index++));
 	if (startMPLevelItem == nullptr) problemLoading("'fonts/Marker Felt.ttf'");
 #endif
 
-	auto showHelpItem = MenuItemLabel::create(Label::createWithTTF("Show Controls", "fonts/Marker Felt.ttf", 64),
-		CC_CALLBACK_1(StartScene::menuStartCallback, this, index++));
-		showHelpItem->setColor(labelColor);
+	auto showHelpLabel = Label::createWithTTF("Show Controls", "fonts/Marker Felt.ttf", 64);
+	showHelpLabel->setColor(COLOR_LABEL);
+	showHelpLabel->enableShadow(Color4B::BLACK, Size(2, -2), 1);
+	showHelpLabel->enableOutline(Color4B::WHITE, 2);
+	auto showHelpItem = MenuItemLabel::create(showHelpLabel, CC_CALLBACK_1(StartScene::menuStartCallback, this, index++));
 	if (showHelpItem == nullptr) problemLoading("'fonts/Marker Felt.ttf'");
 
-	switchMusicItem = MenuItemLabel::create(Label::createWithTTF("Music: --", "fonts/Marker Felt.ttf", 64),
-		CC_CALLBACK_0(StartScene::switchMusic, this));
+	auto switchMusicLabel = Label::createWithTTF("Music: --", "fonts/Marker Felt.ttf", 64);
+	switchMusicLabel->setColor(COLOR_LABEL);
+	switchMusicLabel->enableShadow(Color4B::BLACK, Size(2, -2), 1);
+	switchMusicLabel->enableOutline(Color4B::WHITE, 2);
+	switchMusicItem = MenuItemLabel::create(switchMusicLabel, CC_CALLBACK_0(StartScene::switchMusic, this));
+		startMPLevelItem->setColor(COLOR_LABEL);
 	if (showHelpItem == nullptr) problemLoading("'fonts/Marker Felt.ttf'");
 
 	// Close Item (item 4)
@@ -118,21 +143,9 @@ bool StartScene::init() {
 
 	menu->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
 	menu->alignItemsVertically();
+
+	this->addChild(label, 1);
 	this->addChild(menu, 2);
-
-	// Title
-	auto label = Label::createWithTTF("Sers Masstillery", "fonts/Marker Felt.ttf", 64);
-		label ->setColor(labelColor);
-	if (label == nullptr) problemLoading("'fonts/Marker Felt.ttf'");
-	else {
-		// position the label on the center of the screen
-		label->setPosition(Vec2(origin.x + visibleSize.width / 2,
-			origin.y + visibleSize.height - label->getContentSize().height));
-
-		// add the label as a child to this layer
-		this->addChild(label, 1);
-	}
-
 
 	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("audio/blasmusik1.mp3");
 	return true;
