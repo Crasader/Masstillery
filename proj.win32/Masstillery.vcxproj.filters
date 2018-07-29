@@ -48,6 +48,9 @@
     <ClCompile Include="..\Classes\LevelRandom.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\HelpScene.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -81,6 +84,9 @@
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\PhysicsShapeCache.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\HelpScene.h">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>
