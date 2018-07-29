@@ -1,9 +1,11 @@
 #include "Entity.h"
 #include "PhysicsCategories.h"
 #include "PhysicsShapeCache.h"
-#include "SimpleAudioEngine.h"
+#include "AudioEngine.h"
 
 USING_NS_CC;
+
+using namespace experimental;
 
 bool Entity::init(const std::string& name, int hitpoints) {
 	this->hitpoints = hitpoints;
@@ -67,7 +69,7 @@ void Entity::handleContact(cocos2d::PhysicsContact & contact) {
 
 	hitpointLabel->setString(std::to_string(hitpoints));
 
-	CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("audio/bong.mp3");
+	AudioEngine::play2d("audio/bong.mp3");
 
 	if (hitpoints <= 0) explode();
 }
@@ -108,7 +110,7 @@ void Entity::explode() {
 
 	sprite->getScene()->addChild(emitter, 0);
 
-	CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("audio/explosion.mp3");
+	AudioEngine::play2d("audio/explosion.mp3");
 
 	sprite->removeFromParentAndCleanup(true);
 }

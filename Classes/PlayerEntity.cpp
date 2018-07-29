@@ -1,8 +1,10 @@
 #include "PlayerEntity.h"
 #include "PhysicsCategories.h"
-#include "SimpleAudioEngine.h"
+#include "AudioEngine.h"
 
 USING_NS_CC;
+
+using namespace experimental;
 
 bool PlayerEntity::init(const std::string& name) {
 
@@ -111,7 +113,7 @@ void PlayerEntity::shoot(Color3B color, int shotTag, int playerTag) {
 	shot->setPosition(getRealPosition() + Vec2(0, ENTITY_HEIGHT / 2));
 	shot->setTag(shotTag);
 
-	CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("audio/pew.mp3");
+	AudioEngine::play2d("audio/pew.mp3");
 
 	sprite->getScene()->addChild(shot);
 }

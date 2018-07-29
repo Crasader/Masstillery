@@ -41,6 +41,7 @@ public:
 	
 private:
 	bool musicOn = true;
+	int audioId;
 
 	void menuStartCallback(cocos2d::Ref* pSender, int i);
 	void menuCloseCallback(cocos2d::Ref* pSender);

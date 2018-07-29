@@ -1,10 +1,12 @@
 #include "GameScene.h"
 #include "StartScene.h"
 #include "PhysicsCategories.h"
-#include "SimpleAudioEngine.h"
+#include "AudioEngine.h"
 
 
 USING_NS_CC;
+
+using namespace experimental;
 
 void GameScene::setup(bool musicOn) {
 	this->musicOn = musicOn;
@@ -204,7 +206,10 @@ void GameScene::onKeyPressed(const EventKeyboard::KeyCode keyCode, Event* event)
 }
 
 void GameScene::onKeyReleased(const EventKeyboard::KeyCode keyCode, Event* event) {
-	if (keyCode == EventKeyboard::KeyCode::KEY_ESCAPE) Director::getInstance()->replaceScene(StartScene::createScene(musicOn));
+	if (keyCode == EventKeyboard::KeyCode::KEY_ESCAPE) {
+		Director::getInstance()->replaceScene(StartScene::createScene(musicOn));
+		AudioEngine::stopAll();
+	}
 	if (!isGameRunning) return;
 
 	switch (keyCode) {
@@ -296,11 +301,11 @@ void GameScene::endGame(bool victory) {
 
 	if (victory) {
 		strVictory = "Victory!";
-		CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("audio/jeah.mp3");
+		AudioEngine::play2d("audio/jeah.mp3");
 	}
 	else {
 		strVictory = "Defeated!";
-		CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("audio/ooh.mp3");
+		AudioEngine::play2d("audio/ooh.mp3");
 	}
 
 	auto labelVictory = Label::createWithTTF(strVictory, "fonts/Marker Felt.ttf", 128);

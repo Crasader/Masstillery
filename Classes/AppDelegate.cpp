@@ -25,9 +25,10 @@
 #include "AppDelegate.h"
 #include "StartScene.h"
 #include "PhysicsShapeCache.h"
+#include "AudioEngine.h"
 
-// #define USE_AUDIO_ENGINE 1
- #define USE_SIMPLE_AUDIO_ENGINE 1
+ // #define USE_AUDIO_ENGINE 1
+ // #define USE_SIMPLE_AUDIO_ENGINE 1
 
 #if USE_AUDIO_ENGINE && USE_SIMPLE_AUDIO_ENGINE
 #error "Don't use AudioEngine and SimpleAudioEngine at the same time. Please just select one in your game!"
@@ -42,6 +43,8 @@ using namespace CocosDenshion;
 #endif
 
 USING_NS_CC;
+
+using namespace experimental;
 
 static cocos2d::Size designResolutionSize = cocos2d::Size(1920, 1080);
 static cocos2d::Size smallResolutionSize = cocos2d::Size(1280, 720);
@@ -120,15 +123,15 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
 	PhysicsShapeCache::getInstance()->addShapesWithFile("entities/physics_bodies.plist");
 
-	SimpleAudioEngine::getInstance()->preloadEffect("audio/pew.mp3");
-	SimpleAudioEngine::getInstance()->preloadEffect("audio/bong.mp3");
-	SimpleAudioEngine::getInstance()->preloadEffect("audio/explosion.mp3");
-	SimpleAudioEngine::getInstance()->preloadEffect("audio/jeah.mp3");
-	SimpleAudioEngine::getInstance()->preloadEffect("audio/ooh.mp3");
-	SimpleAudioEngine::getInstance()->preloadBackgroundMusic("audio/blasmusik1.mp3");
-	SimpleAudioEngine::getInstance()->preloadBackgroundMusic("audio/blasmusik2.mp3");
-	SimpleAudioEngine::getInstance()->preloadBackgroundMusic("audio/background1.mp3");
-	SimpleAudioEngine::getInstance()->preloadBackgroundMusic("audio/background2.mp3");
+	AudioEngine::preload("audio/pew.mp3");
+	AudioEngine::preload("audio/bong.mp3");
+	AudioEngine::preload("audio/explosion.mp3");
+	AudioEngine::preload("audio/jeah.mp3");
+	AudioEngine::preload("audio/ooh.mp3");
+	AudioEngine::preload("audio/blasmusik1.mp3");
+	AudioEngine::preload("audio/blasmusik2.mp3");
+	AudioEngine::preload("audio/background1.mp3");
+	AudioEngine::preload("audio/background2.mp3");
 
     // create a scene. it's an autorelease object
     auto scene = StartScene::createScene(true);
