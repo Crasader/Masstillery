@@ -16,7 +16,9 @@
 
 #define LEVEL3_TIME			30
 #define LEVEL3_SKY_TEX		"background/sky4.png"
-#define LEVEL3_TERRAIN_TEX	"background/background6.png"
+#define LEVEL3_TERRAIN_TEX	"background/background8.png"
+
+#define START_SCREEN_TEX	"background/background7.png"
 
 class Level1 : public GameScene
 {
