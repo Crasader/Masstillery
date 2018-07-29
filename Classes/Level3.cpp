@@ -1,10 +1,12 @@
 #include "Levels.h"
 #include "StartScene.h"
 #include "PhysicsCategories.h"
-#include "SimpleAudioEngine.h"
+#include "AudioEngine.h"
 
 
 USING_NS_CC;
+
+using namespace experimental;
 
 cocos2d::Scene * Level3::createScene(bool musicOn) {
 	auto scene = Level3::create();
@@ -14,14 +16,12 @@ cocos2d::Scene * Level3::createScene(bool musicOn) {
 }
 
 bool Level3::init() {
-	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic(LEVEL3_BG_MUSIC, true);
-
 	return GameScene::init();
 }
 
 void Level3::setup(bool musicOn) {
-	if (!musicOn)
-		CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
+	if (musicOn)
+		AudioEngine::play2d(LEVEL3_BG_MUSIC, true);
 
 	Texture2D::TexParams params;
 	params.minFilter = GL_NEAREST;

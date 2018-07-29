@@ -26,10 +26,12 @@
 #include "GameScene.h"
 #include "HelpScene.h"
 #include "Levels.h"
-#include "SimpleAudioEngine.h"
+#include "AudioEngine.h"
 
 
 USING_NS_CC;
+
+using namespace experimental;
 
 #define COLOR_LABEL Color3B(255, 214, 49)
 
@@ -146,7 +148,6 @@ bool StartScene::init() {
 	this->addChild(label, 1);
 	this->addChild(menu, 2);
 
-	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("audio/blasmusik1.mp3");
 	return true;
 }
 
@@ -156,6 +157,8 @@ void StartScene::setup(bool musicOn) {
 }
 
 void StartScene::menuStartCallback(cocos2d::Ref * pSender, int level) {
+	if (level <= 3) AudioEngine::stopAll();
+
 	switch (level) {
 	case 0:	Director::getInstance()->replaceScene(Level1::createScene(musicOn)); break;
 	case 1:	Director::getInstance()->replaceScene(Level2::createScene(musicOn)); break;
@@ -193,10 +196,10 @@ void StartScene::setMusic(bool musicOn) {
 	this->musicOn = musicOn;
 	if (musicOn) {
 		switchMusicItem->setString("Music: ON");
-		CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("audio/blasmusik1.mp3");
+		AudioEngine::play2d("audio/blasmusik1.mp3", true);
 	}
 	else {
 		switchMusicItem->setString("Music: OFF");
-		CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
+		AudioEngine::stop(audioId);
 	}
 }
