@@ -36,25 +36,27 @@ void Level2::setup(bool musicOn) {
 	background->setPosition(Vec2::ZERO);
 	background->setAnchorPoint(Vec2::ZERO);
 
-	this->timer = LEVEL2_TIME;
+	enemies.push_back(BarrierEntity::createPolizist());
+	enemies.push_back(BarrierEntity::createMoench());
+	enemies.push_back(BarrierEntity::createBreze());
+	enemies.push_back(BarrierEntity::createMoench());
+	enemies.push_back(BarrierEntity::createPolizist());
 
-	enemies.push_back(BarrierEntity("Festzelt"));
-	enemies.push_back(BarrierEntity("Polizist"));
-	enemies.push_back(BarrierEntity("Moench"));
+	this->timer = enemies.size() * 10;
 
 	// set terrain surface key-points
 	std::vector<Vec2> keypoints{
-	{ totalSize.width / 100 * 0 , totalSize.height / 10 },
-	{ totalSize.width / 100 * 10 , totalSize.height / 10 },
-	{ (totalSize.width / 100) * 16, totalSize.height / 4 },
-	{ (totalSize.width / 100) * 23, totalSize.height / 9 },
-	{ (totalSize.width / 100) * 43, totalSize.height / 3 },
-	{ (totalSize.width / 100) * 52, totalSize.height / 4 },
-	{ (totalSize.width / 100) * 65, totalSize.height / 6 },
-	{ (totalSize.width / 100) * 72, totalSize.height / 8 },
-	{ (totalSize.width / 100) * 85, totalSize.height / 12 },
-	{ (totalSize.width / 100) * 91, totalSize.height / 7 },
-	{ totalSize.width, totalSize.height / 13 },
+	{ 0 ,					  totalSize.height * 0.8f },
+	{ totalSize.width * 0.1f, totalSize.height * 0.8f },
+	{ totalSize.width * 0.2f, totalSize.height * 0.5f },
+	{ totalSize.width * 0.3f, totalSize.height * 0.3f },
+	{ totalSize.width * 0.4f, totalSize.height * 0.6f },
+	{ totalSize.width * 0.5f, totalSize.height * 0.2f },
+	{ totalSize.width * 0.6f, totalSize.height * 0.4f },
+	{ totalSize.width * 0.7f, totalSize.height * 0.2f },
+	{ totalSize.width * 0.8f, totalSize.height * 0.3f },
+	{ totalSize.width * 0.9f, totalSize.height * 0.2f },
+	{ totalSize.width,		  totalSize.height * 0.3f },
 	};
 
 	std::vector<Vec2> v = calculateSurface(keypoints);
@@ -114,9 +116,11 @@ void Level2::setup(bool musicOn) {
 	}
 
 	player.moveToX(totalSize.width / 100 * 5);
-	enemies[0].moveToX(1300);
-	enemies[1].moveToX(500);
-	enemies[2].moveToX(800);
+	enemies[0].moveToX(totalSize.width * 0.2f);
+	enemies[1].moveToX(totalSize.width * 0.5f);
+	enemies[2].moveToX(totalSize.width * 0.7f);
+	enemies[3].moveToX(totalSize.width * 0.8f);
+	enemies[4].moveToX(totalSize.width * 0.9f);
 
 	startGame();
 }

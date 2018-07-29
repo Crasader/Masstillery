@@ -21,7 +21,7 @@ bool LevelRandom::init() {
 void LevelRandom::setup(bool musicOn) {
 	this->musicOn = musicOn;
 
-	std::string entities[4] = { "Festzelt","Polizist","Moench", "Breze" };
+	std::string entities[3] = { "Polizist","Moench", "Breze" };
 	std::string skies[3] = { LEVEL1_SKY_TEX, LEVEL2_SKY_TEX, LEVEL3_SKY_TEX };
 	std::string terrains[3] = { LEVEL1_TERRAIN_TEX, LEVEL2_TERRAIN_TEX, LEVEL3_TERRAIN_TEX };
 	std::string musics[3] = { LEVEL1_BG_MUSIC, LEVEL2_BG_MUSIC, LEVEL3_BG_MUSIC };
@@ -51,8 +51,8 @@ void LevelRandom::setup(bool musicOn) {
 	this->timer = CCRANDOM_0_1() * 20 + 40;
 
 	for (int i = 0; i < 5; i++) {
-		random = CCRANDOM_0_1() * 4;
-		enemies.push_back(BarrierEntity(entities[random]));
+		random = CCRANDOM_0_1() * 3;
+		enemies.push_back(BarrierEntity(entities[random], CCRANDOM_0_1() * 500 + 500));
 	}
 
 	// set terrain surface key-points
