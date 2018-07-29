@@ -28,7 +28,9 @@
 #include "Levels.h"
 #include "SimpleAudioEngine.h"
 
+
 USING_NS_CC;
+#define labelColor Color3B::RED
 
 Scene* StartScene::createScene() {
 	return StartScene::create();
@@ -50,31 +52,45 @@ bool StartScene::init() {
 
 	int index = 0;
 
+	Sprite *background = Sprite::create(START_SCREEN_TEX);
+	background->setTextureRect(cocos2d::Rect(0, 0, visibleSize.width, visibleSize.height));
+
+	background->setPosition(Vec2::ZERO);
+	background->setAnchorPoint(Vec2::ZERO);
+
+	this->addChild(background);
+
 	// Start Level Items (item 1-3)
 	auto startLevel1Item = MenuItemLabel::create(Label::createWithTTF("Start Level 1", "fonts/Marker Felt.ttf", 64),
 		CC_CALLBACK_1(StartScene::menuStartCallback, this, index++));
+		startLevel1Item->setColor(labelColor);
 	if (startLevel1Item == nullptr) problemLoading("'fonts/Marker Felt.ttf'");
 
 	auto startLevel2Item = MenuItemLabel::create(Label::createWithTTF("Start Level 2", "fonts/Marker Felt.ttf", 64),
 		CC_CALLBACK_1(StartScene::menuStartCallback, this, index++));
+		startLevel2Item->setColor(labelColor);
 	if (startLevel2Item == nullptr) problemLoading("'fonts/Marker Felt.ttf'");
 
 	auto startLevel3Item = MenuItemLabel::create(Label::createWithTTF("Start Level 3", "fonts/Marker Felt.ttf", 64),
 		CC_CALLBACK_1(StartScene::menuStartCallback, this, index++));
+		startLevel3Item->setColor(labelColor);
 	if (startLevel3Item == nullptr) problemLoading("'fonts/Marker Felt.ttf'");
 
 	auto startRandomLevelItem = MenuItemLabel::create(Label::createWithTTF("Start Random Level", "fonts/Marker Felt.ttf", 64),
 		CC_CALLBACK_1(StartScene::menuStartCallback, this, index++));
+		startRandomLevelItem->setColor(labelColor);
 	if (startRandomLevelItem == nullptr) problemLoading("'fonts/Marker Felt.ttf'");
 
 #ifndef ANDROID
 	auto startMPLevelItem = MenuItemLabel::create(Label::createWithTTF("Start Multiplayer Level", "fonts/Marker Felt.ttf", 64),
 		CC_CALLBACK_1(StartScene::menuStartCallback, this, index++));
+		startMPLevelItem->setColor(labelColor);
 	if (startMPLevelItem == nullptr) problemLoading("'fonts/Marker Felt.ttf'");
 #endif
 
 	auto showHelpItem = MenuItemLabel::create(Label::createWithTTF("Show Controls", "fonts/Marker Felt.ttf", 64),
 		CC_CALLBACK_1(StartScene::menuStartCallback, this, index++));
+		showHelpItem->setColor(labelColor);
 	if (showHelpItem == nullptr) problemLoading("'fonts/Marker Felt.ttf'");
 
 	// Close Item (item 4)
@@ -100,6 +116,7 @@ bool StartScene::init() {
 
 	// Title
 	auto label = Label::createWithTTF("Sers Masstillery", "fonts/Marker Felt.ttf", 64);
+		label ->setColor(labelColor);
 	if (label == nullptr) problemLoading("'fonts/Marker Felt.ttf'");
 	else {
 		// position the label on the center of the screen
@@ -110,17 +127,7 @@ bool StartScene::init() {
 		this->addChild(label, 1);
 	}
 
-	// Background sprite
-	auto sprite = Sprite::create("HelloWorld.png");
-	if (sprite == nullptr) problemLoading("'HelloWorld.png'");
-	else {
-		// position the sprite on the center of the screen
-		sprite->setPosition(Vec2::ZERO);
-		sprite->setAnchorPoint(Vec2::ZERO);
-		sprite->setScale(2.0f);
-		// add the sprite as a child to this layer
-		this->addChild(sprite, 0);
-	}
+
 	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("audio/blasmusik1.mp3");
 	return true;
 }
