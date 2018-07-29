@@ -10,10 +10,10 @@ First clone the repository:
 ```git
 git clone https://github.com/Linux13524/Masstillery.git
 ```
-###For Windows:
+#### For Windows:
 open `Masstilery\proj.win32\Masstillery.sln` with **VisualStudio** and click the green play button
 
-###For Android:
+#### For Android:
 install `cocos2dx` from [here](http://www.cocos2d-x.org/download)
 
 run `cocos run -p android` in the root folder (`Masstilery`) and connect your device when asked
