@@ -121,7 +121,6 @@ bool StartScene::init() {
 	switchMusicLabel->enableShadow(Color4B::BLACK, Size(2, -2), 1);
 	switchMusicLabel->enableOutline(Color4B::WHITE, 2);
 	switchMusicItem = MenuItemLabel::create(switchMusicLabel, CC_CALLBACK_0(StartScene::switchMusic, this));
-		startMPLevelItem->setColor(COLOR_LABEL);
 	if (showHelpItem == nullptr) problemLoading("'fonts/Marker Felt.ttf'");
 
 	// Close Item (item 4)
