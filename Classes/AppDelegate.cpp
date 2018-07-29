@@ -27,7 +27,7 @@
 #include "PhysicsShapeCache.h"
 
 // #define USE_AUDIO_ENGINE 1
-// #define USE_SIMPLE_AUDIO_ENGINE 1
+ #define USE_SIMPLE_AUDIO_ENGINE 1
 
 #if USE_AUDIO_ENGINE && USE_SIMPLE_AUDIO_ENGINE
 #error "Don't use AudioEngine and SimpleAudioEngine at the same time. Please just select one in your game!"
@@ -120,8 +120,18 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
 	PhysicsShapeCache::getInstance()->addShapesWithFile("entities/physics_bodies.plist");
 
+	SimpleAudioEngine::getInstance()->preloadEffect("audio/pew.mp3");
+	SimpleAudioEngine::getInstance()->preloadEffect("audio/bong.mp3");
+	SimpleAudioEngine::getInstance()->preloadEffect("audio/explosion.mp3");
+	SimpleAudioEngine::getInstance()->preloadEffect("audio/jeah.mp3");
+	SimpleAudioEngine::getInstance()->preloadEffect("audio/ooh.mp3");
+	SimpleAudioEngine::getInstance()->preloadBackgroundMusic("audio/blasmusik1.mp3");
+	SimpleAudioEngine::getInstance()->preloadBackgroundMusic("audio/blasmusik2.mp3");
+	SimpleAudioEngine::getInstance()->preloadBackgroundMusic("audio/background1.mp3");
+	SimpleAudioEngine::getInstance()->preloadBackgroundMusic("audio/background2.mp3");
+
     // create a scene. it's an autorelease object
-    auto scene = StartScene::createScene();
+    auto scene = StartScene::createScene(true);
 
     // run
     director->runWithScene(scene);

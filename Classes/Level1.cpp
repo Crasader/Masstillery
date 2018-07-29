@@ -6,19 +6,21 @@
 
 USING_NS_CC;
 
-cocos2d::Scene * Level1::createScene() {
+cocos2d::Scene * Level1::createScene(bool musicOn) {
 	auto scene = Level1::create();
 	scene->getPhysicsWorld()->setGravity(Vec2(0, -500));
-	scene->setup();
+	scene->setup(musicOn);
 	return scene;
 }
 
 bool Level1::init() {
-	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("audio/blasmusik2.mp3");
 	return GameScene::init();
 }
 
-void Level1::setup() {
+void Level1::setup(bool musicOn) {
+	if (musicOn)
+		CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic(LEVEL1_BG_MUSIC, true);
+
 	Texture2D::TexParams params;
 	params.minFilter = GL_NEAREST;
 	params.magFilter = GL_NEAREST;
@@ -103,7 +105,7 @@ void Level1::setup() {
 
 	this->addChild(paraNode);
 
-	GameScene::setup();
+	GameScene::setup(musicOn);
 
 	for (const auto& e : enemies) {
 		foreground->addChild(e.sprite);
@@ -116,5 +118,5 @@ void Level1::setup() {
 
 	startGame();
 
-	
+
 }

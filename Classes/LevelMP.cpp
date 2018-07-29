@@ -1,14 +1,15 @@
 #include "Levels.h"
 #include "StartScene.h"
 #include "PhysicsCategories.h"
+#include "SimpleAudioEngine.h"
 
 
 USING_NS_CC;
 
-cocos2d::Scene * LevelMP::createScene() {
+cocos2d::Scene * LevelMP::createScene(bool musicOn) {
 	auto scene = LevelMP::create();
 	scene->getPhysicsWorld()->setGravity(Vec2(0, -500));
-	scene->setup();
+	scene->setup(musicOn);
 	return scene;
 }
 
@@ -31,12 +32,18 @@ bool LevelMP::init() {
 	return true;
 }
 
-void LevelMP::setup() {
+void LevelMP::setup(bool musicOn) {
 	auto totalSize = Director::getInstance()->getVisibleSize();
 
 	std::string entities[4] = { "Festzelt","Polizist","Moench", "Breze" };
 	std::string skies[3] = { LEVEL1_SKY_TEX, LEVEL2_SKY_TEX, LEVEL3_SKY_TEX };
 	std::string terrains[3] = { LEVEL1_TERRAIN_TEX, LEVEL2_TERRAIN_TEX, LEVEL3_TERRAIN_TEX };
+	std::string musics[3] = { LEVEL1_BG_MUSIC, LEVEL2_BG_MUSIC, LEVEL3_BG_MUSIC };
+
+	if (musicOn) {
+		int random = CCRANDOM_0_1() * 3;
+		CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic(musics[random].c_str(), true);
+	}
 
 	Texture2D::TexParams params;
 	params.minFilter = GL_NEAREST;
@@ -199,7 +206,7 @@ void LevelMP::onKeyPressed(const EventKeyboard::KeyCode keyCode, Event* event) {
 }
 
 void LevelMP::onKeyReleased(const EventKeyboard::KeyCode keyCode, Event* event) {
-	if (keyCode == EventKeyboard::KeyCode::KEY_ESCAPE) Director::getInstance()->replaceScene(StartScene::createScene());
+	if (keyCode == EventKeyboard::KeyCode::KEY_ESCAPE) Director::getInstance()->replaceScene(StartScene::createScene(musicOn));
 	if (!isGameRunning) return;
 
 	switch (keyCode) {

@@ -1,26 +1,35 @@
 #include "Levels.h"
 #include "StartScene.h"
 #include "PhysicsCategories.h"
-#include <iostream>
+#include "SimpleAudioEngine.h"
 
 
 USING_NS_CC;
 
-cocos2d::Scene * LevelRandom::createScene() {
+cocos2d::Scene * LevelRandom::createScene(bool musicOn) {
 	auto scene = LevelRandom::create();
 	scene->getPhysicsWorld()->setGravity(Vec2(0, -500));
-	scene->setup();
+	scene->setup(musicOn);
 	return scene;
 }
 
 bool LevelRandom::init() {
+
 	return GameScene::init();
 }
 
-void LevelRandom::setup() {
+void LevelRandom::setup(bool musicOn) {
+	this->musicOn = musicOn;
+
 	std::string entities[4] = { "Festzelt","Polizist","Moench", "Breze" };
 	std::string skies[3] = { LEVEL1_SKY_TEX, LEVEL2_SKY_TEX, LEVEL3_SKY_TEX };
 	std::string terrains[3] = { LEVEL1_TERRAIN_TEX, LEVEL2_TERRAIN_TEX, LEVEL3_TERRAIN_TEX };
+	std::string musics[3] = { LEVEL1_BG_MUSIC, LEVEL2_BG_MUSIC, LEVEL3_BG_MUSIC };
+
+	if (musicOn) {
+		int random = CCRANDOM_0_1() * 3;
+		CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic(musics[random].c_str(), true);
+	}
 
 	Texture2D::TexParams params;
 	params.minFilter = GL_NEAREST;
@@ -47,7 +56,7 @@ void LevelRandom::setup() {
 	}
 
 	// set terrain surface key-points
-	std::vector<Vec2> keypoints {
+	std::vector<Vec2> keypoints{
 		{ totalSize.width / 100 * 0 , totalSize.height / 10},
 		{ totalSize.width / 100 * 10 , totalSize.height / 10}
 	};
@@ -107,7 +116,7 @@ void LevelRandom::setup() {
 
 	this->addChild(paraNode);
 
-	GameScene::setup();
+	GameScene::setup(musicOn);
 
 	for (const auto& e : enemies) {
 		foreground->addChild(e.sprite);

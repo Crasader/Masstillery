@@ -6,7 +6,9 @@
 
 USING_NS_CC;
 
-void GameScene::setup() {
+void GameScene::setup(bool musicOn) {
+	this->musicOn = musicOn;
+
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 
 	this->labelTimeInfo = Label::createWithTTF(std::string("Time: ") + std::string(std::to_string(timer)), "fonts/Marker Felt.ttf", 48);
@@ -47,16 +49,6 @@ bool GameScene::init() {
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener, this);
 
 	//this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
-
-	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("audio/pew.mp3");
-	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("audio/bong.mp3");
-	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("audio/explosion.mp3");
-	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("audio/jeah.mp3");
-	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("audio/ooh.mp3");
-	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("audio/blasmusik1.mp3");
-	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("audio/blasmusik2.mp3");
-	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("audio/background1.mp3");
-	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("audio/background2.mp3");
 
 	return true;
 }
@@ -208,7 +200,7 @@ void GameScene::onKeyPressed(const EventKeyboard::KeyCode keyCode, Event* event)
 }
 
 void GameScene::onKeyReleased(const EventKeyboard::KeyCode keyCode, Event* event) {
-	if (keyCode == EventKeyboard::KeyCode::KEY_ESCAPE) Director::getInstance()->replaceScene(StartScene::createScene());
+	if (keyCode == EventKeyboard::KeyCode::KEY_ESCAPE) Director::getInstance()->replaceScene(StartScene::createScene(musicOn));
 	if (!isGameRunning) return;
 
 	switch (keyCode) {

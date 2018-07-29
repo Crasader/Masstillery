@@ -9,23 +9,26 @@
 #define LEVEL1_TIME			30
 #define LEVEL1_SKY_TEX		"background/sky.png"
 #define LEVEL1_TERRAIN_TEX	"background/background1.png"
+#define LEVEL1_BG_MUSIC		"audio/blasmusik2.mp3"
 
 #define LEVEL2_TIME			20
 #define LEVEL2_SKY_TEX		"background/sky2.png"
 #define LEVEL2_TERRAIN_TEX	"background/background3.png"
+#define LEVEL2_BG_MUSIC		"audio/background1.mp3"
 
 #define LEVEL3_TIME			30
 #define LEVEL3_SKY_TEX		"background/sky4.png"
 #define LEVEL3_TERRAIN_TEX	"background/background8.png"
+#define LEVEL3_BG_MUSIC		"audio/background2.mp3"
 
 #define START_SCREEN_TEX	"background/background7.png"
 
 class Level1 : public GameScene
 {
 public:
-	static cocos2d::Scene* createScene();
+	static cocos2d::Scene* createScene(bool musicOn);
 
-	void setup();
+	void setup(bool musicOn);
 
 	virtual bool init();
 
@@ -35,9 +38,9 @@ public:
 class Level2 : public GameScene
 {
 public:
-	static cocos2d::Scene* createScene();
+	static cocos2d::Scene* createScene(bool musicOn);
 
-	void setup();
+	void setup(bool musicOn);
 
 	virtual bool init();
 
@@ -47,9 +50,9 @@ public:
 class Level3 : public GameScene
 {
 public:
-	static cocos2d::Scene* createScene();
+	static cocos2d::Scene* createScene(bool musicOn);
 
-	void setup();
+	void setup(bool musicOn);
 
 	virtual bool init();
 
@@ -59,9 +62,9 @@ public:
 class LevelRandom : public GameScene
 {
 public:
-	static cocos2d::Scene* createScene();
+	static cocos2d::Scene* createScene(bool musicOn);
 
-	void setup();
+	void setup(bool musicOn);
 
 	virtual bool init();
 
@@ -71,9 +74,9 @@ public:
 class LevelMP : public cocos2d::Scene
 {
 public:
-	static cocos2d::Scene* createScene();
+	static cocos2d::Scene* createScene(bool musicOn);
 
-	void setup();
+	void setup(bool musicOn);
 
 	virtual bool init();
 
@@ -92,6 +95,7 @@ private:
 
 	std::vector<BarrierEntity> enemies;
 
+	bool musicOn = true;
 	bool isGameRunning = false;
 
 	cocos2d::Label* labelGo;
