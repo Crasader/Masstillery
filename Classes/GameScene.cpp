@@ -1,6 +1,7 @@
 #include "GameScene.h"
 #include "StartScene.h"
 #include "PhysicsCategories.h"
+#include "SimpleAudioEngine.h"
 
 
 USING_NS_CC;
@@ -46,6 +47,16 @@ bool GameScene::init() {
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener, this);
 
 	//this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("audio/pew.mp3");
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("audio/bong.mp3");
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("audio/explosion.mp3");
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("audio/jeah.mp3");
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("audio/ooh.mp3");
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("audio/blasmusik1.mp3");
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("audio/blasmusik2.mp3");
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("audio/background1.mp3");
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("audio/background2.mp3");
 
 	return true;
 }
@@ -240,8 +251,14 @@ void GameScene::endGame(bool victory) {
 
 	std::string strVictory{};
 
-	if (victory) strVictory = "Victory!";
-	else strVictory = "Defeated!";
+	if (victory) {
+		strVictory = "Victory!";
+		CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("audio/jeah.mp3");
+	}
+	else {
+		strVictory = "Defeated!";
+		CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("audio/ooh.mp3");
+	}
 
 	auto labelVictory = Label::createWithTTF(strVictory, "fonts/Marker Felt.ttf", 128);
 	labelVictory->setPosition(visibleSize / 2);

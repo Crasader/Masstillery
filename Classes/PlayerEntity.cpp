@@ -1,5 +1,6 @@
 #include "PlayerEntity.h"
 #include "PhysicsCategories.h"
+#include "SimpleAudioEngine.h"
 
 USING_NS_CC;
 
@@ -109,6 +110,8 @@ void PlayerEntity::shoot() {
 
 	shot->setPosition(getRealPosition() + Vec2(0, ENTITY_HEIGHT / 2));
 	shot->setTag(SHOT_TAG);
+
+	CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("audio/pew.mp3");
 
 	sprite->getScene()->addChild(shot);
 }
