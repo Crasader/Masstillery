@@ -13,7 +13,7 @@ public:
 
     CREATE_FUNC(HelpScene);
 
-	void HelpScene::onKeyReleased(const cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
+	void onKeyReleased(const cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
 };
 
 #endif // __HELP_SCENE_H__
