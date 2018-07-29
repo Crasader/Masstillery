@@ -14,12 +14,14 @@ cocos2d::Scene * Level2::createScene(bool musicOn) {
 }
 
 bool Level2::init() {
+	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic(LEVEL2_BG_MUSIC, true);
+
 	return GameScene::init();
 }
 
 void Level2::setup(bool musicOn) {
-	if (musicOn)
-		CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic(LEVEL2_BG_MUSIC, true);
+	if (!musicOn)
+		CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
 
 	Texture2D::TexParams params;
 	params.minFilter = GL_NEAREST;
@@ -102,7 +104,7 @@ void Level2::setup(bool musicOn) {
 	paraNode = ParallaxNode::create();
 	paraNode->addChild(background, 1, Vec2(0.5f, 0.5f), Vec2::ZERO);
 	paraNode->addChild(foreground, 2, Vec2(1.0f, 1.0f), Vec2::ZERO);
-	
+
 	this->addChild(paraNode);
 
 	GameScene::setup(musicOn);

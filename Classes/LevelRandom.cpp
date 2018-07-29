@@ -26,10 +26,11 @@ void LevelRandom::setup(bool musicOn) {
 	std::string terrains[3] = { LEVEL1_TERRAIN_TEX, LEVEL2_TERRAIN_TEX, LEVEL3_TERRAIN_TEX };
 	std::string musics[3] = { LEVEL1_BG_MUSIC, LEVEL2_BG_MUSIC, LEVEL3_BG_MUSIC };
 
-	if (musicOn) {
-		int random = CCRANDOM_0_1() * 3;
-		CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic(musics[random].c_str(), true);
-	}
+	int random = CCRANDOM_0_1() * 3;
+	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic(musics[random].c_str(), true);
+
+	if (!musicOn)
+		CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
 
 	Texture2D::TexParams params;
 	params.minFilter = GL_NEAREST;
@@ -37,8 +38,7 @@ void LevelRandom::setup(bool musicOn) {
 	params.wrapS = GL_REPEAT;
 	params.wrapT = GL_REPEAT;
 
-	int random = CCRANDOM_0_1() * 3;
-
+	random = CCRANDOM_0_1() * 3;
 	std::string sky = skies[random];
 	Sprite *background = Sprite::create(sky);
 	if (sky != LEVEL3_SKY_TEX)

@@ -14,12 +14,14 @@ cocos2d::Scene * Level1::createScene(bool musicOn) {
 }
 
 bool Level1::init() {
+	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic(LEVEL1_BG_MUSIC, true);
+
 	return GameScene::init();
 }
 
 void Level1::setup(bool musicOn) {
-	if (musicOn)
-		CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic(LEVEL1_BG_MUSIC, true);
+	if (!musicOn)
+		CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
 
 	Texture2D::TexParams params;
 	params.minFilter = GL_NEAREST;

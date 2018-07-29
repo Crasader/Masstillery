@@ -14,13 +14,14 @@ cocos2d::Scene * Level3::createScene(bool musicOn) {
 }
 
 bool Level3::init() {
-	
+	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic(LEVEL3_BG_MUSIC, true);
+
 	return GameScene::init();
 }
 
 void Level3::setup(bool musicOn) {
-	if(musicOn)
-		CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic(LEVEL3_BG_MUSIC, true);
+	if (!musicOn)
+		CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
 
 	Texture2D::TexParams params;
 	params.minFilter = GL_NEAREST;
@@ -104,7 +105,7 @@ void Level3::setup(bool musicOn) {
 	paraNode->addChild(foreground, 2, Vec2(1.0f, 1.0f), Vec2::ZERO);
 
 	this->addChild(paraNode);
-	
+
 	GameScene::setup(musicOn);
 
 	for (const auto& e : enemies) {
