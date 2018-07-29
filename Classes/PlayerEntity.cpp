@@ -95,7 +95,7 @@ void PlayerEntity::updateArrow() {
 
 void PlayerEntity::shoot() {
 	auto shotPb = PhysicsBody::createCircle(10);
-	auto rot = MATH_DEG_TO_RAD(arrowNode->getRotation());
+	auto rot = MATH_DEG_TO_RAD(arrowNode->getRotation() + CCRANDOM_MINUS1_1());
 	auto angle = Vec2(sin(rot), cos(rot));
 	angle.normalize();
 	shotPb->setVelocity(angle*shootAcceleration);
