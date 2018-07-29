@@ -6,6 +6,7 @@
 USING_NS_CC;
 
 bool Entity::init(const std::string& name, int hitpoints) {
+	this->hitpoints = hitpoints;
 	sprite = Sprite::create(std::string{ "entities/" }.append(name).append(".png"));
 	if (sprite == nullptr) return false;
 	auto spriteSize = sprite->getContentSize();
