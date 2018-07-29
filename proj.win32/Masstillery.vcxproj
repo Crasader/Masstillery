@@ -155,6 +155,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\Classes\Level1.cpp" />
     <ClCompile Include="..\Classes\Level2.cpp" />
     <ClCompile Include="..\Classes\Level3.cpp" />
+    <ClCompile Include="..\Classes\LevelMP.cpp" />
     <ClCompile Include="..\Classes\LevelRandom.cpp" />
     <ClCompile Include="..\Classes\PhysicsShapeCache.cpp" />
     <ClCompile Include="..\Classes\PlayerEntity.cpp" />

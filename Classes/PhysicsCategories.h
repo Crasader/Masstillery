@@ -5,5 +5,7 @@ static const int TERRAIN_TAG = 0x01;
 static const int SHOT_TAG = 0x02;
 static const int PLAYER_TAG = 0x4;
 static const int BARRIER_TAG = 0x8;
+static const int SHOT2_TAG = 0x10;
+static const int PLAYER2_TAG = 0x20;
 
 #endif
