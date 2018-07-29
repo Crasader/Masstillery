@@ -28,7 +28,6 @@ public:
 	virtual bool init();
 
 	CREATE_FUNC(Level1);
-
 };
 
 class Level2 : public GameScene
@@ -65,7 +64,35 @@ public:
 	virtual bool init();
 
 	CREATE_FUNC(LevelRandom);
+};
 
+class LevelMP : public cocos2d::Scene
+{
+public:
+	static cocos2d::Scene* createScene();
+
+	void setup();
+
+	virtual bool init();
+
+	CREATE_FUNC(LevelMP);
+
+private:
+	void onKeyPressed(const cocos2d::EventKeyboard::KeyCode, cocos2d::Event* event);
+	void onKeyReleased(const cocos2d::EventKeyboard::KeyCode, cocos2d::Event* event);
+	bool onContactBegin(cocos2d::PhysicsContact& contact);
+
+	void checkFinish();
+	void endGame(int winner);
+
+	PlayerEntity player1;
+	PlayerEntity player2;
+
+	std::vector<BarrierEntity> enemies;
+
+	bool isGameRunning = false;
+
+	cocos2d::Label* labelGo;
 };
 
 #endif // __LEVELS_H__

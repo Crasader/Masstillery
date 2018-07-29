@@ -56,32 +56,7 @@ void LevelRandom::setup() {
 		keypoints.push_back(Vec2(totalSize.width / 100 * i, totalSize.height / (CCRANDOM_0_1() * 10 + 2)));
 	}
 
-#define SEGMENTS 10
-	std::vector<Vec2> v{};
-
-	// calculate surface points
-	for (int i = 0; i < keypoints.size() - 1; i++) {
-		auto p0 = keypoints[i];
-		auto p1 = keypoints[i + 1];
-
-		int hSegments = floorf((p1.x - p0.x) / SEGMENTS);
-		float dx = (p1.x - p0.x) / hSegments;
-		float da = M_PI / hSegments;
-		float ymid = (p0.y + p1.y) / 2;
-		float ampl = (p0.y - p1.y) / 2;
-
-		Vec2 pt0, pt1;
-		pt0 = p0;
-		for (int j = 0; j < hSegments + 2; ++j) {
-
-			pt1.x = p0.x + j * dx;
-			pt1.y = ymid + ampl * cosf(da*j);
-
-			v.push_back(pt0);
-
-			pt0 = pt1;
-		}
-	}
+	std::vector<Vec2> v = calculateSurface(keypoints);
 
 	// node to draw onto
 	auto terrain = DrawNode::create();
@@ -138,7 +113,7 @@ void LevelRandom::setup() {
 		foreground->addChild(e.sprite);
 	}
 
-	player.moveToX(200);
+	player.moveToX(totalSize.width / 100 * 5);
 	for (int i = 0; i < enemies.size(); i++) {
 		int area = (totalSize.width - 300) / enemies.size() - 20;
 		int posX = CCRANDOM_0_1() * area + area * (i + 1);

@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include "Entity.h"
+#include "PhysicsCategories.h"
 
 #define SHOOT_MAX_ACCEL 1000
 #define SHOOT_MIN_ACCEL 500
@@ -18,7 +19,7 @@ public:
 	void increaseAccel(bool state);
 	void decreaseAccel(bool state);
 
-	void shoot();
+	void shoot(cocos2d::Color3B color = cocos2d::Color3B(255, 214, 49), int shotTag = SHOT_TAG, int playerTag = PLAYER2_TAG);
 
 	inline cocos2d::DrawNode* getShootArrow() { return arrowNode; }
 
