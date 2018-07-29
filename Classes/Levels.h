@@ -9,14 +9,17 @@
 #define LEVEL1_TIME			30
 #define LEVEL1_SKY_TEX		"background/sky.png"
 #define LEVEL1_TERRAIN_TEX	"background/background1.png"
+#define LEVEL1_BG_MUSIC		"audio/blasmusik2.mp3"
 
 #define LEVEL2_TIME			20
 #define LEVEL2_SKY_TEX		"background/sky2.png"
 #define LEVEL2_TERRAIN_TEX	"background/background3.png"
+#define LEVEL2_BG_MUSIC		"audio/background1.mp3"
 
 #define LEVEL3_TIME			30
 #define LEVEL3_SKY_TEX		"background/sky4.png"
 #define LEVEL3_TERRAIN_TEX	"background/background6.png"
+#define LEVEL3_BG_MUSIC		"audio/background2.mp3"
 
 class Level1 : public GameScene
 {

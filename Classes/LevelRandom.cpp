@@ -1,7 +1,7 @@
 #include "Levels.h"
 #include "StartScene.h"
 #include "PhysicsCategories.h"
-#include <iostream>
+#include "SimpleAudioEngine.h"
 
 
 USING_NS_CC;
@@ -14,6 +14,10 @@ cocos2d::Scene * LevelRandom::createScene() {
 }
 
 bool LevelRandom::init() {
+	std::string musics[3] = { LEVEL1_BG_MUSIC, LEVEL2_BG_MUSIC, LEVEL3_BG_MUSIC };
+
+	int random = CCRANDOM_0_1() * 3;
+	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic(musics[random].c_str(), true);
 	return GameScene::init();
 }
 

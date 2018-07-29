@@ -48,16 +48,6 @@ bool GameScene::init() {
 
 	//this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 
-	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("audio/pew.mp3");
-	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("audio/bong.mp3");
-	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("audio/explosion.mp3");
-	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("audio/jeah.mp3");
-	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("audio/ooh.mp3");
-	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("audio/blasmusik1.mp3");
-	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("audio/blasmusik2.mp3");
-	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("audio/background1.mp3");
-	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("audio/background2.mp3");
-
 	return true;
 }
 

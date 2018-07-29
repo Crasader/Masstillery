@@ -14,7 +14,7 @@ cocos2d::Scene * Level2::createScene() {
 }
 
 bool Level2::init() {
-	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("audio/background1.mp3");
+	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic(LEVEL2_BG_MUSIC, true);
 	return GameScene::init();
 }
 

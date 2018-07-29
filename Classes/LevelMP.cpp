@@ -1,6 +1,7 @@
 #include "Levels.h"
 #include "StartScene.h"
 #include "PhysicsCategories.h"
+#include "SimpleAudioEngine.h"
 
 
 USING_NS_CC;
@@ -14,6 +15,11 @@ cocos2d::Scene * LevelMP::createScene() {
 
 bool LevelMP::init() {
 	if (!Scene::initWithPhysics()) return false;
+
+	std::string musics[3] = { LEVEL1_BG_MUSIC, LEVEL2_BG_MUSIC, LEVEL3_BG_MUSIC };
+
+	int random = CCRANDOM_0_1() * 3;
+	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic(musics[random].c_str(), true);
 
 	auto totalSize = Director::getInstance()->getVisibleSize();
 
