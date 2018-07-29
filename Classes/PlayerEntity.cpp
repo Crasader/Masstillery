@@ -6,7 +6,7 @@ USING_NS_CC;
 
 bool PlayerEntity::init(const std::string& name) {
 
-	if (!Entity::init(name)) return false;
+	if (!Entity::init(name, 1000)) return false;
 
 	sprite->getPhysicsBody()->setDynamic(true);
 	sprite->getPhysicsBody()->setRotationEnable(false);

@@ -11,8 +11,13 @@
 class BarrierEntity : public Entity
 {
 public:
-	BarrierEntity(const std::string& filename) {
-		if (!Entity::init(filename)) return;
+	static BarrierEntity createPolizist() { return BarrierEntity("Polizist", 1000); }
+	static BarrierEntity createBreze() { return BarrierEntity("Breze", 200); }
+	static BarrierEntity createMoench() { return BarrierEntity("Moench", 400); }
+	static BarrierEntity createFestzelt() { return BarrierEntity("Festzelt", 600); }
+
+	BarrierEntity(const std::string& filename, int hitpoints) {
+		if (!Entity::init(filename, hitpoints)) return;
 
 		sprite->getPhysicsBody()->setContactTestBitmask(SHOT_TAG | SHOT2_TAG);
 		sprite->getPhysicsBody()->setTag(BARRIER_TAG);

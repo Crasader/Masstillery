@@ -9,7 +9,7 @@
 class Entity
 {
 public:
-	bool init(const std::string& name);
+	bool init(const std::string& name, int hitpoints);
 
 	void moveLeft(bool state);
 	void moveRight(bool state);

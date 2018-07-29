@@ -176,9 +176,11 @@ void GameScene::onKeyPressed(const EventKeyboard::KeyCode keyCode, Event* event)
 	case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
 		player.decreaseAccel(true); break;
 	case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
-		player.moveLeft(true); break;
+		player.moveLeft(true); 
+		paraNode->runAction(RepeatForever::create(Spawn::create(CallFunc::create(CC_CALLBACK_0(GameScene::handleMove, this)), nullptr))); break;
 	case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
-		player.moveRight(true); break;
+		player.moveRight(true); 
+		paraNode->runAction(RepeatForever::create(Spawn::create(CallFunc::create(CC_CALLBACK_0(GameScene::handleMove, this)), nullptr))); break;
 	case EventKeyboard::KeyCode::KEY_DELETE:
 		player.moveShootLeft(true); break;
 	case EventKeyboard::KeyCode::KEY_PG_DOWN:
@@ -189,9 +191,11 @@ void GameScene::onKeyPressed(const EventKeyboard::KeyCode keyCode, Event* event)
 	case EventKeyboard::KeyCode::KEY_S:
 		player.decreaseAccel(true); break;
 	case EventKeyboard::KeyCode::KEY_A:
-		player.moveLeft(true); break;
+		player.moveLeft(true); 
+		paraNode->runAction(RepeatForever::create(Spawn::create(CallFunc::create(CC_CALLBACK_0(GameScene::handleMove, this)), nullptr))); break;
 	case EventKeyboard::KeyCode::KEY_D:
-		player.moveRight(true); break;
+		player.moveRight(true); 
+		paraNode->runAction(RepeatForever::create(Spawn::create(CallFunc::create(CC_CALLBACK_0(GameScene::handleMove, this)), nullptr))); break;
 	case EventKeyboard::KeyCode::KEY_Q:
 		player.moveShootLeft(true); break;
 	case EventKeyboard::KeyCode::KEY_E:

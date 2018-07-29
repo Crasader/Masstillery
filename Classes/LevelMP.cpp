@@ -35,7 +35,7 @@ bool LevelMP::init() {
 void LevelMP::setup(bool musicOn) {
 	auto totalSize = Director::getInstance()->getVisibleSize();
 
-	std::string entities[4] = { "Festzelt","Polizist","Moench", "Breze" };
+	std::string entities[3] = { "Polizist","Moench", "Breze" };
 	std::string skies[3] = { LEVEL1_SKY_TEX, LEVEL2_SKY_TEX, LEVEL3_SKY_TEX };
 	std::string terrains[3] = { LEVEL1_TERRAIN_TEX, LEVEL2_TERRAIN_TEX, LEVEL3_TERRAIN_TEX };
 	std::string musics[3] = { LEVEL1_BG_MUSIC, LEVEL2_BG_MUSIC, LEVEL3_BG_MUSIC };
@@ -63,8 +63,8 @@ void LevelMP::setup(bool musicOn) {
 	background->setAnchorPoint(Vec2::ZERO);
 
 	for (int i = 0; i < 5; i++) {
-		random = CCRANDOM_0_1() * 4;
-		enemies.push_back(BarrierEntity(entities[random]));
+		random = CCRANDOM_0_1() * 3;
+		enemies.push_back(BarrierEntity(entities[random], CCRANDOM_0_1() * 500 + 500));
 	}
 
 	// set terrain surface key-points
