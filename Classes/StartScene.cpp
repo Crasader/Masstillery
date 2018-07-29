@@ -24,6 +24,7 @@
 
 #include "StartScene.h"
 #include "GameScene.h"
+#include "HelpScene.h"
 #include "Levels.h"
 #include "SimpleAudioEngine.h"
 
@@ -51,24 +52,28 @@ bool StartScene::init() {
 
 	// Start Level Items (item 1-3)
 	auto startLevel1Item = MenuItemLabel::create(Label::createWithTTF("Start Level 1", "fonts/Marker Felt.ttf", 64),
-		CC_CALLBACK_1(StartScene::menuStartCallback, this, 1));
+		CC_CALLBACK_1(StartScene::menuStartCallback, this, index++));
 	if (startLevel1Item == nullptr) problemLoading("'fonts/Marker Felt.ttf'");
 
 	auto startLevel2Item = MenuItemLabel::create(Label::createWithTTF("Start Level 2", "fonts/Marker Felt.ttf", 64),
-		CC_CALLBACK_1(StartScene::menuStartCallback, this, 2));
+		CC_CALLBACK_1(StartScene::menuStartCallback, this, index++));
 	if (startLevel2Item == nullptr) problemLoading("'fonts/Marker Felt.ttf'");
 
 	auto startLevel3Item = MenuItemLabel::create(Label::createWithTTF("Start Level 3", "fonts/Marker Felt.ttf", 64),
-		CC_CALLBACK_1(StartScene::menuStartCallback, this, 3));
+		CC_CALLBACK_1(StartScene::menuStartCallback, this, index++));
 	if (startLevel3Item == nullptr) problemLoading("'fonts/Marker Felt.ttf'");
 
 	auto startRandomLevelItem = MenuItemLabel::create(Label::createWithTTF("Start Random Level", "fonts/Marker Felt.ttf", 64),
-		CC_CALLBACK_1(StartScene::menuStartCallback, this, 4));
+		CC_CALLBACK_1(StartScene::menuStartCallback, this, index++));
 	if (startRandomLevelItem == nullptr) problemLoading("'fonts/Marker Felt.ttf'");
+
+	auto showHelpItem = MenuItemLabel::create(Label::createWithTTF("Show Controls", "fonts/Marker Felt.ttf", 64),
+		CC_CALLBACK_1(StartScene::menuStartCallback, this, index++));
+	if (showHelpItem == nullptr) problemLoading("'fonts/Marker Felt.ttf'");
 
 #ifndef ANDROID
 	auto startMPLevelItem = MenuItemLabel::create(Label::createWithTTF("Start Multiplayer Level", "fonts/Marker Felt.ttf", 64),
-		CC_CALLBACK_1(StartScene::menuStartCallback, this, 5));
+		CC_CALLBACK_1(StartScene::menuStartCallback, this, index++));
 	if (startMPLevelItem == nullptr) problemLoading("'fonts/Marker Felt.ttf'");
 #endif
 
@@ -82,13 +87,13 @@ bool StartScene::init() {
 		closeItem->setScale(2.0f);
 	}
 
-
 	// create menu, it's an autorelease object
 #ifdef ANDROID
-	auto menu = Menu::create(startLevel1Item, startLevel2Item, startLevel3Item, startRandomLevelItem, closeItem, NULL);
+	auto menu = Menu::create(startLevel1Item, startLevel2Item, startLevel3Item, startRandomLevelItem, showHelpItem, closeItem, NULL);
 #else
-	auto menu = Menu::create(startLevel1Item, startLevel2Item, startLevel3Item, startRandomLevelItem, startMPLevelItem, closeItem, NULL);
+	auto menu = Menu::create(startLevel1Item, startLevel2Item, startLevel3Item, startRandomLevelItem, startMPLevelItem, showHelpItem, closeItem, NULL);
 #endif
+
 	menu->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
 	menu->alignItemsVertically();
 	this->addChild(menu, 2);
@@ -128,6 +133,7 @@ void StartScene::menuStartCallback(cocos2d::Ref * pSender, int level) {
 	case 3:	Director::getInstance()->replaceScene(Level3::createScene()); break;
 	case 4:	Director::getInstance()->replaceScene(LevelRandom::createScene()); break;
 	case 5:	Director::getInstance()->replaceScene(LevelMP::createScene()); break;
+  case 6: Director::getInstance()->replaceScene(HelpScene::createScene()); break;
 	}
 
 }

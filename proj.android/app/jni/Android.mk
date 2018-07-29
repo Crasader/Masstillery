@@ -14,6 +14,7 @@ LOCAL_MODULE_FILENAME := libMyGame
 LOCAL_SRC_FILES := $(LOCAL_PATH)/hellocpp/main.cpp \
                    $(LOCAL_PATH)/../../../Classes/AppDelegate.cpp \
 				   $(LOCAL_PATH)/../../../Classes/Entity.cpp \
+           $(LOCAL_PATH)/../../../Classes/HelpScene.cpp \
 				   $(LOCAL_PATH)/../../../Classes/GameScene.cpp \
 				   $(LOCAL_PATH)/../../../Classes/Level1.cpp \
 				   $(LOCAL_PATH)/../../../Classes/Level2.cpp \
@@ -22,7 +23,7 @@ LOCAL_SRC_FILES := $(LOCAL_PATH)/hellocpp/main.cpp \
 				   $(LOCAL_PATH)/../../../Classes/LevelRandom.cpp \
 				   $(LOCAL_PATH)/../../../Classes/PhysicsShapeCache.cpp \
 				   $(LOCAL_PATH)/../../../Classes/PlayerEntity.cpp \
-                   $(LOCAL_PATH)/../../../Classes/StartScene.cpp 
+           $(LOCAL_PATH)/../../../Classes/StartScene.cpp 
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes
 
