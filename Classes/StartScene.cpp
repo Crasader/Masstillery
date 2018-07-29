@@ -126,7 +126,7 @@ bool StartScene::init() {
 	if (showHelpItem == nullptr) problemLoading("'fonts/Marker Felt.ttf'");
 
 	// Close Item (item 4)
-	auto closeItem = MenuItemImage::create("CloseNormal.png", "CloseSelected.png",
+	auto closeItem = MenuItemImage::create("img/CloseNormal.png", "img/CloseSelected.png",
 		CC_CALLBACK_1(StartScene::menuCloseCallback, this));
 	if (closeItem == nullptr ||
 		closeItem->getContentSize().width <= 0 ||
@@ -200,6 +200,6 @@ void StartScene::setMusic(bool musicOn) {
 	}
 	else {
 		switchMusicItem->setString("Music: OFF");
-		AudioEngine::stop(audioId);
+		AudioEngine::stopAll();
 	}
 }
