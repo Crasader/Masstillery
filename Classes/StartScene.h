@@ -30,15 +30,25 @@
 class StartScene : public cocos2d::Scene
 {
 public:
-    static cocos2d::Scene* createScene();
+    static cocos2d::Scene* createScene(bool musicOn);
 
     virtual bool init();
-    
-	void menuStartCallback(cocos2d::Ref* pSender, int i);
-    void menuCloseCallback(cocos2d::Ref* pSender);
-    
+
+	void setup(bool musicOn);
+        
     // implement the "static create()" method manually
     CREATE_FUNC(StartScene);
+	
+private:
+	bool musicOn = true;
+
+	void menuStartCallback(cocos2d::Ref* pSender, int i);
+	void menuCloseCallback(cocos2d::Ref* pSender);
+
+	void switchMusic();
+	void setMusic(bool musicOn);
+
+	cocos2d::MenuItemLabel* switchMusicItem;
 };
 
 #endif // __START_SCENE_H__

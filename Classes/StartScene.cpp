@@ -30,8 +30,10 @@
 
 USING_NS_CC;
 
-Scene* StartScene::createScene() {
-	return StartScene::create();
+Scene* StartScene::createScene(bool musicOn) {
+	auto scene = StartScene::create();
+	scene->setup(musicOn);
+	return scene;
 }
 
 // Print useful error message instead of segfaulting when files are not there.
@@ -77,6 +79,10 @@ bool StartScene::init() {
 		CC_CALLBACK_1(StartScene::menuStartCallback, this, index++));
 	if (showHelpItem == nullptr) problemLoading("'fonts/Marker Felt.ttf'");
 
+	switchMusicItem = MenuItemLabel::create(Label::createWithTTF("Music: --", "fonts/Marker Felt.ttf", 64),
+		CC_CALLBACK_0(StartScene::switchMusic, this));
+	if (showHelpItem == nullptr) problemLoading("'fonts/Marker Felt.ttf'");
+
 	// Close Item (item 4)
 	auto closeItem = MenuItemImage::create("CloseNormal.png", "CloseSelected.png",
 		CC_CALLBACK_1(StartScene::menuCloseCallback, this));
@@ -89,9 +95,9 @@ bool StartScene::init() {
 
 	// create menu, it's an autorelease object
 #ifdef ANDROID
-	auto menu = Menu::create(startLevel1Item, startLevel2Item, startLevel3Item, startRandomLevelItem, showHelpItem, closeItem, NULL);
+	auto menu = Menu::create(startLevel1Item, startLevel2Item, startLevel3Item, startRandomLevelItem, showHelpItem, switchMusicItem, closeItem, NULL);
 #else
-	auto menu = Menu::create(startLevel1Item, startLevel2Item, startLevel3Item, startRandomLevelItem, startMPLevelItem, showHelpItem, closeItem, NULL);
+	auto menu = Menu::create(startLevel1Item, startLevel2Item, startLevel3Item, startRandomLevelItem, startMPLevelItem, showHelpItem, switchMusicItem, closeItem, NULL);
 #endif
 
 	menu->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
@@ -126,17 +132,21 @@ bool StartScene::init() {
 }
 
 
+void StartScene::setup(bool musicOn) {
+	setMusic(musicOn);
+}
+
 void StartScene::menuStartCallback(cocos2d::Ref * pSender, int level) {
 	switch (level) {
-	case 0:	Director::getInstance()->replaceScene(Level1::createScene()); break;
-	case 1:	Director::getInstance()->replaceScene(Level2::createScene()); break;
-	case 2:	Director::getInstance()->replaceScene(Level3::createScene()); break;
-	case 3:	Director::getInstance()->replaceScene(LevelRandom::createScene()); break;
+	case 0:	Director::getInstance()->replaceScene(Level1::createScene(musicOn)); break;
+	case 1:	Director::getInstance()->replaceScene(Level2::createScene(musicOn)); break;
+	case 2:	Director::getInstance()->replaceScene(Level3::createScene(musicOn)); break;
+	case 3:	Director::getInstance()->replaceScene(LevelRandom::createScene(musicOn)); break;
 #ifdef ANDROID
-	case 4:	Director::getInstance()->replaceScene(HelpScene::createScene()); break;
+	case 4:	Director::getInstance()->replaceScene(HelpScene::createScene(musicOn)); break;
 #else
-	case 4:	Director::getInstance()->replaceScene(LevelMP::createScene()); break;
-	case 5: Director::getInstance()->replaceScene(HelpScene::createScene()); break;
+	case 4:	Director::getInstance()->replaceScene(LevelMP::createScene(musicOn)); break;
+	case 5: Director::getInstance()->replaceScene(HelpScene::createScene(musicOn)); break;
 #endif
 	}
 }
@@ -153,6 +163,21 @@ void StartScene::menuCloseCallback(Ref* pSender) {
 
 	//EventCustom customEndEvent("game_scene_close_event");
 	//_eventDispatcher->dispatchEvent(&customEndEvent);
+}
 
+void StartScene::switchMusic() {
+	this->musicOn = !musicOn;
+	setMusic(this->musicOn);
+}
 
+void StartScene::setMusic(bool musicOn) {
+	this->musicOn = musicOn;
+	if (musicOn) {
+		switchMusicItem->setString("Music: ON");
+		CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("audio/blasmusik1.mp3");
+	}
+	else {
+		switchMusicItem->setString("Music: OFF");
+		CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
+	}
 }

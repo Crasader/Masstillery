@@ -3,8 +3,10 @@
 
 USING_NS_CC;
 
-Scene* HelpScene::createScene() {
-	return HelpScene::create();
+Scene* HelpScene::createScene(bool musicOn) {
+	auto scene = HelpScene::create();
+	scene->musicOn = musicOn;
+	return scene;
 }
 
 // on "init" you need to initialize your instance
@@ -47,6 +49,6 @@ bool HelpScene::init() {
 }
 
 void HelpScene::onKeyReleased(const EventKeyboard::KeyCode keyCode, Event* event) {
-	if (keyCode == EventKeyboard::KeyCode::KEY_ESCAPE) Director::getInstance()->replaceScene(StartScene::createScene());
+	if (keyCode == EventKeyboard::KeyCode::KEY_ESCAPE) Director::getInstance()->replaceScene(StartScene::createScene(musicOn));
 }
 

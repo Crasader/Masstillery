@@ -8,7 +8,7 @@
 class GameScene : public cocos2d::Scene
 {
 public:
-	virtual void setup();
+	virtual void setup(bool musicOn);
 
 	virtual bool init();
 
@@ -16,6 +16,7 @@ public:
 
 protected:
 	int timer = 0;
+	bool musicOn = true;
 
 	void startGame();
 

@@ -131,7 +131,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 	SimpleAudioEngine::getInstance()->preloadBackgroundMusic("audio/background2.mp3");
 
     // create a scene. it's an autorelease object
-    auto scene = StartScene::createScene();
+    auto scene = StartScene::createScene(true);
 
     // run
     director->runWithScene(scene);

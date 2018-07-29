@@ -24,9 +24,9 @@
 class Level1 : public GameScene
 {
 public:
-	static cocos2d::Scene* createScene();
+	static cocos2d::Scene* createScene(bool musicOn);
 
-	void setup();
+	void setup(bool musicOn);
 
 	virtual bool init();
 
@@ -36,9 +36,9 @@ public:
 class Level2 : public GameScene
 {
 public:
-	static cocos2d::Scene* createScene();
+	static cocos2d::Scene* createScene(bool musicOn);
 
-	void setup();
+	void setup(bool musicOn);
 
 	virtual bool init();
 
@@ -48,9 +48,9 @@ public:
 class Level3 : public GameScene
 {
 public:
-	static cocos2d::Scene* createScene();
+	static cocos2d::Scene* createScene(bool musicOn);
 
-	void setup();
+	void setup(bool musicOn);
 
 	virtual bool init();
 
@@ -60,9 +60,9 @@ public:
 class LevelRandom : public GameScene
 {
 public:
-	static cocos2d::Scene* createScene();
+	static cocos2d::Scene* createScene(bool musicOn);
 
-	void setup();
+	void setup(bool musicOn);
 
 	virtual bool init();
 
@@ -72,9 +72,9 @@ public:
 class LevelMP : public cocos2d::Scene
 {
 public:
-	static cocos2d::Scene* createScene();
+	static cocos2d::Scene* createScene(bool musicOn);
 
-	void setup();
+	void setup(bool musicOn);
 
 	virtual bool init();
 
@@ -93,6 +93,7 @@ private:
 
 	std::vector<BarrierEntity> enemies;
 
+	bool musicOn = true;
 	bool isGameRunning = false;
 
 	cocos2d::Label* labelGo;

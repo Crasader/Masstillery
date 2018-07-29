@@ -6,7 +6,9 @@
 
 USING_NS_CC;
 
-void GameScene::setup() {
+void GameScene::setup(bool musicOn) {
+	this->musicOn = musicOn;
+
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 
 	this->labelTimeInfo = Label::createWithTTF(std::string("Time: ") + std::string(std::to_string(timer)), "fonts/Marker Felt.ttf", 48);
@@ -198,7 +200,7 @@ void GameScene::onKeyPressed(const EventKeyboard::KeyCode keyCode, Event* event)
 }
 
 void GameScene::onKeyReleased(const EventKeyboard::KeyCode keyCode, Event* event) {
-	if (keyCode == EventKeyboard::KeyCode::KEY_ESCAPE) Director::getInstance()->replaceScene(StartScene::createScene());
+	if (keyCode == EventKeyboard::KeyCode::KEY_ESCAPE) Director::getInstance()->replaceScene(StartScene::createScene(musicOn));
 	if (!isGameRunning) return;
 
 	switch (keyCode) {
