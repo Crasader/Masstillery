@@ -1,6 +1,7 @@
 #include "Levels.h"
 #include "StartScene.h"
 #include "PhysicsCategories.h"
+#include "SimpleAudioEngine.h"
 
 
 USING_NS_CC;
@@ -13,6 +14,7 @@ cocos2d::Scene * Level3::createScene() {
 }
 
 bool Level3::init() {
+	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("audio/background2.mp3");
 	return GameScene::init();
 }
 

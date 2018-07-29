@@ -1,6 +1,7 @@
 #include "Levels.h"
 #include "StartScene.h"
 #include "PhysicsCategories.h"
+#include "SimpleAudioEngine.h"
 
 
 USING_NS_CC;
@@ -13,6 +14,7 @@ cocos2d::Scene * Level1::createScene() {
 }
 
 bool Level1::init() {
+	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("audio/blasmusik2.mp3");
 	return GameScene::init();
 }
 
@@ -138,4 +140,6 @@ void Level1::setup() {
 	enemies[2].moveToX(800);
 
 	startGame();
+
+	
 }

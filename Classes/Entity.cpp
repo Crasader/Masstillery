@@ -1,6 +1,7 @@
 #include "Entity.h"
 #include "PhysicsCategories.h"
 #include "PhysicsShapeCache.h"
+#include "SimpleAudioEngine.h"
 
 USING_NS_CC;
 
@@ -65,6 +66,8 @@ void Entity::handleContact(cocos2d::PhysicsContact & contact) {
 
 	hitpointLabel->setString(std::to_string(hitpoints));
 
+	CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("audio/bong.mp3");
+
 	if (hitpoints <= 0) explode();
 }
 
@@ -96,10 +99,13 @@ void Entity::handleMove() {
 void Entity::explode() {
 	hitpointLabel->removeFromParentAndCleanup(true);
 
+
 	auto emitter = ParticleExplosion::create();
 	emitter->setPosition(getRealPosition() + Vec2(0, ENTITY_HEIGHT / 2));
 
 	sprite->getScene()->addChild(emitter, 0);
+
+	CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("audio/explosion.mp3");
 
 	sprite->removeFromParentAndCleanup(true);
 }
