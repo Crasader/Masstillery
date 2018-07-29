@@ -67,15 +67,15 @@ bool StartScene::init() {
 		CC_CALLBACK_1(StartScene::menuStartCallback, this, index++));
 	if (startRandomLevelItem == nullptr) problemLoading("'fonts/Marker Felt.ttf'");
 
-	auto showHelpItem = MenuItemLabel::create(Label::createWithTTF("Show Controls", "fonts/Marker Felt.ttf", 64),
-		CC_CALLBACK_1(StartScene::menuStartCallback, this, index++));
-	if (showHelpItem == nullptr) problemLoading("'fonts/Marker Felt.ttf'");
-
 #ifndef ANDROID
 	auto startMPLevelItem = MenuItemLabel::create(Label::createWithTTF("Start Multiplayer Level", "fonts/Marker Felt.ttf", 64),
 		CC_CALLBACK_1(StartScene::menuStartCallback, this, index++));
 	if (startMPLevelItem == nullptr) problemLoading("'fonts/Marker Felt.ttf'");
 #endif
+
+	auto showHelpItem = MenuItemLabel::create(Label::createWithTTF("Show Controls", "fonts/Marker Felt.ttf", 64),
+		CC_CALLBACK_1(StartScene::menuStartCallback, this, index++));
+	if (showHelpItem == nullptr) problemLoading("'fonts/Marker Felt.ttf'");
 
 	// Close Item (item 4)
 	auto closeItem = MenuItemImage::create("CloseNormal.png", "CloseSelected.png",
@@ -128,14 +128,17 @@ bool StartScene::init() {
 
 void StartScene::menuStartCallback(cocos2d::Ref * pSender, int level) {
 	switch (level) {
-	case 1:	Director::getInstance()->replaceScene(Level1::createScene()); break;
-	case 2:	Director::getInstance()->replaceScene(Level2::createScene()); break;
-	case 3:	Director::getInstance()->replaceScene(Level3::createScene()); break;
-	case 4:	Director::getInstance()->replaceScene(LevelRandom::createScene()); break;
-	case 5:	Director::getInstance()->replaceScene(LevelMP::createScene()); break;
-  case 6: Director::getInstance()->replaceScene(HelpScene::createScene()); break;
+	case 0:	Director::getInstance()->replaceScene(Level1::createScene()); break;
+	case 1:	Director::getInstance()->replaceScene(Level2::createScene()); break;
+	case 2:	Director::getInstance()->replaceScene(Level3::createScene()); break;
+	case 3:	Director::getInstance()->replaceScene(LevelRandom::createScene()); break;
+#ifdef ANDROID
+	case 4:	Director::getInstance()->replaceScene(HelpScene::createScene()); break;
+#else
+	case 4:	Director::getInstance()->replaceScene(LevelMP::createScene()); break;
+	case 5: Director::getInstance()->replaceScene(HelpScene::createScene()); break;
+#endif
 	}
-
 }
 
 void StartScene::menuCloseCallback(Ref* pSender) {
