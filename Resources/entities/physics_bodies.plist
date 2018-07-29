@@ -48,7 +48,7 @@
                         <key>category_mask</key>
                         <integer>8</integer>
                         <key>collision_mask</key>
-                        <integer>4</integer>
+                        <integer>36</integer>
                         <key>contact_test_mask</key>
                         <integer>2</integer>
                         <key>fixture_type</key>
@@ -128,7 +128,7 @@
                         <key>category_mask</key>
                         <integer>8</integer>
                         <key>collision_mask</key>
-                        <integer>4</integer>
+                        <integer>36</integer>
                         <key>contact_test_mask</key>
                         <integer>2</integer>
                         <key>fixture_type</key>
@@ -421,7 +421,7 @@
                         <key>category_mask</key>
                         <integer>8</integer>
                         <key>collision_mask</key>
-                        <integer>4</integer>
+                        <integer>36</integer>
                         <key>contact_test_mask</key>
                         <integer>2</integer>
                         <key>fixture_type</key>
@@ -451,7 +451,7 @@
                         <key>category_mask</key>
                         <integer>8</integer>
                         <key>collision_mask</key>
-                        <integer>4</integer>
+                        <integer>36</integer>
                         <key>contact_test_mask</key>
                         <integer>2</integer>
                         <key>fixture_type</key>
@@ -545,7 +545,7 @@
                         <key>category_mask</key>
                         <integer>8</integer>
                         <key>collision_mask</key>
-                        <integer>4</integer>
+                        <integer>36</integer>
                         <key>contact_test_mask</key>
                         <integer>2</integer>
                         <key>fixture_type</key>
