@@ -1,6 +1,8 @@
 # MASSTILERY
 Project for [Multimedia-Programmierung 2018](https://www.medien.ifi.lmu.de/lehre/ss18/mmp/) - LMU
 
+![](attachments/Screenshot.png)
+
 Students:
 - Linus Klöckner
 - Oliver Schrüfer
